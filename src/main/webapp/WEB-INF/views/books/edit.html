@@ -5,6 +5,22 @@
     <title>Edit this book</title>
 </head>
 <body>
-
+<form th:method="PATCH"
+      th:action="@{/books/{id}(id=${book.getId()})}"
+      th:object="${book}">
+    <label for="name">Enter name</label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+    <br>
+    <label for="author">Enter author</label>
+    <input type="text" th:field="*{author}" id="author"/>
+    <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
+    <br>
+    <label for="year_of_publish">Enter year of publish</label>
+    <input type="text" th:field="*{year_of_publish}" id="year_of_publish"/>
+    <div style="color: red" th:if="${#fields.hasErrors('year_of_publish')}" th:errors="*{year_of_publish}">YoP error</div>
+    <br>
+    <input type="submit" value="Update!"/>
+</form>
 </body>
 </html>

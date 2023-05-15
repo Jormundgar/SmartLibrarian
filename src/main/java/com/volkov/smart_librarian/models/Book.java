@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Books {
+public class Book {
     private int id;
     @NotEmpty(message = "Name of book should not be empty")
     private String name;

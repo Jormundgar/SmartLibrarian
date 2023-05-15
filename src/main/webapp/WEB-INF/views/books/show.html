@@ -5,6 +5,17 @@
     <title>Information about book</title>
 </head>
 <body>
-
+<p th:text="${'ID: ' + book.getId()}">VALUE</p>
+<p th:text="${'Name: ' + book.getName()}">VALUE</p>
+<p th:text="${'Author: ' + book.getAuthor()}">VALUE</p>
+<p th:text="${'Date of publish: ' + book.getYear_of_publish()}">VALUE</p>
+<br>
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+    <input type="submit" value="Edit">
+</form>
+<br>
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Delete">
+</form>
 </body>
 </html>
