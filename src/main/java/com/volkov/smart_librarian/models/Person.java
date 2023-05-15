@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class People {
+public class Person {
     private int id;
     @NotEmpty(message = "Name should not be empty")
     private String name;

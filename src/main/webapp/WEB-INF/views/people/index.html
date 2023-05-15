@@ -5,6 +5,9 @@
     <title>All users of Library</title>
 </head>
 <body>
-
+<div th:each="person : ${people}">
+    <a th:href="@{/people/{id}(id=${person.getId()})}"
+       th:text="${person.getName() + ',' + person.getYear_of_birth()}">User</a>
+</div>
 </body>
 </html>
