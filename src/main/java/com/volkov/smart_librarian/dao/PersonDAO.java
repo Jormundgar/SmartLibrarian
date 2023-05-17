@@ -1,5 +1,6 @@
 package com.volkov.smart_librarian.dao;
 
+import com.volkov.smart_librarian.models.Book;
 import com.volkov.smart_librarian.models.Person;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class PersonDAO {
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM persons WHERE id = ?", id);
+    }
+
+    public Book showBooksByPersonID(int id) {
+        return jdbcTemplate.query("SELECT * FROM books WHERE person_id = ?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
     }
 }
