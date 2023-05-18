@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -39,8 +40,8 @@ public class PersonDAO {
         jdbcTemplate.update("DELETE FROM persons WHERE id = ?", id);
     }
 
-    public Book showBooksByPersonID(int id) {
+    public List<Book> showBooksByPersonID(int id) {
         return jdbcTemplate.query("SELECT * FROM books WHERE person_id = ?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
+                new BeanPropertyRowMapper<>(Book.class));
     }
 }
