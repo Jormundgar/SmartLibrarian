@@ -4,6 +4,7 @@ import com.volkov.smart_librarian.dao.BookDAO;
 import com.volkov.smart_librarian.dao.PersonDAO;
 import com.volkov.smart_librarian.models.Book;
 import com.volkov.smart_librarian.models.Person;
+import com.volkov.smart_librarian.util.BookValidator;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class BookController {
 
     private final BookDAO bookDAO;
     private final PersonDAO personDAO;
+    private final BookValidator bookValidator;
 
     @GetMapping()
     public String index(Model model) {
@@ -47,6 +49,7 @@ public class BookController {
 
     @PostMapping()
     public String create(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+        bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
             return "books/new";
         }
@@ -63,6 +66,7 @@ public class BookController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                          @PathVariable("id") int id) {
+        bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
             return "books/edit";
         }

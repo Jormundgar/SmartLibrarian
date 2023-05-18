@@ -2,6 +2,7 @@ package com.volkov.smart_librarian.controllers;
 
 import com.volkov.smart_librarian.dao.PersonDAO;
 import com.volkov.smart_librarian.models.Person;
+import com.volkov.smart_librarian.util.PeopleValidator;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class PeopleController {
 
     private final PersonDAO personDAO;
+    private final PeopleValidator peopleValidator;
 
     @GetMapping()
     public String index(Model model) {
@@ -37,6 +39,7 @@ public class PeopleController {
 
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        peopleValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/new";
         }
@@ -53,6 +56,7 @@ public class PeopleController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                          @PathVariable("id") int id) {
+        peopleValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/edit";
         }
