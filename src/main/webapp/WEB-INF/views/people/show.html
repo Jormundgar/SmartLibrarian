@@ -14,6 +14,10 @@
         display: flex;
         gap: 5px;
     }
+
+    .bold {
+        font-weight: bold;
+    }
 </style>
 <head>
     <meta charset="UTF-8">
@@ -33,11 +37,16 @@
     </form>
 </div>
 <hr>
-
-<p th:if="${books.isEmpty()}">None books</p>
-<div th:each="book : ${books}">
-    <p th:text="${book.getName() + ', ' + book.getYear_of_publish()}">Book</p>
+<div th:if="${books.isEmpty()}">
+    <p class="bold">The person has not checked out any books yet</p>
 </div>
+<div th:if="${!books.isEmpty()}">
+    <p class="bold">Books:</p>
+    <div th:each="book : ${books}">
+        <p th:text="${book.getName() + ', ' + book.getYear_of_publish()}">Book</p>
+    </div>
+</div>
+
 <hr>
 <br>
 <a th:href="@{/people}"><input type="submit" value="Back"></a>
