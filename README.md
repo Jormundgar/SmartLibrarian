@@ -1,6 +1,10 @@
 
 # SmartLibrarian
->Using: `Spring MVC`,`JDBC Template`, `Servlet API`,`Hibernate Validator`, `PostgreSQL`, `Lombok`,`Thymeleaf`, `HTML`, `CSS` 
+>Using: `Spring MVC`,`Spring Data JPA`, `Hibernate`,`Servlet API`,`Hibernate Validator`,`PostgreSQL`,`Lombok`,`Thymeleaf`,`HTML`, `CSS` 
+
+### Commits
+- `v.1.0.RELEASE` 
+- `v.1.1` Rebuild project from JDBC Template to Hibernate and Data JPA
 ## Project Description
 
 This project focuses on developing a web application for digital book management, specifically designed for libraries. The application provides library staff with the ability to register new readers, issue books to them, and release books when they are returned to the library.
@@ -44,4 +48,3 @@ The web application encompasses the following features:
     - Library staff can click the button to assign the book to a reader, adding it to their book list.
 
 This web application simplifies book management for libraries, streamlining the process of registering readers, issuing books, and managing book returns. It aims to enhance efficiency and provide a user-friendly experience for library staff and readers.
-

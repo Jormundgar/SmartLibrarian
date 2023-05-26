@@ -23,7 +23,6 @@ public class BookController {
     private final BookService bookService;
     private final PersonService personService;
     private final BookValidator bookValidator;
-    private final BookDAO bookDAO;
 
     @GetMapping()
     public String index(Model model) {
