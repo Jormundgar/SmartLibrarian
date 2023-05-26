@@ -1,27 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<style>
-    input[type="submit"] {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 10px;
-        border-radius: 4px;
-        border: 1px;
-        cursor: pointer;
-    }
-
-    .button-container {
-        display: flex;
-        gap: 5px;
-    }
-
-    .bold {
-        font-weight: bold;
-    }
-</style>
 <head>
     <meta charset="UTF-8">
     <title>Information about user</title>
+    <link th:href="@{/styles/css/main.css}" rel="stylesheet">
 </head>
 <body>
 <p th:text="${'ID: ' + person.getId()}">VALUE</p>

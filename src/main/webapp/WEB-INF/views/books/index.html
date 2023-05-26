@@ -1,31 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<style>
-    a {
-        text-decoration: none;
-        line-height: 1.2
-    }
-
-    a {
-        color: #000000;
-    }
-
-    a:visited {
-        color: #000000;
-    }
-
-    input[type="submit"] {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 10px;
-        border-radius: 4px;
-        border: 1px;
-        cursor: pointer;
-    }
-</style>
 <head>
     <meta charset="UTF-8">
     <title>All books in the Library</title>
+    <link th:href="@{/styles/css/main.css}" rel="stylesheet">
 </head>
 <body>
 <div th:each="book : ${books}">
