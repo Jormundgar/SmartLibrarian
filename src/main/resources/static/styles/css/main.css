@@ -23,6 +23,9 @@ input[type="submit"] {
 .button-container {
     display: flex;
     gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    height: 30px;
 }
 
 .bold {

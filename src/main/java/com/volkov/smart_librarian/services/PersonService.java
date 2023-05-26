@@ -6,6 +6,8 @@ import com.volkov.smart_librarian.repositories.BooksRepository;
 import com.volkov.smart_librarian.repositories.PeopleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,10 @@ public class PersonService {
 
     public List<Person> findAll() {
         return peopleRepository.findAll();
+    }
+
+    public List<Person> findAllPerPage(int numberPage) {
+        return peopleRepository.findAll(PageRequest.of(numberPage, 5)).getContent();
     }
 
     public Person findOne(int id) {

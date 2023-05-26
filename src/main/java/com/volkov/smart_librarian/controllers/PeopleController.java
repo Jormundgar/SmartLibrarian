@@ -7,6 +7,7 @@ import com.volkov.smart_librarian.util.PeopleValidator;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,12 @@ public class PeopleController {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", personService.findAll());
+        return "people/index";
+    }
+
+    @GetMapping("/pages/{number}")
+    public String indexPage(@PathVariable("number") int pageNumber, Model model) {
+        model.addAttribute("people", personService.findAllPerPage(pageNumber));
         return "people/index";
     }
 

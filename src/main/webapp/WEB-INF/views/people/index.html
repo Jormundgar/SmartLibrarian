@@ -7,6 +7,26 @@
     <link th:href="@{/styles/css/main.css}" rel="stylesheet">
 </head>
 <body>
+<div class="button-container">
+    Choose the page:
+    <form th:method="GET" th:action="@{/people/pages/0}">
+        <input type="submit" value="1">
+    </form>
+    <form th:method="GET" th:action="@{/people/pages/1}">
+        <input type="submit" value="2">
+    </form>
+    <form th:method="GET" th:action="@{/people/pages/2}">
+        <input type="submit" value="3">
+    </form>
+    <form th:method="GET" th:action="@{/people/pages/3}">
+        <input type="submit" value="4">
+    </form>
+    <form th:method="GET" th:action="@{/people}">
+        <input type="submit" value="Show all">
+    </form>
+</div>
+<hr>
+<br>
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
        th:text="${person.getName() + ', ' + person.getYearOfBirth()}">User</a>
