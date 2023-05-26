@@ -6,6 +6,19 @@
     <link th:href="@{/styles/css/main.css}" rel="stylesheet">
 </head>
 <body>
+<div class="button-container">
+    Choose the page:
+    <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
+          th:method="GET"
+          th:action="@{/books/pages/{pageNumber}(pageNumber=${page})}">
+        <input type="submit" th:value="${page + 1}">
+    </form>
+    <form th:method="GET" th:action="@{/books}">
+        <input type="submit" value="Show all">
+    </form>
+</div>
+<hr>
+<br>
 <div th:each="book : ${books}">
     <a th:href="@{/books/{id}(id=${book.getId()})}"
        th:text="${book.getName() + ', '+ book.getAuthor() + ', '+ book.getYearOfPublish()}">Book</a>

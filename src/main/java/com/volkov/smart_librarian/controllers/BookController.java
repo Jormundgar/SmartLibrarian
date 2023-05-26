@@ -27,6 +27,14 @@ public class BookController {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("books", bookService.findAll());
+        model.addAttribute("lines", bookService.getBooksCount());
+        return "books/index";
+    }
+
+    @GetMapping("/pages/{number}")
+    public String indexPage(@PathVariable("number") int pageNumber, Model model) {
+        model.addAttribute("books", bookService.findAllPerPage(pageNumber));
+        model.addAttribute("lines", bookService.getBooksCount());
         return "books/index";
     }
 

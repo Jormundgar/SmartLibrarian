@@ -9,17 +9,10 @@
 <body>
 <div class="button-container">
     Choose the page:
-    <form th:method="GET" th:action="@{/people/pages/0}">
-        <input type="submit" value="1">
-    </form>
-    <form th:method="GET" th:action="@{/people/pages/1}">
-        <input type="submit" value="2">
-    </form>
-    <form th:method="GET" th:action="@{/people/pages/2}">
-        <input type="submit" value="3">
-    </form>
-    <form th:method="GET" th:action="@{/people/pages/3}">
-        <input type="submit" value="4">
+    <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
+          th:method="GET"
+          th:action="@{/people/pages/{pageNumber}(pageNumber=${page})}">
+        <input type="submit" th:value="${page + 1}">
     </form>
     <form th:method="GET" th:action="@{/people}">
         <input type="submit" value="Show all">

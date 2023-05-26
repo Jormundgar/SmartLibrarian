@@ -23,11 +23,11 @@ public class PersonService {
     private final BooksRepository booksRepository;
 
     public List<Person> findAll() {
-        return peopleRepository.findAll();
+        return peopleRepository.findAllByOrderById();
     }
 
     public List<Person> findAllPerPage(int numberPage) {
-        return peopleRepository.findAll(PageRequest.of(numberPage, 5)).getContent();
+        return peopleRepository.findAllByOrderById(PageRequest.of(numberPage, 5));
     }
 
     public Person findOne(int id) {
@@ -60,5 +60,9 @@ public class PersonService {
 
     public List<Book> findBooksByPersonId(int id) {
         return booksRepository.findBooksByReaderId(id);
+    }
+
+    public int getPeopleCount() {
+        return (int) peopleRepository.count();
     }
  }

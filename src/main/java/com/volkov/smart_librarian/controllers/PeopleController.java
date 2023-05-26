@@ -24,12 +24,14 @@ public class PeopleController {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", personService.findAll());
+        model.addAttribute("lines", personService.getPeopleCount());
         return "people/index";
     }
 
     @GetMapping("/pages/{number}")
     public String indexPage(@PathVariable("number") int pageNumber, Model model) {
         model.addAttribute("people", personService.findAllPerPage(pageNumber));
+        model.addAttribute("lines", personService.getPeopleCount());
         return "people/index";
     }
 

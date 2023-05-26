@@ -5,6 +5,7 @@ import com.volkov.smart_librarian.models.Person;
 import com.volkov.smart_librarian.repositories.BooksRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,10 @@ public class BookService {
 
     public List<Book> findAll() {
         return booksRepository.findAllByOrderById();
+    }
+
+    public List<Book> findAllPerPage(int numberPage) {
+        return booksRepository.findAllByOrderById(PageRequest.of(numberPage, 5));
     }
 
     public Book findOne(int id) {
@@ -63,6 +68,10 @@ public class BookService {
     @Transactional
     public void assign(int id, Person person) {
         booksRepository.findById(id).ifPresent(book -> book.setReader(person));
+    }
+
+    public int getBooksCount() {
+        return (int) booksRepository.count();
     }
 
 }
