@@ -14,8 +14,8 @@
     <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br>
     <label for="year_of_birth">Enter year of birth</label>
-    <input type="text" th:field="*{year_of_birth}" id="year_of_birth"/>
-    <div style="color: red" th:if="${#fields.hasErrors('year_of_birth')}" th:errors="*{year_of_birth}">YoB error</div>
+    <input type="text" th:field="*{yearOfBirth}" id="year_of_birth"/>
+    <div style="color: red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">YoB error</div>
     <br>
     <input type="submit" value="Update!"/>
 </form>

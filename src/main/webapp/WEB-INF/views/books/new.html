@@ -19,8 +19,8 @@
     <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
     <br>
     <label for="year_of_publish">Enter year of publish</label>
-    <input type="text" th:field="*{year_of_publish}" id="year_of_publish"/>
-    <div style="color: red" th:if="${#fields.hasErrors('year_of_publish')}" th:errors="*{year_of_publish}">YoP error</div>
+    <input type="text" th:field="*{yearOfPublish}" id="year_of_publish"/>
+    <div style="color: red" th:if="${#fields.hasErrors('yearOfPublish')}" th:errors="*{yearOfPublish}">YoP error</div>
     <br>
     <input type="submit" value="Create!"/>
 </form>

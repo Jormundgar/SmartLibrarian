@@ -8,7 +8,7 @@
 <body>
 <p th:text="${'ID: ' + person.getId()}">VALUE</p>
 <p th:text="${'Name: ' + person.getName()}">VALUE</p>
-<p th:text="${'Date of birth: ' + person.getYear_of_birth()}">VALUE</p>
+<p th:text="${'Date of birth: ' + person.getYearOfBirth()}">VALUE</p>
 <div class="button-container">
     <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
         <input type="submit" value="Edit">
@@ -25,7 +25,7 @@
 <div th:if="${!books.isEmpty()}">
     <p class="bold">Books:</p>
     <div th:each="book : ${books}">
-        <p th:text="${book.getName() + ', ' + book.getYear_of_publish()}">Book</p>
+        <p th:text="${book.getName() + ', ' + book.getYearOfPublish()}">Book</p>
     </div>
 </div>
 

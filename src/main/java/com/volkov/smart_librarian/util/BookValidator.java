@@ -1,7 +1,8 @@
 package com.volkov.smart_librarian.util;
 
-import com.volkov.smart_librarian.dao.BookDAO;
 import com.volkov.smart_librarian.models.Book;
+import com.volkov.smart_librarian.models.Person;
+import com.volkov.smart_librarian.services.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import org.springframework.validation.Validator;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class BookValidator implements Validator {
 
-    private final BookDAO bookDAO;
+    private final BookService bookService;
 
     @Override
     public boolean supports(Class<?> sClass) {
@@ -22,8 +23,16 @@ public class BookValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         var book = (Book) target;
-        if(bookDAO.show(book.getName()).isPresent()) {
+        if(bookService.findOneByName(book.getName()).isPresent()) {
             errors.rejectValue("name", "", "This book already exist");
+        }
+    }
+
+    public void validateForUpdate(Object target, Errors errors) {
+        var book = (Book) target;
+        if(bookService.findOneByNameAndYearOfPublish(book.getName(), book.getYearOfPublish()).isPresent()) {
+            errors.rejectValue("name", "", "This book already exist");
+            errors.rejectValue("yearOfPublish", "", "This book already exist");
         }
     }
 }

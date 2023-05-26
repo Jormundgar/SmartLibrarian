@@ -1,7 +1,7 @@
 package com.volkov.smart_librarian.util;
 
-import com.volkov.smart_librarian.dao.PersonDAO;
 import com.volkov.smart_librarian.models.Person;
+import com.volkov.smart_librarian.services.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.validation.Validator;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PeopleValidator implements Validator {
 
-    private final PersonDAO personDAO;
+    private final PersonService personService;
 
     @Override
     public boolean supports(Class<?> sClass) {
@@ -22,8 +22,16 @@ public class PeopleValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         var person = (Person) target;
-        if(personDAO.show(person.getName()).isPresent()) {
+        if(personService.findOneByName(person.getName()).isPresent()) {
             errors.rejectValue("name", "", "This user already exist");
+        }
+    }
+
+    public void validateForUpdate(Object target, Errors errors) {
+        var person = (Person) target;
+        if(personService.findOneByNameAndYearOfBirth(person.getName(), person.getYearOfBirth()).isPresent()) {
+            errors.rejectValue("name", "", "This user already exist");
+            errors.rejectValue("yearOfBirth", "", "This user already exist");
         }
     }
 }
