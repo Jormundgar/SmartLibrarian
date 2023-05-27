@@ -37,6 +37,9 @@ public class Book {
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person reader;
 
+    @Transient
+    private boolean byYear;
+
     public Book(String name, String author, int yearOfPublish) {
         this.name = name;
         this.author = author;

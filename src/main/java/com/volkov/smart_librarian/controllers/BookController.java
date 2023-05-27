@@ -1,7 +1,5 @@
 package com.volkov.smart_librarian.controllers;
 
-import com.volkov.smart_librarian.dao.BookDAO;
-import com.volkov.smart_librarian.dao.PersonDAO;
 import com.volkov.smart_librarian.models.Book;
 import com.volkov.smart_librarian.models.Person;
 import com.volkov.smart_librarian.services.BookService;
@@ -15,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/books")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -25,15 +25,28 @@ public class BookController {
     private final BookValidator bookValidator;
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", bookService.findAll());
+    public String index(Model model, @RequestParam(value = "byYear", required = false) boolean byYear) {
+        List<Book> books;
+        if (byYear) {
+            books = bookService.findAllSortedByYear();
+        } else {
+            books = bookService.findAll();
+        }
+        model.addAttribute("books", books);
         model.addAttribute("lines", bookService.getBooksCount());
         return "books/index";
     }
 
     @GetMapping("/pages/{number}")
-    public String indexPage(@PathVariable("number") int pageNumber, Model model) {
-        model.addAttribute("books", bookService.findAllPerPage(pageNumber));
+    public String indexPage(@PathVariable("number") int pageNumber, Model model,
+                            @RequestParam(value = "byYear", required = false) boolean byYear) {
+        List<Book> books;
+        if (byYear) {
+            books = bookService.findAllPerPageSortedByYear(pageNumber);
+        } else {
+            books = bookService.findAllPerPage(pageNumber);
+        }
+        model.addAttribute("books", books);
         model.addAttribute("lines", bookService.getBooksCount());
         return "books/index";
     }
@@ -48,7 +61,6 @@ public class BookController {
         else {
             model.addAttribute("people", personService.findAll());
         }
-
         return "books/show";
     }
 

@@ -7,15 +7,28 @@
 </head>
 <body>
 <div class="button-container">
-    Choose the page:
-    <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
-          th:method="GET"
-          th:action="@{/books/pages/{pageNumber}(pageNumber=${page})}">
-        <input type="submit" th:value="${page + 1}">
-    </form>
-    <form th:method="GET" th:action="@{/books}">
-        <input type="submit" value="Show all">
-    </form>
+    <div class="button-container">
+        Choose the page:
+        <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
+              th:method="GET"
+              th:action="@{/books/pages/{pageNumber}(pageNumber=${page})}">
+            <input type="submit" th:value="${page + 1}">
+        </form>
+        <form th:method="GET" th:action="@{/books}">
+            <input type="submit" value="Show all">
+        </form>
+    </div>
+    <div class="button-container">
+        Sorted by:
+        <form th:method="GET" th:action="@{/books}">
+            <input type="hidden" name="byYear" value="false">
+            <input type="submit" value="ID">
+        </form>
+        <form th:method="GET" th:action="@{/books}">
+            <input type="hidden" name="byYear" value="true">
+            <input type="submit" value="Year of publish">
+        </form>
+    </div>
 </div>
 <hr>
 <br>
@@ -23,7 +36,6 @@
     <a th:href="@{/books/{id}(id=${book.getId()})}"
        th:text="${book.getName() + ', '+ book.getAuthor() + ', '+ book.getYearOfPublish()}">Book</a>
 </div>
-<br>
 <hr>
 <a th:href="@{/books/new}"><input type="submit" value="Add new book"></a>
 <br><br>

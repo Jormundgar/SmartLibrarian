@@ -6,6 +6,7 @@ import com.volkov.smart_librarian.repositories.BooksRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,16 @@ public class BookService {
 
     public List<Book> findAllPerPage(int numberPage) {
         return booksRepository.findAllByOrderById(PageRequest.of(numberPage, 5));
+    }
+
+    public List<Book> findAllSortedByYear() {
+        return booksRepository.findAll(Sort.by("yearOfPublish"));
+    }
+
+    public List<Book> findAllPerPageSortedByYear(int numberPage) {
+        return booksRepository
+                .findAll(PageRequest.of(numberPage, 5, Sort.by("yearOfPublish")))
+                .getContent();
     }
 
     public Book findOne(int id) {
