@@ -34,6 +34,7 @@ public class BookController {
         }
         model.addAttribute("books", books);
         model.addAttribute("lines", bookService.getBooksCount());
+        model.addAttribute("byYearValue", byYear);
         return "books/index";
     }
 
@@ -48,6 +49,7 @@ public class BookController {
         }
         model.addAttribute("books", books);
         model.addAttribute("lines", bookService.getBooksCount());
+        model.addAttribute("byYearValue", byYear);
         return "books/index";
     }
 

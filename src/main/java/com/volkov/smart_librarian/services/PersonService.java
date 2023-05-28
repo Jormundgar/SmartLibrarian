@@ -30,6 +30,16 @@ public class PersonService {
         return peopleRepository.findAllByOrderById(PageRequest.of(numberPage, 5));
     }
 
+    public List<Person> findAllSortedByYear() {
+        return peopleRepository.findAll(Sort.by("yearOfBirth"));
+    }
+
+    public List<Person> findAllPerPageSortedByYear(int numberPage) {
+        return peopleRepository.findAll(PageRequest.of(numberPage, 5, Sort.by("yearOfBirth")))
+                .getContent();
+
+    }
+
     public Person findOne(int id) {
         return peopleRepository.findById(id).orElse(null);
     }

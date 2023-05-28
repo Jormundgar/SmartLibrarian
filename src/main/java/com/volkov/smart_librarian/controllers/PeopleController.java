@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/people")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -20,16 +22,31 @@ public class PeopleController {
     private final PeopleValidator peopleValidator;
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("people", personService.findAll());
+    public String index(Model model, @RequestParam(value = "byYear", required = false) boolean byYear) {
+        List<Person> people;
+        if (byYear) {
+            people = personService.findAllSortedByYear();
+        } else {
+            people = personService.findAll();
+        }
+        model.addAttribute("people", people);
         model.addAttribute("lines", personService.getPeopleCount());
+        model.addAttribute("byYearValue", byYear);
         return "people/index";
     }
 
     @GetMapping("/pages/{number}")
-    public String indexPage(@PathVariable("number") int pageNumber, Model model) {
-        model.addAttribute("people", personService.findAllPerPage(pageNumber));
+    public String indexPage(@PathVariable("number") int pageNumber, Model model,
+                            @RequestParam(value = "byYear", required = false) boolean byYear ) {
+        List<Person> people;
+        if (byYear) {
+            people = personService.findAllPerPageSortedByYear(pageNumber);
+        } else {
+            people = personService.findAllPerPage(pageNumber);
+        }
+        model.addAttribute("people", people);
         model.addAttribute("lines", personService.getPeopleCount());
+        model.addAttribute("byYearValue", byYear);
         return "people/index";
     }
 
