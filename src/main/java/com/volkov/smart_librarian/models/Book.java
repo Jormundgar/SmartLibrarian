@@ -1,11 +1,13 @@
 package com.volkov.smart_librarian.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
+
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -33,12 +35,17 @@ public class Book {
     @Min(value = 0, message = "Year of publish should be greater than 0")
     private int yearOfPublish;
 
+    @Column(name = "taken_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateOfTake;
+
+    @Transient
+    private boolean expired;
+
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person reader;
 
-    @Transient
-    private boolean byYear;
 
     public Book(String name, String author, int yearOfPublish) {
         this.name = name;

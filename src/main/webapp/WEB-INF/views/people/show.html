@@ -25,10 +25,10 @@
 <div th:if="${!books.isEmpty()}">
     <p class="bold">Books:</p>
     <div th:each="book : ${books}">
-        <p th:text="${book.getName() + ', ' + book.getYearOfPublish()}">Book</p>
+        <p th:style="${book.isExpired()} ? 'color: red' : 'color: black'"
+           th:text="${book.getName() + ', ' + book.getYearOfPublish()}">Book</p>
     </div>
 </div>
-
 <hr>
 <br>
 <a th:href="@{/people}"><input type="submit" value="Back"></a>

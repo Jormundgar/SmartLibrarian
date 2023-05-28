@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +70,16 @@ public class PersonService {
     }
 
     public List<Book> findBooksByPersonId(int id) {
-        return booksRepository.findBooksByReaderId(id);
+        var books = booksRepository.findBooksByReaderId(id);
+        books.forEach(book -> {
+            var check = Math.abs(book.getDateOfTake().getTime() - new Date().getTime());
+            long bookedFor = 864000000;
+            if (check > bookedFor) {
+                book.setExpired(true);
+            } else {
+                book.setExpired(false);
+            }});
+        return books;
     }
 
     public int getPeopleCount() {

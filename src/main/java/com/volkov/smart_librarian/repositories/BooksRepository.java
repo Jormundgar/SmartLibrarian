@@ -24,4 +24,7 @@ public interface BooksRepository extends JpaRepository<Book, Integer> {
 
     // for Book Validator (Edit page)
     Optional<Book> findByNameAndYearOfPublish(String name, int yearOfPublish);
+
+    List<Book> findByNameContaining(String contain);
+
 }

@@ -116,4 +116,14 @@ public class BookController {
         return "redirect:/books/" + id;
     }
 
+    @GetMapping("/search")
+    public String getSearch() {
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String search(@RequestParam("contain") String contain, Model model) {
+       model.addAttribute("books", bookService.search(contain));
+        return "books/search";
+    }
 }

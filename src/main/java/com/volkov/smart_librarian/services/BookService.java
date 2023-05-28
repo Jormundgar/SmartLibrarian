@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,7 @@ public class BookService {
     public void update(int id, Book updatedBook) {
         updatedBook.setId(id);
         updatedBook.setReader(booksRepository.findById(id).get().getReader());
+        updatedBook.setDateOfTake(booksRepository.findById(id).get().getDateOfTake());
         booksRepository.save(updatedBook);
     }
 
@@ -73,16 +75,25 @@ public class BookService {
 
     @Transactional
     public void release(int id) {
-        booksRepository.findById(id).ifPresent(book -> book.setReader(null));
+        booksRepository.findById(id).ifPresent(book -> {
+            book.setReader(null);
+            book.setDateOfTake(null);
+        });
     }
 
     @Transactional
     public void assign(int id, Person person) {
-        booksRepository.findById(id).ifPresent(book -> book.setReader(person));
+        booksRepository.findById(id).ifPresent(book -> {
+            book.setReader(person);
+            book.setDateOfTake(new Date());
+        });
     }
 
     public int getBooksCount() {
         return (int) booksRepository.count();
     }
 
+    public List<Book> search(String contain) {
+        return booksRepository.findByNameContaining(contain);
+    }
 }
