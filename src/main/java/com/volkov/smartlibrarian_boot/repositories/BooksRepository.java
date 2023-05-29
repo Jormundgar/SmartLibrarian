@@ -1,6 +1,6 @@
-package com.vollov.smartlibrarian_boot.repositories;
+package com.volkov.smartlibrarian_boot.repositories;
 
-import com.vollov.smartlibrarian_boot.models.Book;
+import com.volkov.smartlibrarian_boot.models.Book;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 

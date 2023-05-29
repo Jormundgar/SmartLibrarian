@@ -1,9 +1,9 @@
-package com.vollov.smartlibrarian_boot.services;
+package com.volkov.smartlibrarian_boot.services;
 
-import com.vollov.smartlibrarian_boot.models.Book;
-import com.vollov.smartlibrarian_boot.models.Person;
-import com.vollov.smartlibrarian_boot.repositories.BooksRepository;
-import com.vollov.smartlibrarian_boot.repositories.PeopleRepository;
+import com.volkov.smartlibrarian_boot.models.Book;
+import com.volkov.smartlibrarian_boot.models.Person;
+import com.volkov.smartlibrarian_boot.repositories.BooksRepository;
+import com.volkov.smartlibrarian_boot.repositories.PeopleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

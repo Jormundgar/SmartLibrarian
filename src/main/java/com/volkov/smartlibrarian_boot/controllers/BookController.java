@@ -1,10 +1,10 @@
-package com.vollov.smartlibrarian_boot.controllers;
+package com.volkov.smartlibrarian_boot.controllers;
 
-import com.vollov.smartlibrarian_boot.models.Book;
-import com.vollov.smartlibrarian_boot.models.Person;
-import com.vollov.smartlibrarian_boot.services.BookService;
-import com.vollov.smartlibrarian_boot.services.PersonService;
-import com.vollov.smartlibrarian_boot.util.BookValidator;
+import com.volkov.smartlibrarian_boot.models.Book;
+import com.volkov.smartlibrarian_boot.models.Person;
+import com.volkov.smartlibrarian_boot.services.BookService;
+import com.volkov.smartlibrarian_boot.services.PersonService;
+import com.volkov.smartlibrarian_boot.util.BookValidator;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

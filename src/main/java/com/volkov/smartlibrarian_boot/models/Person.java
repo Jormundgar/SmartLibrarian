@@ -1,4 +1,4 @@
-package com.vollov.smartlibrarian_boot.models;
+package com.volkov.smartlibrarian_boot.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;

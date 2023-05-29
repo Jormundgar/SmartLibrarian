@@ -1,4 +1,4 @@
-package com.vollov.smartlibrarian_boot;
+package com.volkov.smartlibrarian_boot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

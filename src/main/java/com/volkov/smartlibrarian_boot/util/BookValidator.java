@@ -1,7 +1,7 @@
-package com.vollov.smartlibrarian_boot.util;
+package com.volkov.smartlibrarian_boot.util;
 
-import com.vollov.smartlibrarian_boot.models.Book;
-import com.vollov.smartlibrarian_boot.services.BookService;
+import com.volkov.smartlibrarian_boot.models.Book;
+import com.volkov.smartlibrarian_boot.services.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
