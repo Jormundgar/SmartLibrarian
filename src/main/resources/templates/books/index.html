@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All books in the Library</title>
+    <link th:href="@{/styles/css/main.css}" rel="stylesheet">
+    <script src="js/script.js"></script>
+</head>
+<body>
+<div class="button-container">
+    <div class="button-container">
+        Choose the page:
+        <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
+              th:method="GET"
+              th:action="@{/books/pages/{pageNumber}(pageNumber=${page})}">
+            <input type="hidden" name="byYear" th:value="${byYearValue}">
+            <input type="submit" th:value="${page + 1}">
+        </form>
+        <form th:method="GET" th:action="@{/books}">
+            <input type="hidden" name="byYear" th:value="${byYearValue}">
+            <input type="submit" value="Show all">
+        </form>
+    </div>
+    <div class="button-container">
+        Sorted by:
+        <form th:method="GET" th:action="@{/books}">
+            <input type="hidden" name="byYear" value="false">
+            <input type="submit" value="ID" onclick="setByYear(false)">
+        </form>
+        <form th:method="GET" th:action="@{/books}">
+            <input type="hidden" name="byYear" value="true">
+            <input type="submit" value="Year of publish" onclick="setByYear(true)">
+        </form>
+    </div>
+    <div class="button-container">
+        Options:
+        <a th:href="@{/books/search}"><input type="submit" value="Search"></a>
+    </div>
+</div>
+<hr>
+<br>
+<div th:each="book : ${books}">
+    <a th:href="@{/books/{id}(id=${book.getId()})}"
+       th:text="${book.getName() + ', '+ book.getAuthor() + ', '+ book.getYearOfPublish()}">Book</a>
+</div>
+<hr>
+<a th:href="@{/books/new}"><input type="submit" value="Add new book"></a>
+<br><br>
+<a th:href="@{/people}"><input type="submit" value="To the Users list"></a>
+</body>
+</html>

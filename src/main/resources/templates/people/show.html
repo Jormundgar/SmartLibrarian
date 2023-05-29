@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Information about user</title>
+    <link th:href="@{/styles/css/main.css}" rel="stylesheet">
+</head>
+<body>
+<p th:text="${'ID: ' + person.getId()}">VALUE</p>
+<p th:text="${'Name: ' + person.getName()}">VALUE</p>
+<p th:text="${'Date of birth: ' + person.getYearOfBirth()}">VALUE</p>
+<div class="button-container">
+    <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+        <input type="submit" value="Edit">
+    </form>
+    <br>
+    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+        <input type="submit" value="Delete">
+    </form>
+</div>
+<hr>
+<div th:if="${books.isEmpty()}">
+    <p class="bold">The person has not checked out any books yet</p>
+</div>
+<div th:if="${!books.isEmpty()}">
+    <p class="bold">Books:</p>
+    <div th:each="book : ${books}">
+        <p th:style="${book.isExpired()} ? 'color: red' : 'color: black'"
+           th:text="${book.getName() + ', ' + book.getYearOfPublish()}">Book</p>
+    </div>
+</div>
+<hr>
+<br>
+<a th:href="@{/people}"><input type="submit" value="Back"></a>
+</body>
+</html>
