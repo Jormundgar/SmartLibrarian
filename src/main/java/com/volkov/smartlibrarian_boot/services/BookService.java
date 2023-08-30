@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class BookService {
 
     private final BooksRepository booksRepository;
