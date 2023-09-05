@@ -3,6 +3,8 @@
 
 >Using: `Spring Boot`,`Spring MVC`,`Spring Data JPA`, `Hibernate`,`Servlet API`,`Hibernate Validator`,`PostgreSQL`,`Lombok`,`Thymeleaf`,`HTML`, `CSS`, `JavaScript` 
 
+>Upcoming changes: Add `Bootstrap`
+
 ### Commits
 - `v.1.0.RELEASE` 
 - `v.1.1` Rebuild project from JDBC Template to Hibernate and Data JPA
