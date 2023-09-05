@@ -4,7 +4,6 @@ import com.volkov.smartlibrarian_boot.models.Book;
 import com.volkov.smartlibrarian_boot.models.Person;
 import com.volkov.smartlibrarian_boot.repositories.BooksRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
