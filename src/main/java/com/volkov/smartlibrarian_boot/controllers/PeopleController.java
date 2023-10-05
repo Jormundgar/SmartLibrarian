@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/people")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class PeopleController {
 
     private final PersonService personService;

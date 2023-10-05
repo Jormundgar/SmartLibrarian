@@ -3,13 +3,12 @@ package com.volkov.smartlibrarian_boot.util;
 import com.volkov.smartlibrarian_boot.models.Person;
 import com.volkov.smartlibrarian_boot.services.PersonService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class PeopleValidator implements Validator {
 
     private final PersonService personService;

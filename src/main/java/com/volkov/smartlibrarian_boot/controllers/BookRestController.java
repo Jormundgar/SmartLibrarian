@@ -17,12 +17,13 @@ public class BookRestController implements BookRestApi {
 
     @Override
     public ResponseEntity<List<BookDTO>> getAll() {
-        var books = bookService.findAllDto();
-        if (books.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(bookService.findAllDto().stream().toList());
-        }
+        return null;
+//        var books = bookService.findAllDto();
+//        if (books.isEmpty()) {
+//            return ResponseEntity.noContent().build();
+//        } else {
+//            return ResponseEntity.ok(bookService.findAllDto().stream().toList());
+//        }
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/books")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class BookController {
 
     private final BookService bookService;
