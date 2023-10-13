@@ -48,89 +48,130 @@
                         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home">All books
                         </button>
-                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                        <button class="nav-link"
+                                id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
                                 type="button" role="tab" aria-controls="nav-profile">Add new book
                         </button>
                     </div>
                 </nav>
-                <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>
-                        <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
-                              th:method="GET"
-                              th:action="@{/books/pages/{pageNumber}(pageNumber=${page})}"
-                              class="btn-group ms-0"
-                              role="group">
-                            <input type="hidden" name="byYear" th:value="${byYearValue}">
-                            <button type="submit" class="btn btn-outline-primary"
-                                    th:value="${page + 1}"
-                                    th:text="${page + 1}"/>
-                        </form>
-                        <form th:method="GET" th:action="@{/books}"
-                              class="btn-group ms-0"
-                              role="group">
-                            <input type="hidden" name="byYear" th:value="${byYearValue}">
-                            <button type="submit" class="btn btn-outline-primary">Show all</button>
-                        </form>
-                    </div>
-                    <div class="btn-group ms-2" role="group" aria-label="Second group">
-                        <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
-                        <form th:method="GET"
-                              th:action="@{/books}"
-                              class="btn-group ms-0"
-                              role="group">
-                            <input type="hidden" name="byYear" value="false">
-                            <button type="submit" class="btn btn-outline-primary" onclick="setByYear(false)">ID</button>
-                        </form>
-                        <form th:method="GET"
-                              th:action="@{/books}"
-                              class="btn-group ms-0"
-                              role="group">
-                            <input type="hidden" name="byYear" value="true">
-                            <button type="submit" class="btn btn-outline-primary" onclick="setByYear(true)">Year of
-                                publish
-                            </button>
-                        </form>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
 
+                            <div class="btn-group" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>
+                                <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
+                                      th:method="GET"
+                                      th:action="@{/books/pages/{pageNumber}(pageNumber=${page})}"
+                                      class="btn-group ms-0"
+                                      role="group">
+                                    <input type="hidden" name="byYear" th:value="${byYearValue}">
+                                    <button type="submit" class="btn btn-outline-primary"
+                                            th:value="${page + 1}"
+                                            th:text="${page + 1}"/>
+                                </form>
+                                <form th:method="GET" th:action="@{/books}"
+                                      class="btn-group ms-0"
+                                      role="group">
+                                    <input type="hidden" name="byYear" th:value="${byYearValue}">
+                                    <button type="submit" class="btn btn-outline-primary">Show all</button>
+                                </form>
+                            </div>
 
+                            <div class="btn-group ms-2" role="group" aria-label="Second group">
+                                <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
+                                <form th:method="GET"
+                                      th:action="@{/books}"
+                                      class="btn-group ms-0"
+                                      role="group">
+                                    <input type="hidden" name="byYear" value="false">
+                                    <button type="submit" class="btn btn-outline-primary" onclick="setByYear(false)">ID
+                                    </button>
+                                </form>
+                                <form th:method="GET"
+                                      th:action="@{/books}"
+                                      class="btn-group ms-0"
+                                      role="group">
+                                    <input type="hidden" name="byYear" value="true">
+                                    <button type="submit" class="btn btn-outline-primary" onclick="setByYear(true)">Year
+                                        of
+                                        publish
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Year of publish</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="book : ${books}">
+                                <td th:text="${book.getId()}">Id</td>
+                                <td th:text="${book.getName()}">Title</td>
+                                <td th:text="${book.getAuthor()}">Author</td>
+                                <td th:text="${book.getYearOfPublish()}">Year of publish</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal"
+                                            th:data-bs-target="'#editModal' + ${book.getId()}">Edit
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                                            th:data-bs-target="'#deleteModal' + ${book.getId()}">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Year of publish</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="book : ${books}">
-                            <td th:text="${book.getId()}">Id</td>
-                            <td th:text="${book.getName()}">Title</td>
-                            <td th:text="${book.getAuthor()}">Author</td>
-                            <td th:text="${book.getYearOfPublish()}">Year of publish</td>
-                            <td>
-                                <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal"
-                                        th:data-bs-target="'#editModal' + ${book.getId()}">Edit
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
-                                        th:data-bs-target="'#deleteModal' + ${book.getId()}">Delete
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <h5 class="mt-2">Please provide information for a new book</h5>
+                        <div class="col-md-6 mt-2">
+                            <form class="needs-validation" novalidate
+                                  th:method="POST"
+                                  th:action="@{/books}"
+                                  th:object="${new_book}">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" th:field="*{name}" id="title" required>
+                                    <div class="invalid-feedback">
+                                        Name of book should not be empty
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="author">Author</label>
+                                    <input type="text" class="form-control" th:field="*{author}" id="author"
+                                           required>
+                                    <div class="invalid-feedback">
+                                        The book must have the name of author
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="yearOfPublish">Year of publish</label>
+                                    <input type="number" min="1" class="form-control" th:field="*{yearOfPublish}"
+                                           id="yearOfPublish" required>
+                                    <div class="invalid-feedback">
+                                        Year of publish should be greater than 0
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success mt-2">Add new book</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/validation.js}"></script>
 </body>
 </html>

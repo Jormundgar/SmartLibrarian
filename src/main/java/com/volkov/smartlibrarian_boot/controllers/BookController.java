@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -24,34 +25,74 @@ public class BookController {
     private final PersonService personService;
     private final BookValidator bookValidator;
 
-    @GetMapping()
-    public String index(Model model, @RequestParam(value = "byYear", required = false) boolean byYear) {
+//    @GetMapping()
+//    public String index(Model model, @RequestParam(value = "byYear", required = false) boolean byYear) {
+//        List<Book> books;
+//        if (byYear) {
+//            books = bookService.findAllSortedByYear();
+//        } else {
+//            books = bookService.findAll();
+//        }
+//        model.addAttribute("books", books);
+//        model.addAttribute("lines", bookService.getBooksCount());
+//        model.addAttribute("byYearValue", byYear);
+//        return "books/index";
+//    }
+
+    @GetMapping
+    public ModelAndView index(@ModelAttribute("new_book") Book book,
+                              @RequestParam(value = "byYear", required = false) boolean byYear) {
+        var modelAndView = new ModelAndView("books/index");
         List<Book> books;
         if (byYear) {
             books = bookService.findAllSortedByYear();
         } else {
             books = bookService.findAll();
         }
-        model.addAttribute("books", books);
-        model.addAttribute("lines", bookService.getBooksCount());
-        model.addAttribute("byYearValue", byYear);
-        return "books/index";
+        modelAndView.addObject("books", books);
+        modelAndView.addObject("lines", bookService.getBooksCount());
+        modelAndView.addObject("byYearValue", byYear);
+        return modelAndView;
     }
 
     @GetMapping("/pages/{number}")
-    public String indexPage(@PathVariable("number") int pageNumber, Model model,
-                            @RequestParam(value = "byYear", required = false) boolean byYear) {
+    public ModelAndView indexPage(@ModelAttribute("new_book") Book book,
+                                  @PathVariable("number") int pageNumber,
+                                  @RequestParam(value = "byYear", required = false) boolean byYear) {
+        var modelAndView = new ModelAndView("books/index");
         List<Book> books;
         if (byYear) {
             books = bookService.findAllPerPageSortedByYear(pageNumber);
         } else {
             books = bookService.findAllPerPage(pageNumber);
         }
-        model.addAttribute("books", books);
-        model.addAttribute("lines", bookService.getBooksCount());
-        model.addAttribute("byYearValue", byYear);
-        return "books/index";
+        modelAndView.addObject("books", books);
+        modelAndView.addObject("lines", bookService.getBooksCount());
+        modelAndView.addObject("byYearValue", byYear);
+        return modelAndView;
     }
+
+    @PostMapping
+    public ModelAndView create(@ModelAttribute("new_book") Book book) {
+        var modelAndView = new ModelAndView("redirect:/books");
+        bookService.save(book);
+        return modelAndView;
+    }
+
+//    @GetMapping("/pages/{number}")
+//    public String indexPage(@PathVariable("number") int pageNumber, Model model,
+//                            @RequestParam(value = "byYear", required = false) boolean byYear) {
+//        List<Book> books;
+//        if (byYear) {
+//            books = bookService.findAllPerPageSortedByYear(pageNumber);
+//        } else {
+//            books = bookService.findAllPerPage(pageNumber);
+//        }
+//        model.addAttribute("books", books);
+//        model.addAttribute("lines", bookService.getBooksCount());
+//        model.addAttribute("byYearValue", byYear);
+//        return "books/index";
+//    }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
@@ -66,20 +107,20 @@ public class BookController {
         return "books/show";
     }
 
-    @GetMapping("/new")
-    public String newBook(@ModelAttribute("book") Book book) {
-        return "books/new";
-    }
+//    @GetMapping("/new")
+//    public String newBook(@ModelAttribute("book") Book book) {
+//        return "books/new";
+//    }
 
-    @PostMapping()
-    public String create(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
-        bookValidator.validate(book, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "books/new";
-        }
-        bookService.save(book);
-        return "redirect:/books";
-    }
+//    @PostMapping()
+//    public String create(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+//        bookValidator.validate(book, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            return "books/index";
+//        }
+//        bookService.save(book);
+//        return "redirect:/books";
+//    }
 
     @GetMapping("/{id}/edit")
     public String editBook(@PathVariable("id") int id, Model model) {
