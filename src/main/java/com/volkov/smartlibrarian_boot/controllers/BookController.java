@@ -7,7 +7,6 @@ import com.volkov.smartlibrarian_boot.services.PersonService;
 import com.volkov.smartlibrarian_boot.util.BookValidator;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,23 +24,10 @@ public class BookController {
     private final PersonService personService;
     private final BookValidator bookValidator;
 
-//    @GetMapping()
-//    public String index(Model model, @RequestParam(value = "byYear", required = false) boolean byYear) {
-//        List<Book> books;
-//        if (byYear) {
-//            books = bookService.findAllSortedByYear();
-//        } else {
-//            books = bookService.findAll();
-//        }
-//        model.addAttribute("books", books);
-//        model.addAttribute("lines", bookService.getBooksCount());
-//        model.addAttribute("byYearValue", byYear);
-//        return "books/index";
-//    }
-
     @GetMapping
     public ModelAndView index(@ModelAttribute("new_book") Book book,
-                              @RequestParam(value = "byYear", required = false) boolean byYear) {
+                              @RequestParam(value = "byYear", required = false) boolean byYear,
+                              @ModelAttribute("person") Person person) {
         var modelAndView = new ModelAndView("books/index");
         List<Book> books;
         if (byYear) {
@@ -52,13 +38,15 @@ public class BookController {
         modelAndView.addObject("books", books);
         modelAndView.addObject("lines", bookService.getBooksCount());
         modelAndView.addObject("byYearValue", byYear);
+        modelAndView.addObject("people", personService.findAll());
         return modelAndView;
     }
 
     @GetMapping("/pages/{number}")
     public ModelAndView indexPage(@ModelAttribute("new_book") Book book,
                                   @PathVariable("number") int pageNumber,
-                                  @RequestParam(value = "byYear", required = false) boolean byYear) {
+                                  @RequestParam(value = "byYear", required = false) boolean byYear,
+                                  @ModelAttribute("person") Person person) {
         var modelAndView = new ModelAndView("books/index");
         List<Book> books;
         if (byYear) {
@@ -69,6 +57,7 @@ public class BookController {
         modelAndView.addObject("books", books);
         modelAndView.addObject("lines", bookService.getBooksCount());
         modelAndView.addObject("byYearValue", byYear);
+        modelAndView.addObject("people", personService.findAll());
         return modelAndView;
     }
 
@@ -78,21 +67,6 @@ public class BookController {
         bookService.save(book);
         return modelAndView;
     }
-
-//    @GetMapping("/pages/{number}")
-//    public String indexPage(@PathVariable("number") int pageNumber, Model model,
-//                            @RequestParam(value = "byYear", required = false) boolean byYear) {
-//        List<Book> books;
-//        if (byYear) {
-//            books = bookService.findAllPerPageSortedByYear(pageNumber);
-//        } else {
-//            books = bookService.findAllPerPage(pageNumber);
-//        }
-//        model.addAttribute("books", books);
-//        model.addAttribute("lines", bookService.getBooksCount());
-//        model.addAttribute("byYearValue", byYear);
-//        return "books/index";
-//    }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
@@ -106,21 +80,6 @@ public class BookController {
         }
         return "books/show";
     }
-
-//    @GetMapping("/new")
-//    public String newBook(@ModelAttribute("book") Book book) {
-//        return "books/new";
-//    }
-
-//    @PostMapping()
-//    public String create(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
-//        bookValidator.validate(book, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            return "books/index";
-//        }
-//        bookService.save(book);
-//        return "redirect:/books";
-//    }
 
     @GetMapping("/{id}/edit")
     public String editBook(@PathVariable("id") int id, Model model) {
@@ -148,13 +107,13 @@ public class BookController {
     @PatchMapping("/{id}/release")
     public String release(@PathVariable("id") int id) {
         bookService.release(id);
-        return "redirect:/books/" + id;
+        return "redirect:/books";
     }
 
     @PatchMapping("/{id}/assign")
     public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
         bookService.assign(id, person);
-        return "redirect:/books/" + id;
+        return "redirect:/books";
     }
 
     @GetMapping("/search")
