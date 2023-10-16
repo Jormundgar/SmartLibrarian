@@ -206,20 +206,18 @@
                                                 <form th:method="DELETE"
                                                       th:action="@{/books/{id}(id=${book.getId()})}">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title"
-                                                            th:text="'Deleting book: ' + ${book.getName()}"/>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body col-6 mx-auto text-center">
-                                                        <h6>Are you sure?</h6>
+                                                    <div class="modal-body col-10 mx-auto text-center">
+                                                        <h5 th:text="'Do you really want to delete the book \'' + ${book.getName()} +'\' ?'"></h5>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-secondary" type="button"
-                                                                data-bs-dismiss="modal">Close
+                                                                data-bs-dismiss="modal">No
                                                         </button>
                                                         <button class="btn btn-danger" type="submit">
-                                                            Delete
+                                                            Yes
                                                         </button>
                                                     </div>
                                                 </form>
