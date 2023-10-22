@@ -68,34 +68,43 @@ public class BookController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
-        model.addAttribute("book", bookService.findOne(id));
-        var bookOwner = bookService.findBookReader(id);
-        if (bookOwner != null) {
-            model.addAttribute("owner", bookOwner);
-        }
-        else {
-            model.addAttribute("people", personService.findAll());
-        }
-        return "books/show";
-    }
+//    @GetMapping("/{id}")
+//    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
+//        model.addAttribute("book", bookService.findOne(id));
+//        var bookOwner = bookService.findBookReader(id);
+//        if (bookOwner != null) {
+//            model.addAttribute("owner", bookOwner);
+//        }
+//        else {
+//            model.addAttribute("people", personService.findAll());
+//        }
+//        return "books/show";
+//    }
 
-    @GetMapping("/{id}/edit")
-    public String editBook(@PathVariable("id") int id, Model model) {
-        model.addAttribute("book", bookService.findOne(id));
-        return "books/edit";
-    }
+//    @GetMapping("/{id}/edit")
+//    public String editBook(@PathVariable("id") int id, Model model) {
+//        model.addAttribute("book", bookService.findOne(id));
+//        return "books/edit";
+//    }
+
+
+//    @PatchMapping("/{id}")
+//    public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
+//                         @PathVariable("id") int id) {
+//        bookValidator.validateForUpdate(book, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            return "books/edit";
+//        }
+//        bookService.update(id, book);
+//        return "redirect:/books";
+//    }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        bookValidator.validateForUpdate(book, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "books/edit";
-        }
+    public ModelAndView update(@ModelAttribute("book") Book book,
+                               @PathVariable("id") int id) {
+        var modelAndView = new ModelAndView("redirect:/books");
         bookService.update(id, book);
-        return "redirect:/books";
+        return modelAndView;
     }
 
     @DeleteMapping("/{id}")
