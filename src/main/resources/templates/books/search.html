@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>All books in the Library</title>
     <link th:href="@{/styles/css/bootstrap.min.css}" rel="stylesheet">
     <script src="js/script.js"></script>
 </head>
+<style>
+    .container-full-height {
+        min-height: 100vh;
+    }
+</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid d-flex justify-content-between text-light">
@@ -34,7 +39,7 @@
     </div>
 </nav>
 <div class="row">
-    <div class="container-fluid ">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-2 text-dark d-flex flex-column container-full-height">
                 <div class="list-group list-group-flush mt-2">
@@ -74,13 +79,16 @@
                                         <td th:text="${book.getReader().getName()}">Reader</td>
                                     </div>
                                     <div th:if="${book.getReader() == null}">
-                                        <td><p class="bold">The book is free</p></td>
+                                        <td>The book is free</td>
                                     </div>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-4">
+                    <a th:href="@{/books}" class="btn btn-primary" role="button">Back</a>
                 </div>
             </div>
         </div>
