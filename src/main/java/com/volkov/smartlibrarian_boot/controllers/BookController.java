@@ -4,12 +4,8 @@ import com.volkov.smartlibrarian_boot.models.Book;
 import com.volkov.smartlibrarian_boot.models.Person;
 import com.volkov.smartlibrarian_boot.services.BookService;
 import com.volkov.smartlibrarian_boot.services.PersonService;
-import com.volkov.smartlibrarian_boot.util.BookValidator;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +18,6 @@ public class BookController {
 
     private final BookService bookService;
     private final PersonService personService;
-    private final BookValidator bookValidator;
 
     @GetMapping
     public ModelAndView index(@ModelAttribute("new_book") Book book,
@@ -68,37 +63,6 @@ public class BookController {
         return modelAndView;
     }
 
-//    @GetMapping("/{id}")
-//    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
-//        model.addAttribute("book", bookService.findOne(id));
-//        var bookOwner = bookService.findBookReader(id);
-//        if (bookOwner != null) {
-//            model.addAttribute("owner", bookOwner);
-//        }
-//        else {
-//            model.addAttribute("people", personService.findAll());
-//        }
-//        return "books/show";
-//    }
-
-//    @GetMapping("/{id}/edit")
-//    public String editBook(@PathVariable("id") int id, Model model) {
-//        model.addAttribute("book", bookService.findOne(id));
-//        return "books/edit";
-//    }
-
-
-//    @PatchMapping("/{id}")
-//    public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
-//                         @PathVariable("id") int id) {
-//        bookValidator.validateForUpdate(book, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            return "books/edit";
-//        }
-//        bookService.update(id, book);
-//        return "redirect:/books";
-//    }
-
     @PatchMapping("/{id}")
     public ModelAndView update(@ModelAttribute("book") Book book,
                                @PathVariable("id") int id) {
@@ -108,34 +72,34 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    public ModelAndView delete(@PathVariable("id") int id) {
+        var modelAndView = new ModelAndView("redirect:/books");
         bookService.delete(id);
-        return "redirect:/books";
+        return modelAndView;
     }
 
     @PatchMapping("/{id}/release")
-    public String release(@PathVariable("id") int id) {
+    public ModelAndView release(@PathVariable("id") int id) {
+        var modelAndView = new ModelAndView("redirect:/books");
         bookService.release(id);
-        return "redirect:/books";
+        return modelAndView;
     }
 
     @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
+    public ModelAndView assign(@PathVariable("id") int id,
+                               @ModelAttribute("person") Person person) {
+        var modelAndView = new ModelAndView("redirect:/books");
         bookService.assign(id, person);
-        return "redirect:/books";
-    }
-
-    @GetMapping("/search")
-    public String getSearch(Model model) {
-        model.addAttribute("database", false);
-        return "books/search";
+        return modelAndView;
     }
 
     @PostMapping("/search")
-    public String search(@RequestParam("contain") String contain, Model model) {
-        model.addAttribute("database", true);
-        model.addAttribute("books", bookService.search(contain));
-        return "books/search";
+    public ModelAndView search(@RequestParam("contain") String contain) {
+        var modelAndView = new ModelAndView("books/search");
+        //TODO: Figure out is "database" attribute necessary due to new version of index.html
+        modelAndView.addObject("database", true);
+        modelAndView.addObject("books", bookService.search(contain));
+        return modelAndView;
     }
 }
 
