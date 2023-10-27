@@ -1,97 +1,81 @@
 package com.volkov.smartlibrarian_boot.controllers;
 
+import com.volkov.smartlibrarian_boot.models.Book;
 import com.volkov.smartlibrarian_boot.models.Person;
 import com.volkov.smartlibrarian_boot.services.PersonService;
-import com.volkov.smartlibrarian_boot.util.PeopleValidator;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/people")
 @AllArgsConstructor
-public class PeopleController {
+public class
+PeopleController {
 
     private final PersonService personService;
-    private final PeopleValidator peopleValidator;
 
-    @GetMapping()
-    public String index(Model model, @RequestParam(value = "byYear", required = false) boolean byYear) {
+    @GetMapping
+    public ModelAndView index(@ModelAttribute("new_user") Person person,
+                              @RequestParam(value = "byYear", required = false) boolean byYear,
+                              @ModelAttribute("book") Book book) {
+        var modelAndView = new ModelAndView("people/index");
         List<Person> people;
         if (byYear) {
             people = personService.findAllSortedByYear();
+            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         } else {
             people = personService.findAll();
+            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         }
-        model.addAttribute("people", people);
-        model.addAttribute("lines", personService.getPeopleCount());
-        model.addAttribute("byYearValue", byYear);
-        return "people/index";
+        modelAndView.addObject("people", people);
+        modelAndView.addObject("lines", personService.getPeopleCount());
+        modelAndView.addObject("byYearValue", byYear);
+        return modelAndView;
     }
 
     @GetMapping("/pages/{number}")
-    public String indexPage(@PathVariable("number") int pageNumber, Model model,
-                            @RequestParam(value = "byYear", required = false) boolean byYear ) {
+    public ModelAndView indexPage(@ModelAttribute("new_user") Person person,
+                                  @PathVariable("number") int pageNumber,
+                                  @RequestParam(value = "byYear", required = false) boolean byYear,
+                                  @ModelAttribute("book") Book book) {
+        var modelAndView = new ModelAndView("people/index");
         List<Person> people;
         if (byYear) {
             people = personService.findAllPerPageSortedByYear(pageNumber);
+            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         } else {
             people = personService.findAllPerPage(pageNumber);
+            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         }
-        model.addAttribute("people", people);
-        model.addAttribute("lines", personService.getPeopleCount());
-        model.addAttribute("byYearValue", byYear);
-        return "people/index";
+        modelAndView.addObject("people", people);
+        modelAndView.addObject("lines", personService.getPeopleCount());
+        modelAndView.addObject("byYearValue", byYear);
+        return modelAndView;
     }
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personService.findOne(id));
-        model.addAttribute("books", personService.findBooksByPersonId(id));
-        return "people/show";
-    }
-
-    @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") Person person) {
-        return "people/new";
-    }
-
-    @PostMapping()
-    public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
-        peopleValidator.validate(person, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "people/new";
-        }
+    @PostMapping
+    public ModelAndView create(@ModelAttribute("new_user") Person person) {
+        var modelAndView = new ModelAndView("redirect:/people");
         personService.save(person);
-        return "redirect:/people";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String editPerson(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personService.findOne(id));
-        return "people/edit";
+        return modelAndView;
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        peopleValidator.validateForUpdate(person, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "people/edit";
-        }
+    public ModelAndView update(@ModelAttribute("person") Person person,
+                               @PathVariable("id") int id) {
+        var modelAndView = new ModelAndView("redirect:/people");
         personService.update(id, person);
-        return "redirect:/people";
+        return modelAndView;
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    public ModelAndView delete(@PathVariable("id") int id) {
+        var modelAndView = new ModelAndView("redirect:/people");
         personService.delete(id);
-        return "redirect:/people";
+        return modelAndView;
     }
 }
