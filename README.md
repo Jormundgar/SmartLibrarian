@@ -1,9 +1,8 @@
 
 # SmartLibrarian
 
->Using: `Spring Boot`,`Spring MVC`,`Spring Data JPA`, `Hibernate`,`Servlet API`,`Hibernate Validator`,`PostgreSQL`,`Lombok`,`Thymeleaf`,`HTML`, `CSS`, `JavaScript` 
+>Using: `Spring Boot`,`Spring MVC`,`Spring Data JPA`, `Hibernate`,`Servlet API`,`Hibernate Validator`,`PostgreSQL`,`Lombok`,`Thymeleaf`,`Bootstrap 5`,`HTML`,`CSS`,`JavaScript` 
 
->Upcoming changes: Add `Bootstrap`
 
 ### Commits
 - `v.1.0.RELEASE` 
