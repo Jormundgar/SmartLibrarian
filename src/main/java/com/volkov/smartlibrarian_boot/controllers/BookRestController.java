@@ -2,47 +2,30 @@ package com.volkov.smartlibrarian_boot.controllers;
 
 import com.volkov.smartlibrarian_boot.controllers.api.BookRestApi;
 import com.volkov.smartlibrarian_boot.dto.BookDTO;
+import com.volkov.smartlibrarian_boot.mapper.BookMapper;
 import com.volkov.smartlibrarian_boot.services.BookService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class BookRestController implements BookRestApi {
+public class BookRestController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookRestController.class);
 
     private final BookService bookService;
 
-    @Override
-    public ResponseEntity<List<BookDTO>> getAll() {
-        return null;
-//        var books = bookService.findAllDto();
-//        if (books.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        } else {
-//            return ResponseEntity.ok(bookService.findAllDto().stream().toList());
-//        }
-    }
-
-    @Override
-    public ResponseEntity<BookDTO> get(Integer id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<BookDTO> create(BookDTO bookDTO) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<BookDTO> update(Integer id, BookDTO bookDTO) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> delete(Integer id) {
-        return null;
+    @RequestMapping(value = "/books/all", produces = "application/json", method = RequestMethod.POST)
+    public ResponseEntity<?> index() {
+        return new ResponseEntity<>(BookMapper.INSTANCE.bookListToBookDtoList(bookService.findAll()),
+                HttpStatus.OK);
     }
 }
