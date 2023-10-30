@@ -1,7 +1,5 @@
 package com.volkov.smartlibrarian_boot.services;
 
-import com.volkov.smartlibrarian_boot.dto.BookDTO;
-//import com.volkov.smartlibrarian_boot.mapper.BookMapper;
 import com.volkov.smartlibrarian_boot.models.Book;
 import com.volkov.smartlibrarian_boot.models.Person;
 import com.volkov.smartlibrarian_boot.repositories.BooksRepository;
@@ -22,7 +20,6 @@ public class BookService {
 
     private final BooksRepository booksRepository;
     // Inject Book Mapper
-//    private final BookMapper bookMapper;
 
     public List<Book> findAll() {
         return booksRepository.findAllByOrderById();
