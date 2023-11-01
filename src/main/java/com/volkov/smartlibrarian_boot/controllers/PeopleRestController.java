@@ -1,6 +1,5 @@
 package com.volkov.smartlibrarian_boot.controllers;
 
-import com.volkov.smartlibrarian_boot.mapper    .PeopleMapper;
 import com.volkov.smartlibrarian_boot.services.PersonService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +19,8 @@ public class PeopleRestController {
 
     @RequestMapping(value = "/people/all", produces = "application/json", method = RequestMethod.GET)
     public ResponseEntity<?> index() {
-        var users = personService.findAll();
+        var users = personService.findAllDTOs();
         log.info("Total records from index() method to return: " + users.size());
-        return new ResponseEntity<>(PeopleMapper.INSTANCE.personListToPersonDTOList(users), HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

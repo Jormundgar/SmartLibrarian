@@ -1,5 +1,7 @@
 package com.volkov.smartlibrarian_boot.services;
 
+import com.volkov.smartlibrarian_boot.dto.PersonDTO;
+import com.volkov.smartlibrarian_boot.mapper.PeopleMapper;
 import com.volkov.smartlibrarian_boot.models.Person;
 import com.volkov.smartlibrarian_boot.repositories.PeopleRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,9 +21,15 @@ import java.util.Optional;
 public class PersonService {
 
     private final PeopleRepository peopleRepository;
+    private final PeopleMapper peopleMapper;
 
     public List<Person> findAll() {
         return checkIfExpired(peopleRepository.findAllByOrderById());
+    }
+
+    public List<PersonDTO> findAllDTOs() {
+        var allByOrderById = checkIfExpired(peopleRepository.findAllByOrderById());
+        return allByOrderById.stream().map(peopleMapper::personToPersonDTO).collect(Collectors.toList());
     }
 
     public List<Person> findAllPerPage(int numberPage) {
