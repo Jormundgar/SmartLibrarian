@@ -19,21 +19,22 @@ import java.util.Optional;
 public class BookService {
 
     private final BooksRepository booksRepository;
-    // Inject Book Mapper
 
     public List<Book> findAll() {
-        return booksRepository.findAllByOrderById();
+        var books = booksRepository.findAllByOrderById();
+        books.forEach(book -> {
+            if (book.getDateOfTake() != null) {
+                var check = Math.abs(book.getDateOfTake().getTime() - new Date().getTime());
+                long bookedFor = 864000000;
+                book.setExpired(check > bookedFor);
+            }
+        });
+        return books;
     }
 
     public List<Book> findAllPerPage(int numberPage) {
         return booksRepository.findAllByOrderById(PageRequest.of(numberPage, 5));
     }
-
-    // START New method
-//    public List<BookDTO> findAllDto() {
-//        return bookMapper.toDtoList(booksRepository.findAll());
-//    }
-    // END New method
 
     public List<Book> findAllSortedByYear() {
         return booksRepository.findAll(Sort.by("yearOfPublish"));
