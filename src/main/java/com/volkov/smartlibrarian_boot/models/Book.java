@@ -51,4 +51,8 @@ public class Book {
         this.author = author;
         this.yearOfPublish = yearOfPublish;
     }
+
+    public Book(String name) {
+        this.name = name;
+    }
 }
