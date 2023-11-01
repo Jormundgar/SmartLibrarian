@@ -2,6 +2,7 @@
 # SmartLibrarian
 
 >Using: `Spring Boot`,`Spring MVC`,`Spring Data JPA`, `Hibernate`,`Servlet API`,`Hibernate Validator`,`PostgreSQL`,`Lombok`,`Thymeleaf`,`Bootstrap 5`,`HTML`,`CSS`,`JavaScript`
+
 >Next update: `REST` & `JS`
 
 ### Commits
