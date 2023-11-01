@@ -1,11 +1,8 @@
 package com.volkov.smartlibrarian_boot.services;
 
-import com.volkov.smartlibrarian_boot.models.Book;
 import com.volkov.smartlibrarian_boot.models.Person;
-import com.volkov.smartlibrarian_boot.repositories.BooksRepository;
 import com.volkov.smartlibrarian_boot.repositories.PeopleRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -21,28 +18,31 @@ import java.util.Optional;
 public class PersonService {
 
     private final PeopleRepository peopleRepository;
-    private final BooksRepository booksRepository;
 
     public List<Person> findAll() {
-        return peopleRepository.findAllByOrderById();
+        return checkIfExpired(peopleRepository.findAllByOrderById());
     }
 
     public List<Person> findAllPerPage(int numberPage) {
-        return peopleRepository.findAllByOrderById(PageRequest.of(numberPage, 5));
+        return checkIfExpired(peopleRepository.findAllByOrderById(PageRequest.of(numberPage, 5)));
     }
 
     public List<Person> findAllSortedByYear() {
-        return peopleRepository.findAll(Sort.by("yearOfBirth"));
+        return checkIfExpired(peopleRepository.findAll(Sort.by("yearOfBirth")));
     }
 
     public List<Person> findAllPerPageSortedByYear(int numberPage) {
-        return peopleRepository.findAll(PageRequest.of(numberPage, 5, Sort.by("yearOfBirth")))
-                .getContent();
-
+        return checkIfExpired(peopleRepository.findAll(PageRequest.of(numberPage, 5,
+                Sort.by("yearOfBirth"))).getContent());
     }
 
-    public Person findOne(int id) {
-        return peopleRepository.findById(id).orElse(null);
+    private List<Person> checkIfExpired(List<Person> users) {
+        users.forEach(reader -> reader.getReaderBooks().forEach(book -> {
+            var check = Math.abs(book.getDateOfTake().getTime() - new Date().getTime());
+            long bookedFor = 864000000;
+            book.setExpired(check > bookedFor);
+        }));
+        return users;
     }
 
     public Optional<Person> findOneByName(String name) {
@@ -67,19 +67,6 @@ public class PersonService {
     @Transactional
     public void delete(int id) {
         peopleRepository.deleteById(id);
-    }
-
-    public List<Book> findBooksByPersonId(int id) {
-        var books = booksRepository.findBooksByReaderId(id);
-        books.forEach(book -> {
-            var check = Math.abs(book.getDateOfTake().getTime() - new Date().getTime());
-            long bookedFor = 864000000;
-            if (check > bookedFor) {
-                book.setExpired(true);
-            } else {
-                book.setExpired(false);
-            }});
-        return books;
     }
 
     public int getPeopleCount() {

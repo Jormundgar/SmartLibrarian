@@ -26,10 +26,8 @@ PeopleController {
         List<Person> people;
         if (byYear) {
             people = personService.findAllSortedByYear();
-            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         } else {
             people = personService.findAll();
-            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         }
         modelAndView.addObject("people", people);
         modelAndView.addObject("lines", personService.getPeopleCount());
@@ -46,10 +44,8 @@ PeopleController {
         List<Person> people;
         if (byYear) {
             people = personService.findAllPerPageSortedByYear(pageNumber);
-            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         } else {
             people = personService.findAllPerPage(pageNumber);
-            people.forEach(reader -> personService.findBooksByPersonId(reader.getId()));
         }
         modelAndView.addObject("people", people);
         modelAndView.addObject("lines", personService.getPeopleCount());
