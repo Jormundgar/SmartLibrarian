@@ -37,7 +37,7 @@ public class BookService {
                 book.setExpired(check > bookedFor);
             }
         });
-        return books.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
+        return bookMapper.bookListToBookDtoList(books);
     }
 
     public List<Book> findAllPerPage(int numberPage) {
