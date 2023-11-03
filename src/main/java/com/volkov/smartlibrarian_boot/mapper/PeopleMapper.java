@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PeopleMapper {
 
-    PeopleMapper INSTANCE = Mappers.getMapper(PeopleMapper.class);
-
     @Mapping(target = "readerBooks", source = "readerBooks")
     PersonDTO personToPersonDTO(Person person);
 

@@ -1,5 +1,7 @@
 package com.volkov.smartlibrarian_boot.services;
 
+import com.volkov.smartlibrarian_boot.dto.BookDTO;
+import com.volkov.smartlibrarian_boot.mapper.BookMapper;
 import com.volkov.smartlibrarian_boot.models.Book;
 import com.volkov.smartlibrarian_boot.models.Person;
 import com.volkov.smartlibrarian_boot.repositories.BooksRepository;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,8 +22,13 @@ import java.util.Optional;
 public class BookService {
 
     private final BooksRepository booksRepository;
+    private final BookMapper bookMapper;
 
     public List<Book> findAll() {
+        return booksRepository.findAllByOrderById();
+    }
+
+    public List<BookDTO> findAllDTOs() {
         var books = booksRepository.findAllByOrderById();
         books.forEach(book -> {
             if (book.getDateOfTake() != null) {
@@ -29,7 +37,7 @@ public class BookService {
                 book.setExpired(check > bookedFor);
             }
         });
-        return books;
+        return books.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
     }
 
     public List<Book> findAllPerPage(int numberPage) {
