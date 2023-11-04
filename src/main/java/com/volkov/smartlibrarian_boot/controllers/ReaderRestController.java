@@ -1,8 +1,8 @@
 package com.volkov.smartlibrarian_boot.controllers;
 
-import com.volkov.smartlibrarian_boot.controllers.api.PeopleRestApi;
-import com.volkov.smartlibrarian_boot.dto.PersonDTO;
-import com.volkov.smartlibrarian_boot.services.PersonService;
+import com.volkov.smartlibrarian_boot.controllers.api.ReaderRestApi;
+import com.volkov.smartlibrarian_boot.dto.ReaderDTO;
+import com.volkov.smartlibrarian_boot.services.ReaderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,13 +15,13 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class PeopleRestController implements PeopleRestApi {
+public class ReaderRestController implements ReaderRestApi {
 
-    private final PersonService personService;
+    private final ReaderService readerService;
 
     @Override
-    public ResponseEntity<List<PersonDTO>> getAll() {
-        var users = personService.findAllDTOs();
+    public ResponseEntity<List<ReaderDTO>> getAll() {
+        var users = readerService.findAllDTOs();
         log.info("Total records from index() method to return: " + users.size());
         return new ResponseEntity<>(users, HttpStatus.OK);
     }

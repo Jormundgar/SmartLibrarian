@@ -43,8 +43,8 @@ public class Book {
     private boolean expired;
 
     @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person reader;
+    @JoinColumn(name = "reader_id", referencedColumnName = "id")
+    private Reader reader;
 
     public Book(String name, String author, int yearOfPublish) {
         this.name = name;

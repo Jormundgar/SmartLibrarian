@@ -13,11 +13,11 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "persons")
+@Table(name = "readers")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Person {
+public class Reader {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -36,7 +36,7 @@ public class Person {
     @OneToMany(mappedBy = "reader")
     private List<Book> readerBooks;
 
-    public Person(String name, int yearOfBirth) {
+    public Reader(String name, int yearOfBirth) {
         this.name = name;
         this.yearOfBirth = yearOfBirth;
     }

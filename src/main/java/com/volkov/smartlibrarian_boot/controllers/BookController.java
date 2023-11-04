@@ -1,9 +1,9 @@
 package com.volkov.smartlibrarian_boot.controllers;
 
 import com.volkov.smartlibrarian_boot.models.Book;
-import com.volkov.smartlibrarian_boot.models.Person;
+import com.volkov.smartlibrarian_boot.models.Reader;
 import com.volkov.smartlibrarian_boot.services.BookService;
-import com.volkov.smartlibrarian_boot.services.PersonService;
+import com.volkov.smartlibrarian_boot.services.ReaderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +17,12 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
-    private final PersonService personService;
+    private final ReaderService readerService;
 
     @GetMapping
     public ModelAndView index(@ModelAttribute("new_book") Book book,
                               @RequestParam(value = "byYear", required = false) boolean byYear,
-                              @ModelAttribute("person") Person person) {
+                              @ModelAttribute("reader") Reader reader) {
         var modelAndView = new ModelAndView("books/index");
         List<Book> books;
         if (byYear) {
@@ -33,7 +33,7 @@ public class BookController {
         modelAndView.addObject("books", books);
         modelAndView.addObject("lines", bookService.getBooksCount());
         modelAndView.addObject("byYearValue", byYear);
-        modelAndView.addObject("people", personService.findAll());
+        modelAndView.addObject("readers", readerService.findAll());
         return modelAndView;
     }
 
@@ -41,7 +41,7 @@ public class BookController {
     public ModelAndView indexPage(@ModelAttribute("new_book") Book book,
                                   @PathVariable("number") int pageNumber,
                                   @RequestParam(value = "byYear", required = false) boolean byYear,
-                                  @ModelAttribute("person") Person person) {
+                                  @ModelAttribute("reader") Reader reader) {
         var modelAndView = new ModelAndView("books/index");
         List<Book> books;
         if (byYear) {
@@ -52,7 +52,7 @@ public class BookController {
         modelAndView.addObject("books", books);
         modelAndView.addObject("lines", bookService.getBooksCount());
         modelAndView.addObject("byYearValue", byYear);
-        modelAndView.addObject("people", personService.findAll());
+        modelAndView.addObject("readers", readerService.findAll());
         return modelAndView;
     }
 
@@ -87,9 +87,9 @@ public class BookController {
 
     @PatchMapping("/{id}/assign")
     public ModelAndView assign(@PathVariable("id") int id,
-                               @ModelAttribute("person") Person person) {
+                               @ModelAttribute("reader") Reader reader) {
         var modelAndView = new ModelAndView("redirect:/books");
-        bookService.assign(id, person);
+        bookService.assign(id, reader);
         return modelAndView;
     }
 

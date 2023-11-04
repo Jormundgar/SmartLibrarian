@@ -3,7 +3,7 @@ package com.volkov.smartlibrarian_boot.services;
 import com.volkov.smartlibrarian_boot.dto.BookDTO;
 import com.volkov.smartlibrarian_boot.mapper.BookMapper;
 import com.volkov.smartlibrarian_boot.models.Book;
-import com.volkov.smartlibrarian_boot.models.Person;
+import com.volkov.smartlibrarian_boot.models.Reader;
 import com.volkov.smartlibrarian_boot.repositories.BooksRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -84,7 +83,7 @@ public class BookService {
         booksRepository.deleteById(id);
     }
 
-    public Person findBookReader(int id) {
+    public Reader findBookReader(int id) {
         return booksRepository.findById(id).map(Book::getReader).orElse(null);
     }
 
@@ -97,9 +96,9 @@ public class BookService {
     }
 
     @Transactional
-    public void assign(int id, Person person) {
+    public void assign(int id, Reader reader) {
         booksRepository.findById(id).ifPresent(book -> {
-            book.setReader(person);
+            book.setReader(reader);
             book.setDateOfTake(new Date());
         });
     }

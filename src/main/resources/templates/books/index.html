@@ -44,7 +44,7 @@
             <div class="col-2 text-dark d-flex flex-column container-full-height">
                 <div class="list-group list-group-flush mt-2">
                     <a href="/books" class="list-group-item list-group-item-action active mb-2" role="button">Books</a>
-                    <a href="/people" class="list-group-item list-group-item-action" role="button">Users</a>
+                    <a href="/readers" class="list-group-item list-group-item-action" role="button">Readers</a>
                 </div>
             </div>
             <div class="col-10 bg-light d-flex flex-column container-full-height mt-2">
@@ -143,9 +143,9 @@
                                                         </div>
                                                         <div class="modal-body col-6 mx-auto">
                                                             <div class="form-group">
-                                                                <label class="mb-1" for="person">Choose the person:</label>
-                                                                <select class="form-control" th:object="${person}" th:field="*{id}" id="person">
-                                                                    <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"></option>
+                                                                <label class="mb-1" for="reader">Choose the reader:</label>
+                                                                <select class="form-control" th:object="${reader}" th:field="*{id}" id="reader">
+                                                                    <option th:each="reader : ${readers}" th:value="${reader.getId()}" th:text="${reader.getName()}"></option>
                                                                 </select>
                                                             </div>
                                                         </div>

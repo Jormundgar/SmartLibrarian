@@ -36,18 +36,18 @@
             <div class="col-2 text-dark d-flex flex-column container-full-height">
                 <div class="list-group list-group-flush mt-2">
                     <a href="/books" class="list-group-item list-group-item-action" role="button">Books</a>
-                    <a href="/people" class="list-group-item list-group-item-action active" role="button">Users</a>
+                    <a href="/readers" class="list-group-item list-group-item-action active" role="button">Readers</a>
                 </div>
             </div>
             <div class="col-10 bg-light d-flex flex-column container-full-height mt-2">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home">All users
+                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home">All readers
                         </button>
                         <button class="nav-link"
                                 id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                                type="button" role="tab" aria-controls="nav-profile">Add new user
+                                type="button" role="tab" aria-controls="nav-profile">Add new reader
                         </button>
                     </div>
                 </nav>
@@ -58,7 +58,7 @@
                                 <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>
                                 <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
                                       th:method="GET"
-                                      th:action="@{/people/pages/{pageNumber}(pageNumber=${page})}"
+                                      th:action="@{/readers/pages/{pageNumber}(pageNumber=${page})}"
                                       class="btn-group ms-0"
                                       role="group">
                                     <input type="hidden" name="byYear" th:value="${byYearValue}">
@@ -66,7 +66,7 @@
                                             th:value="${page + 1}"
                                             th:text="${page + 1}"/>
                                 </form>
-                                <form th:method="GET" th:action="@{/people}"
+                                <form th:method="GET" th:action="@{/readers}"
                                       class="btn-group ms-0"
                                       role="group">
                                     <input type="hidden"
@@ -80,7 +80,7 @@
                             <div class="btn-group ms-2" role="group" aria-label="Second group">
                                 <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
                                 <form th:method="GET"
-                                      th:action="@{/people}"
+                                      th:action="@{/readers}"
                                       class="btn-group ms-0"
                                       role="group">
                                     <input type="hidden" name="byYear" value="false">
@@ -90,7 +90,7 @@
                                     </button>
                                 </form>
                                 <form th:method="GET"
-                                      th:action="@{/people}"
+                                      th:action="@{/readers}"
                                       class="btn-group ms-0"
                                       role="group">
                                     <input type="hidden" name="byYear" value="true">
@@ -113,20 +113,20 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="person : ${people}">
-                                <td th:text="${person.getId()}">Id</td>
-                                <td th:text="${person.getName()}">Name</td>
-                                <td th:text="${person.getYearOfBirth()}" class="text-center align-middle">Year</td>
-                                <div th:if="${person.getReaderBooks().isEmpty()}">
+                            <tr th:each="reader : ${readers}">
+                                <td th:text="${reader.getId()}">Id</td>
+                                <td th:text="${reader.getName()}">Name</td>
+                                <td th:text="${reader.getYearOfBirth()}" class="text-center align-middle">Year</td>
+                                <div th:if="${reader.getReaderBooks().isEmpty()}">
                                     <td class="text-center align-middle" th:text="'No books taken'"></td>
                                 </div>
-                                <div th:if="${!person.getReaderBooks().isEmpty()}">
+                                <div th:if="${!reader.getReaderBooks().isEmpty()}">
                                     <td class="text-center">
                                         <button class="btn btn-outline-danger btn-sm btn-no-hover" type="button"
                                                 data-bs-toggle="modal"
-                                                th:data-bs-target="'#showListModal' + ${person.getId()}">Taken books
+                                                th:data-bs-target="'#showListModal' + ${reader.getId()}">Taken books
                                         </button>
-                                        <div class="modal fade" th:id="'showListModal' + ${person.getId()}"
+                                        <div class="modal fade" th:id="'showListModal' + ${reader.getId()}"
                                              tabindex="-1"
                                              aria-hidden="true">
                                             <div class="modal-dialog">
@@ -145,7 +145,7 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr th:each="book : ${person.getReaderBooks()}">
+                                                            <tr th:each="book : ${reader.getReaderBooks()}">
                                                                 <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'" th:text="${book.getName()}">T</td>
                                                                 <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'" th:text="${book.getAuthor()}">A</td>
                                                             </tr>
@@ -165,18 +165,18 @@
 
                                 <td class="text-center">
                                     <button class="btn btn-outline-primary btn-sm btn-no-hover" type="button" data-bs-toggle="modal"
-                                            th:data-bs-target="'#editModal' + ${person.getId()}">Edit
+                                            th:data-bs-target="'#editModal' + ${reader.getId()}">Edit
                                     </button>
-                                    <div class="modal fade" th:id="'editModal' + ${person.getId()}" tabindex="-1"
+                                    <div class="modal fade" th:id="'editModal' + ${reader.getId()}" tabindex="-1"
                                          aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <form class="needs-validation" novalidate
                                                       th:method="PATCH"
-                                                      th:action="@{/people/{id}(id=${person.getId()})}"
-                                                      th:object="${person}">
+                                                      th:action="@{/readers/{id}(id=${reader.getId()})}"
+                                                      th:object="${reader}">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">Edit user</h5>
+                                                        <h5 class="modal-title">Edit reader</h5>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
@@ -215,20 +215,20 @@
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-outline-danger btn-sm btn-no-hover" type="button" data-bs-toggle="modal"
-                                            th:data-bs-target="'#deleteModal' + ${person.getId()}">Delete
+                                            th:data-bs-target="'#deleteModal' + ${reader.getId()}">Delete
                                     </button>
-                                    <div class="modal fade" th:id="'deleteModal' + ${person.getId()}" tabindex="-1"
+                                    <div class="modal fade" th:id="'deleteModal' + ${reader.getId()}" tabindex="-1"
                                          aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <form th:method="DELETE"
-                                                      th:action="@{/people/{id}(id=${person.getId()})}">
+                                                      th:action="@{/readers/{id}(id=${reader.getId()})}">
                                                     <div class="modal-header">
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body col-10 mx-auto text-center">
-                                                        <h5 th:text="'Do you really want to delete the user \'' + ${person.getName()} +'\' ?'"></h5>
+                                                        <h5 th:text="'Do you really want to delete the reader \'' + ${reader.getName()} +'\' ?'"></h5>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-secondary" type="button"
@@ -248,28 +248,28 @@
                         </table>
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <h5 class="mt-2">Please provide information for a new user</h5>
+                        <h5 class="mt-2">Please provide information for a new reader</h5>
                         <div class="col-md-6 mt-2">
                             <form class="needs-validation" novalidate
                                   th:method="POST"
-                                  th:action="@{/people}"
-                                  th:object="${new_user}">
+                                  th:action="@{/readers}"
+                                  th:object="${new_reader}">
                                 <div class="form-group">
                                     <label for="title">Name Surname</label>
                                     <input type="text" class="form-control" th:field="*{name}" id="title" required>
                                     <div class="invalid-feedback">
-                                        Name and Surname of user should not be empty
+                                        Name and Surname of reader should not be empty
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="yearOfBirth">Year of publish</label>
+                                    <label for="yearOfBirth">Year of birth</label>
                                     <input type="number" min="1900" class="form-control" th:field="*{yearOfBirth}"
                                            id="yearOfBirth" required>
                                     <div class="invalid-feedback">
                                         Year of birth should be greater than 1900
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success mt-2">Add new user</button>
+                                <button type="submit" class="btn btn-success mt-2">Add new reader</button>
                             </form>
                         </div>
                     </div>

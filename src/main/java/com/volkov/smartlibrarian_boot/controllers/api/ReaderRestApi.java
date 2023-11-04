@@ -1,6 +1,6 @@
 package com.volkov.smartlibrarian_boot.controllers.api;
 
-import com.volkov.smartlibrarian_boot.dto.PersonDTO;
+import com.volkov.smartlibrarian_boot.dto.ReaderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping("/api/people")
-@Tag(name = "Users REST", description = "API for managing readers")
-public interface PeopleRestApi {
+@RequestMapping("/api/readers")
+@Tag(name = "Readers REST", description = "API for managing readers")
+public interface ReaderRestApi {
 
     @Operation(
             summary = "Get all Readers",
@@ -25,7 +25,7 @@ public interface PeopleRestApi {
                             description = "List of readers retrieved successfully",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = PersonDTO.class)
+                                    schema = @Schema(implementation = ReaderDTO.class)
                             )
                     ),
                     @ApiResponse(
@@ -35,7 +35,7 @@ public interface PeopleRestApi {
             }
     )
     @GetMapping
-    ResponseEntity<List<PersonDTO>> getAll();
+    ResponseEntity<List<ReaderDTO>> getAll();
 
 //    @GetMapping("/{id}")
 //    @ApiOperation(value = "Get Person by id")
@@ -52,7 +52,7 @@ public interface PeopleRestApi {
 //            @ApiResponse(code = 201, message = "Person created"),
 //            @ApiResponse(code = 400, message = "Person not created")}
 //    )
-//    ResponseEntity<PersonDTO> create(@ApiParam(name = "person", value = "PersonDto")
+//    ResponseEntity<PersonDTO> create(@ApiParam(name = "reader", value = "PersonDto")
 //                                     @Valid @RequestBody PersonDTO personDTO);
 //
 //    @PatchMapping("/{id}")
@@ -63,7 +63,7 @@ public interface PeopleRestApi {
 //    )
 //    ResponseEntity<PersonDTO> update(@ApiParam(name = "id", value = "Person.id")
 //                                     @PathVariable(value = "id") Integer id,
-//                                     @ApiParam(name = "person", value = "PersonDto")
+//                                     @ApiParam(name = "reader", value = "PersonDto")
 //                                     @Valid @RequestBody PersonDTO personDTO);
 //
 //    @DeleteMapping("/{id}")

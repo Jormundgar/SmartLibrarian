@@ -43,7 +43,7 @@ The web application encompasses the following features:
 5. **Individual Reader Pages:**
    - Show detailed information about a reader.
    - Display a list of books borrowed by the reader.
-   - If the reader has not borrowed any books, display the message "This person has not borrowed any books yet."
+   - If the reader has not borrowed any books, display the message "This reader has not borrowed any books yet."
 
 6. **Individual Book Pages:**
    - Provide detailed information about a book.

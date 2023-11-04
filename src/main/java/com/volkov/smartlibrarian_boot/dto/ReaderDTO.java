@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PersonDTO {
+public class ReaderDTO {
 
     private String name;
     private int yearOfBirth;

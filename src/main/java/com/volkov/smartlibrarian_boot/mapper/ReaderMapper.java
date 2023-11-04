@@ -1,24 +1,23 @@
 package com.volkov.smartlibrarian_boot.mapper;
 
-import com.volkov.smartlibrarian_boot.dto.PersonDTO;
+import com.volkov.smartlibrarian_boot.dto.ReaderDTO;
 import com.volkov.smartlibrarian_boot.models.Book;
-import com.volkov.smartlibrarian_boot.models.Person;
+import com.volkov.smartlibrarian_boot.models.Reader;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface PeopleMapper {
+public interface ReaderMapper {
 
     @Mapping(target = "readerBooks", source = "readerBooks")
-    PersonDTO personToPersonDTO(Person person);
+    ReaderDTO readerToReaderDTO(Reader reader);
 
     @Mapping(target = "readerBooks", source = "readerBooks")
-    Person personDTOToPerson(PersonDTO personDTO);
+    Reader readerDTOToReader(ReaderDTO readerDTO);
 
     default List<String> mapBooksToStrings(List<Book> books) {
         return books.stream()
@@ -32,9 +31,9 @@ public interface PeopleMapper {
                 .collect(Collectors.toList());
     }
 
-    default List<PersonDTO> personListToPersonDTOList(List<Person> people) {
-        return people.stream()
-                .map(this::personToPersonDTO)
+    default List<ReaderDTO> readerListToReaderDTOList(List<Reader> readers) {
+        return readers.stream()
+                .map(this::readerToReaderDTO)
                 .collect(Collectors.toList());
     }
 }
