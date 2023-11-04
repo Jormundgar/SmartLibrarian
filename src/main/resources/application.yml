@@ -21,6 +21,7 @@ spring:
       filter:
         enabled: true
 
+# Swagger Configuration
 springdoc:
   api-docs:
     path: "/api-docs"
