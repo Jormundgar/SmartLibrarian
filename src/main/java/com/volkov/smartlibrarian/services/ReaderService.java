@@ -78,6 +78,16 @@ public class ReaderService {
         readersRepository.deleteById(id);
     }
 
+    @Transactional
+    public Optional<Reader> deleteDTO(int id) {
+        var optionalSavedReader = readersRepository.findById(id);
+        if (optionalSavedReader.isPresent()) {
+            readersRepository.deleteById(id);
+        }
+        return optionalSavedReader;
+    }
+
+
     public int getPeopleCount() {
         return (int) readersRepository.count();
     }

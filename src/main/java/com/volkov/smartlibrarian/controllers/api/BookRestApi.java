@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @RequestMapping("/api/books")
-@Tag(name = "Books REST", description = "API for managing books")
+@Tag(name = "Books REST Controller", description = "API for managing books")
 public interface BookRestApi {
 
     @Operation(

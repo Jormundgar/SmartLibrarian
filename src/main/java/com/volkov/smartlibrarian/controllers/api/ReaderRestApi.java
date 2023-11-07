@@ -1,5 +1,6 @@
 package com.volkov.smartlibrarian.controllers.api;
 
+import com.volkov.smartlibrarian.dto.ErrorDTO;
 import com.volkov.smartlibrarian.dto.ReaderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -7,17 +8,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @RequestMapping("/api/readers")
-@Tag(name = "Readers REST", description = "API for managing readers")
+@Tag(name = "Readers REST Controller", description = "API for managing readers")
 public interface ReaderRestApi {
 
     @Operation(
-            summary = "Get all Readers",
+            summary = "Get all readers",
             description = "Retrieve a list of all readers",
             responses = {
                     @ApiResponse(
@@ -37,40 +43,95 @@ public interface ReaderRestApi {
     @GetMapping
     ResponseEntity<List<ReaderDTO>> getAll();
 
-//    @GetMapping("/{id}")
-//    @ApiOperation(value = "Get Person by id")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Person found"),
-//            @ApiResponse(code = 404, message = "Person not found")}
-//    )
-//    ResponseEntity<PersonDTO> get(@ApiParam(name = "id", value = "Person.id")
-//                                  @PathVariable(value = "id") Integer id);
-//
-//    @PostMapping
-//    @ApiOperation(value = "Create Person")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 201, message = "Person created"),
-//            @ApiResponse(code = 400, message = "Person not created")}
-//    )
-//    ResponseEntity<PersonDTO> create(@ApiParam(name = "reader", value = "PersonDto")
-//                                     @Valid @RequestBody PersonDTO personDTO);
-//
-//    @PatchMapping("/{id}")
-//    @ApiOperation(value = "Update Person")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Person updated"),
-//            @ApiResponse(code = 400, message = "Person not updated")}
-//    )
-//    ResponseEntity<PersonDTO> update(@ApiParam(name = "id", value = "Person.id")
-//                                     @PathVariable(value = "id") Integer id,
-//                                     @ApiParam(name = "reader", value = "PersonDto")
-//                                     @Valid @RequestBody PersonDTO personDTO);
-//
-//    @DeleteMapping("/{id}")
-//    @ApiOperation(value = "Delete Person by id")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Person deleted"),
-//            @ApiResponse(code = 404, message = "Person not found")}
-//    )
-//    ResponseEntity<Void> delete(@ApiParam(name = "id", value = "Person.id") @PathVariable(value = "id") Integer id);
+    @Operation(
+            summary = "Get a reader by ID",
+            description = "Retrieve a reader by its unique ID",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Reader retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ReaderDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Reader not found"
+                    )
+            }
+    )
+    @GetMapping("/{id}")
+    ResponseEntity<ReaderDTO> getById(@PathVariable int id);
+
+    @Operation(
+            summary = "Create a new reader",
+            description = "Create a new reader record",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Reader created successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ReaderDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDTO.class)
+                            )
+                    )
+            }
+    )
+    @PostMapping
+    ResponseEntity<ReaderDTO> create(@RequestBody ReaderDTO readerDTO);
+
+    @Operation(
+            summary = "Update a reader",
+            description = "Update an existing reader record",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Reader updated successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ReaderDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Book not found"
+                    )
+            }
+    )
+    @PatchMapping("/edit")
+    ResponseEntity<ReaderDTO> update(@RequestBody ReaderDTO readerDTO);
+
+    @Operation(
+            summary = "Delete a reader",
+            description = "Delete an existing reader record",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Reader deleted successfully"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Reader not found"
+                    )
+            }
+    )
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> delete(@PathVariable int id);
 }
