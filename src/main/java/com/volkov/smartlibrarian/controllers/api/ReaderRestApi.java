@@ -2,7 +2,6 @@ package com.volkov.smartlibrarian.controllers.api;
 
 import com.volkov.smartlibrarian.dto.ErrorDTO;
 import com.volkov.smartlibrarian.dto.ReaderDTO;
-import com.volkov.smartlibrarian.util.RestExceptionHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -79,7 +78,11 @@ public interface ReaderRestApi {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad request"
+                            description = "Bad request",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDTO.class)
+                            )
                     )
             }
     )
@@ -100,7 +103,11 @@ public interface ReaderRestApi {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad request"
+                            description = "Bad request",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDTO.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -125,6 +132,6 @@ public interface ReaderRestApi {
                     )
             }
     )
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> delete(@PathVariable Integer id);
+    @DeleteMapping
+    ResponseEntity<Void> delete(@RequestBody ReaderDTO readerDTO);
 }

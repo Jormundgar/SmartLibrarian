@@ -1,5 +1,6 @@
 package com.volkov.smartlibrarian.util;
 
+import com.volkov.smartlibrarian.dto.ErrorDTO;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,14 +13,14 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        ApiError apiError = new ApiError(BAD_REQUEST);
-        apiError.setMessage("The record with this name already exists");
-        apiError.setDebugMessage(ex.getMostSpecificCause().getMessage());
-        return buildResponseEntity(apiError);
+        var errorDTO = new ErrorDTO(BAD_REQUEST);
+        errorDTO.setMessage("The record with this name already exists");
+        errorDTO.setDebugMessage(ex.getMostSpecificCause().getMessage());
+        return buildResponseEntity(errorDTO);
     }
 
-    private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
-        return new ResponseEntity<>(apiError, apiError.getStatus());
+    private ResponseEntity<Object> buildResponseEntity(ErrorDTO errorDTO) {
+        return new ResponseEntity<>(errorDTO, errorDTO.getStatus());
     }
 
 }

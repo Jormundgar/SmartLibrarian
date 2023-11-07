@@ -54,6 +54,11 @@ public class ReaderService {
         return readers;
     }
 
+    public Optional<ReaderDTO> findById(Integer id) {
+        var reader = readersRepository.findById(id);
+        return reader.map(readerMapper::readerToReaderDTO);
+    }
+
     public Optional<Reader> findOneByName(String name) {
         return readersRepository.findByName(name).stream().findFirst();
     }
@@ -72,6 +77,13 @@ public class ReaderService {
     }
 
     @Transactional
+    public ReaderDTO saveDto(ReaderDTO readerDTO) {
+        var reader = readerMapper.readerDTOToReader(readerDTO);
+        var savedReader = readersRepository.save(reader);
+        return readerMapper.readerToReaderDTO(savedReader);
+    }
+
+    @Transactional
     public void update(Integer id, Reader updatedReader) {
         updatedReader.setId(id);
         readersRepository.save(updatedReader);
@@ -81,7 +93,6 @@ public class ReaderService {
     public Optional<ReaderDTO> updateDTO(ReaderDTO readerDTO) {
         var readerFromDB = readersRepository.findById(readerDTO.getId());
         var newReader = readerMapper.readerDTOToReader(readerDTO);
-        var checkUpdate = readersRepository.findByName(newReader.getName());
         Reader updatedReader;
         if (readerFromDB.isEmpty()) {
             return Optional.empty();
@@ -100,7 +111,8 @@ public class ReaderService {
     }
 
     @Transactional
-    public Optional<Reader> deleteDTO(Integer id) {
+    public Optional<Reader> deleteDTO(ReaderDTO readerDTO) {
+        var id = readerDTO.getId();
         var optionalSavedReader = readersRepository.findById(id);
         if (optionalSavedReader.isPresent()) {
             readersRepository.deleteById(id);
