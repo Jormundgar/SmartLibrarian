@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,9 @@ public interface ReaderMapper {
     }
 
     default List<Book> mapStringsToBooks(List<String> bookStrings) {
+        if (bookStrings == null || bookStrings.isEmpty()) {
+            return Collections.emptyList();
+        }
         return bookStrings.stream()
                 .map(Book::new)
                 .collect(Collectors.toList());

@@ -2,6 +2,7 @@ package com.volkov.smartlibrarian.controllers.api;
 
 import com.volkov.smartlibrarian.dto.ErrorDTO;
 import com.volkov.smartlibrarian.dto.ReaderDTO;
+import com.volkov.smartlibrarian.util.RestExceptionHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -62,7 +63,7 @@ public interface ReaderRestApi {
             }
     )
     @GetMapping("/{id}")
-    ResponseEntity<ReaderDTO> getById(@PathVariable int id);
+    ResponseEntity<ReaderDTO> getById(@PathVariable Integer id);
 
     @Operation(
             summary = "Create a new reader",
@@ -78,11 +79,7 @@ public interface ReaderRestApi {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad request",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ErrorDTO.class)
-                            )
+                            description = "Bad request"
                     )
             }
     )
@@ -103,15 +100,11 @@ public interface ReaderRestApi {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad request",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ErrorDTO.class)
-                            )
+                            description = "Bad request"
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Book not found"
+                            description = "Reader not found"
                     )
             }
     )
@@ -123,7 +116,7 @@ public interface ReaderRestApi {
             description = "Delete an existing reader record",
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
+                            responseCode = "204",
                             description = "Reader deleted successfully"
                     ),
                     @ApiResponse(
@@ -133,5 +126,5 @@ public interface ReaderRestApi {
             }
     )
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> delete(@PathVariable int id);
+    ResponseEntity<Void> delete(@PathVariable Integer id);
 }

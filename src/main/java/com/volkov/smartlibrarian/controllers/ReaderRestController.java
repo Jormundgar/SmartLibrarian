@@ -28,7 +28,7 @@ public class ReaderRestController implements ReaderRestApi {
     }
 
     @Override
-    public ResponseEntity<ReaderDTO> getById(int id) {
+    public ResponseEntity<ReaderDTO> getById(Integer id) {
         return null;
     }
 
@@ -39,12 +39,14 @@ public class ReaderRestController implements ReaderRestApi {
 
     @Override
     public ResponseEntity<ReaderDTO> update(ReaderDTO readerDTO) {
-        return null;
+        return readerService.updateDTO(readerDTO)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Override
-    public ResponseEntity<Void> delete(int id) {
+    public ResponseEntity<Void> delete(Integer id) {
         var optionalReader = readerService.deleteDTO(id);
-        return optionalReader.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok().build();
+        return optionalReader.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.noContent().build();
     }
 }

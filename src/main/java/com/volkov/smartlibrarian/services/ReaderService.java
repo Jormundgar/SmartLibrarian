@@ -55,7 +55,7 @@ public class ReaderService {
     }
 
     public Optional<Reader> findOneByName(String name) {
-        return readersRepository.findByName(name).stream().findAny();
+        return readersRepository.findByName(name).stream().findFirst();
     }
 
     public Optional<Reader> findOneByNameAndYearOfBirth(String name, int yearOfBirth) {
@@ -64,22 +64,43 @@ public class ReaderService {
 
     @Transactional
     public void save(Reader reader) {
+        var oneByName = findOneByName(reader.getName());
+        if (oneByName.isPresent()) {
+            throw new IllegalStateException();
+        }
         readersRepository.save(reader);
     }
 
     @Transactional
-    public void update(int id, Reader updatedReader) {
+    public void update(Integer id, Reader updatedReader) {
         updatedReader.setId(id);
         readersRepository.save(updatedReader);
     }
 
     @Transactional
-    public void delete(int id) {
+    public Optional<ReaderDTO> updateDTO(ReaderDTO readerDTO) {
+        var readerFromDB = readersRepository.findById(readerDTO.getId());
+        var newReader = readerMapper.readerDTOToReader(readerDTO);
+        var checkUpdate = readersRepository.findByName(newReader.getName());
+        Reader updatedReader;
+        if (readerFromDB.isEmpty()) {
+            return Optional.empty();
+        } else {
+            updatedReader = readerFromDB.get();
+        }
+        updatedReader.setName(newReader.getName());
+        updatedReader.setYearOfBirth(newReader.getYearOfBirth());
+        readersRepository.save(updatedReader);
+        return Optional.of(readerMapper.readerToReaderDTO(updatedReader));
+    }
+
+    @Transactional
+    public void delete(Integer id) {
         readersRepository.deleteById(id);
     }
 
     @Transactional
-    public Optional<Reader> deleteDTO(int id) {
+    public Optional<Reader> deleteDTO(Integer id) {
         var optionalSavedReader = readersRepository.findById(id);
         if (optionalSavedReader.isPresent()) {
             readersRepository.deleteById(id);

@@ -36,7 +36,7 @@ public class ReaderController {
 
     @GetMapping("/pages/{number}")
     public ModelAndView indexPage(@ModelAttribute("new_reader") Reader reader,
-                                  @PathVariable("number") int pageNumber,
+                                  @PathVariable("number") Integer pageNumber,
                                   @RequestParam(value = "byYear", required = false) boolean byYear,
                                   @ModelAttribute("book") Book book) {
         var modelAndView = new ModelAndView("readers/index");
@@ -55,20 +55,24 @@ public class ReaderController {
     @PostMapping
     public ModelAndView create(@ModelAttribute("new_reader") Reader reader) {
         var modelAndView = new ModelAndView("redirect:/readers");
-        readerService.save(reader);
+        try {
+            readerService.save(reader);
+        } catch (IllegalStateException e) {
+            return modelAndView;
+        }
         return modelAndView;
     }
 
     @PatchMapping("/{id}")
     public ModelAndView update(@ModelAttribute("reader") Reader reader,
-                               @PathVariable("id") int id) {
+                               @PathVariable("id") Integer id) {
         var modelAndView = new ModelAndView("redirect:/readers");
         readerService.update(id, reader);
         return modelAndView;
     }
 
     @DeleteMapping("/{id}")
-    public ModelAndView delete(@PathVariable("id") int id) {
+    public ModelAndView delete(@PathVariable("id") Integer id) {
         var modelAndView = new ModelAndView("redirect:/readers");
         readerService.delete(id);
         return modelAndView;

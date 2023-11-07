@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface ReadersRepository extends JpaRepository<Reader, Integer> {
     Optional<Reader> findByName(String name);
-    Optional<Reader> findById(int id);
     Optional<Reader> findByNameAndYearOfBirth(String name, int yearOfBirth);
     List<Reader> findAllByOrderById();
     List<Reader> findAllByOrderById(PageRequest pageRequest);

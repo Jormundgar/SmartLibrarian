@@ -22,7 +22,7 @@ public class Reader {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     @NotEmpty(message = "Name should not be empty")
