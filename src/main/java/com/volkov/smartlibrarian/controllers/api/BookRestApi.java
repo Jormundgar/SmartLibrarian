@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -135,4 +136,46 @@ public interface BookRestApi {
     )
     @DeleteMapping
     ResponseEntity<Void> delete(@RequestBody BookDTO bookDTO);
+
+    @Operation(
+            summary = "Books search",
+            description = "Find books based on a user-entered query. Returns matching books",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "List of books retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BookDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No books found"
+                    )
+            }
+    )
+    @PostMapping("/search")
+    ResponseEntity<List<BookDTO>> search(@RequestParam String contain);
+
+    @Operation(
+            summary = "Assign",
+            description = "Assign the book",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "List of books retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BookDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Book not found"
+                    )
+            }
+    )
+    @PatchMapping("/assign")
+    ResponseEntity<Void> assign(@RequestBody BookDTO bookDTO);
 }

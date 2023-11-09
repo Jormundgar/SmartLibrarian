@@ -6,6 +6,7 @@ import com.volkov.smartlibrarian.mapper.BookMapper;
 import com.volkov.smartlibrarian.models.Book;
 import com.volkov.smartlibrarian.models.Reader;
 import com.volkov.smartlibrarian.repositories.BooksRepository;
+import com.volkov.smartlibrarian.repositories.ReadersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class BookService {
 
     private final BooksRepository booksRepository;
+    private final ReadersRepository readersRepository;
     private final BookMapper bookMapper;
 
     public List<Book> findAll() {
@@ -139,11 +142,32 @@ public class BookService {
     }
 
     @Transactional
+    public void releaseDTO(Integer id) {
+        booksRepository.findById(id).ifPresent(book -> {
+            book.setReader(null);
+            book.setDateOfTake(null);
+        });
+    }
+
+    @Transactional
     public void assign(Integer id, Reader reader) {
         booksRepository.findById(id).ifPresent(book -> {
             book.setReader(reader);
             book.setDateOfTake(new Date());
         });
+    }
+
+    @Transactional
+    public Book assignDTO(BookDTO bookDTO) {
+        var reader = readersRepository.findByName(bookDTO.getReader()).stream().findFirst();
+        var assignBook = booksRepository.findById(bookDTO.getId());
+        Book book = null;
+        if (assignBook.isPresent()) {
+            book = assignBook.get();
+            book.setReader(reader.get());
+            book.setDateOfTake(new Date());
+        }
+        return book;
     }
 
     public int getBooksCount() {
@@ -152,5 +176,10 @@ public class BookService {
 
     public List<Book> search(String contain) {
         return booksRepository.findByNameContaining(contain);
+    }
+
+    public List<BookDTO> searchDTOs(String contain) {
+        var search = search(contain);
+        return search.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
     }
 }
