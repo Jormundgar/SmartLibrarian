@@ -21,7 +21,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     @NotEmpty(message = "Name of book should not be empty")

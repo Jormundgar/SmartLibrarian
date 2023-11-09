@@ -5,6 +5,7 @@ import com.volkov.smartlibrarian.mapper.ReaderMapper;
 import com.volkov.smartlibrarian.models.Reader;
 import com.volkov.smartlibrarian.repositories.ReadersRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

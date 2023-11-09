@@ -1,6 +1,7 @@
 package com.volkov.smartlibrarian.services;
 
 import com.volkov.smartlibrarian.dto.BookDTO;
+import com.volkov.smartlibrarian.dto.ReaderDTO;
 import com.volkov.smartlibrarian.mapper.BookMapper;
 import com.volkov.smartlibrarian.models.Book;
 import com.volkov.smartlibrarian.models.Reader;
@@ -53,7 +54,12 @@ public class BookService {
                 .getContent();
     }
 
-    public Book findOne(int id) {
+    public Optional<BookDTO> findById(Integer id) {
+        var reader = booksRepository.findById(id);
+        return reader.map(bookMapper::bookToBookDTO);
+    }
+
+    public Book findOne(Integer id) {
         return booksRepository.findById(id).orElse(null);
     }
 
@@ -71,7 +77,17 @@ public class BookService {
     }
 
     @Transactional
-    public void update(int id, Book updatedBook) {
+    public BookDTO saveDto(BookDTO bookDTO) {
+        Book book = bookMapper.bookDTOToBook(bookDTO);
+//        var newBook = new Book();
+//        newBook.setName(book.getName());
+//        newBook.setAuthor(book.getAuthor());
+//        newBook.setYearOfPublish(book.getYearOfPublish());
+        Book savedBook = booksRepository.save(book);
+        return bookMapper.bookToBookDTO(savedBook);
+    }
+    @Transactional
+    public void update(Integer id, Book updatedBook) {
         updatedBook.setId(id);
         updatedBook.setReader(booksRepository.findById(id).get().getReader());
         updatedBook.setDateOfTake(booksRepository.findById(id).get().getDateOfTake());
@@ -79,16 +95,43 @@ public class BookService {
     }
 
     @Transactional
-    public void delete(int id) {
+    public Optional<BookDTO> updateDTO(BookDTO bookDTO) {
+        var bookFromDB = booksRepository.findById(bookDTO.getId());
+        var newBook = bookMapper.bookDTOToBook(bookDTO);
+        Book updatedBook;
+        if (bookFromDB.isEmpty()) {
+            return Optional.empty();
+        } else {
+            updatedBook = bookFromDB.get();
+        }
+        updatedBook.setName(newBook.getName());
+        updatedBook.setAuthor(newBook.getAuthor());
+        updatedBook.setYearOfPublish(newBook.getYearOfPublish());
+        booksRepository.save(updatedBook);
+        return Optional.of(bookMapper.bookToBookDTO(updatedBook));
+    }
+
+    @Transactional
+    public void delete(Integer id) {
         booksRepository.deleteById(id);
     }
 
-    public Reader findBookReader(int id) {
+    @Transactional
+    public Optional<Book> deleteDTO(BookDTO bookDTO) {
+        var id = bookDTO.getId();
+        var optionalSavedBook = booksRepository.findById(id);
+        if (optionalSavedBook.isPresent()) {
+            booksRepository.deleteById(id);
+        }
+        return optionalSavedBook;
+    }
+
+    public Reader findBookReader(Integer id) {
         return booksRepository.findById(id).map(Book::getReader).orElse(null);
     }
 
     @Transactional
-    public void release(int id) {
+    public void release(Integer id) {
         booksRepository.findById(id).ifPresent(book -> {
             book.setReader(null);
             book.setDateOfTake(null);
@@ -96,7 +139,7 @@ public class BookService {
     }
 
     @Transactional
-    public void assign(int id, Reader reader) {
+    public void assign(Integer id, Reader reader) {
         booksRepository.findById(id).ifPresent(book -> {
             book.setReader(reader);
             book.setDateOfTake(new Date());

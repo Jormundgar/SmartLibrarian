@@ -115,7 +115,7 @@ public interface ReaderRestApi {
                     )
             }
     )
-    @PatchMapping("/edit")
+    @PatchMapping
     ResponseEntity<ReaderDTO> update(@RequestBody ReaderDTO readerDTO);
 
     @Operation(

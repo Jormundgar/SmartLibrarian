@@ -65,28 +65,28 @@ public class BookController {
 
     @PatchMapping("/{id}")
     public ModelAndView update(@ModelAttribute("book") Book book,
-                               @PathVariable("id") int id) {
+                               @PathVariable("id") Integer id) {
         var modelAndView = new ModelAndView("redirect:/books");
         bookService.update(id, book);
         return modelAndView;
     }
 
     @DeleteMapping("/{id}")
-    public ModelAndView delete(@PathVariable("id") int id) {
+    public ModelAndView delete(@PathVariable("id") Integer id) {
         var modelAndView = new ModelAndView("redirect:/books");
         bookService.delete(id);
         return modelAndView;
     }
 
     @PatchMapping("/{id}/release")
-    public ModelAndView release(@PathVariable("id") int id) {
+    public ModelAndView release(@PathVariable("id") Integer id) {
         var modelAndView = new ModelAndView("redirect:/books");
         bookService.release(id);
         return modelAndView;
     }
 
     @PatchMapping("/{id}/assign")
-    public ModelAndView assign(@PathVariable("id") int id,
+    public ModelAndView assign(@PathVariable("id") Integer id,
                                @ModelAttribute("reader") Reader reader) {
         var modelAndView = new ModelAndView("redirect:/books");
         bookService.assign(id, reader);

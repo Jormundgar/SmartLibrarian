@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BooksRepository extends JpaRepository<Book, Integer> {
-    List<Book> findBooksByReaderId(int id);
+    List<Book> findBooksByReaderId(Integer id);
     // without pagination and sorting by year
     List<Book> findAllByOrderById();
     // with pagination and without sorting by year

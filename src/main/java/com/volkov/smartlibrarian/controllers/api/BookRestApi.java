@@ -1,13 +1,20 @@
 package com.volkov.smartlibrarian.controllers.api;
 
 import com.volkov.smartlibrarian.dto.BookDTO;
+import com.volkov.smartlibrarian.dto.ErrorDTO;
+import com.volkov.smartlibrarian.dto.ReaderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -17,7 +24,7 @@ import java.util.List;
 public interface BookRestApi {
 
     @Operation(
-            summary = "Get all Books",
+            summary = "Get all books",
             description = "Retrieve a list of all books",
             responses = {
                     @ApiResponse(
@@ -37,36 +44,95 @@ public interface BookRestApi {
     @GetMapping
     ResponseEntity<List<BookDTO>> getAll();
 
-//    @GetMapping("/{id}")
-//    @ApiOperation(value = "Get Book by id")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Book found"),
-//            @ApiResponse(code = 404, message = "Book not found")}
-//    )
-//    ResponseEntity<BookDTO> get(@ApiParam(name = "id", value = "Book.id") @PathVariable(value = "id") Integer id);
-//
-//    @PostMapping
-//    @ApiOperation(value = "Create Book")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 201, message = "Book created"),
-//            @ApiResponse(code = 400, message = "Book not created")}
-//    )
-//    ResponseEntity<BookDTO> create(@ApiParam(name = "book", value = "BookDto") @Valid @RequestBody BookDTO bookDTO);
-//
-//    @PatchMapping("/{id}")
-//    @ApiOperation(value = "Update Book")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Book updated"),
-//            @ApiResponse(code = 400, message = "Book not updated")}
-//    )
-//    ResponseEntity<BookDTO> update(@ApiParam(name = "id", value = "Book.id") @PathVariable(value = "id") Integer id,
-//                                   @ApiParam(name = "book", value = "BookDto") @Valid @RequestBody BookDTO bookDTO);
-//
-//    @DeleteMapping("/{id}")
-//    @ApiOperation(value = "Delete Book by id")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Book deleted"),
-//            @ApiResponse(code = 404, message = "Book not found")}
-//    )
-//    ResponseEntity<Void> delete(@ApiParam(name = "id", value = "Book.id") @PathVariable(value = "id") Integer id);
+    @Operation(
+            summary = "Get a book by ID",
+            description = "Retrieve a book by its unique ID",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Book retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BookDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Book not found"
+                    )
+            }
+    )
+    @GetMapping("/{id}")
+    ResponseEntity<BookDTO> getById(@PathVariable Integer id);
+
+    @Operation(
+            summary = "Create a new book",
+            description = "Create a new book record",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Book created successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BookDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDTO.class)
+                            )
+                    )
+            }
+    )
+    @PostMapping
+    ResponseEntity<BookDTO> create(@RequestBody BookDTO bookDTO);
+
+    @Operation(
+            summary = "Update a book",
+            description = "Update an existing book record",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Book updated successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BookDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Book not found"
+                    )
+            }
+    )
+    @PatchMapping
+    ResponseEntity<BookDTO> update(@RequestBody BookDTO bookDTO);
+
+    @Operation(
+            summary = "Delete a book",
+            description = "Delete an existing book record",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "Book deleted successfully"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Book not found"
+                    )
+            }
+    )
+    @DeleteMapping
+    ResponseEntity<Void> delete(@RequestBody BookDTO bookDTO);
 }
