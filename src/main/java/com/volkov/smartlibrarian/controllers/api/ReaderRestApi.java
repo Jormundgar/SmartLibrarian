@@ -2,6 +2,7 @@ package com.volkov.smartlibrarian.controllers.api;
 
 import com.volkov.smartlibrarian.dto.ErrorDTO;
 import com.volkov.smartlibrarian.dto.ReaderDTO;
+import com.volkov.smartlibrarian.dto.SortRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -41,7 +43,10 @@ public interface ReaderRestApi {
             }
     )
     @GetMapping
-    ResponseEntity<List<ReaderDTO>> getAll();
+    ResponseEntity<List<ReaderDTO>> getAll(
+            @RequestParam(defaultValue = "false", required = false) Boolean byYear,
+            @RequestParam(defaultValue = "0", required = false) Integer pageNumber
+    );
 
     @Operation(
             summary = "Get a reader by ID",

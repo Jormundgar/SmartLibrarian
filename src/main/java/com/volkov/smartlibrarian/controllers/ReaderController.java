@@ -42,9 +42,9 @@ public class ReaderController {
         var modelAndView = new ModelAndView("readers/index");
         List<Reader> readers;
         if (byYear) {
-            readers = readerService.findAllPerPageSortedByYear(pageNumber);
+            readers = readerService.findAllPerPageSortedByYear(pageNumber+1);
         } else {
-            readers = readerService.findAllPerPage(pageNumber);
+            readers = readerService.findAllPerPage(pageNumber+1);
         }
         modelAndView.addObject("readers", readers);
         modelAndView.addObject("lines", readerService.getPeopleCount());

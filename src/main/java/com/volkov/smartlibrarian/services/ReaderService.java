@@ -29,21 +29,36 @@ public class ReaderService {
     }
 
     public List<ReaderDTO> findAllDTOs() {
-        var allByOrderById = checkIfExpired(readersRepository.findAllByOrderById());
+        var allByOrderById = findAll();
         return allByOrderById.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
     }
 
     public List<Reader> findAllPerPage(int numberPage) {
-        return checkIfExpired(readersRepository.findAllByOrderById(PageRequest.of(numberPage, 5)));
+        return checkIfExpired(readersRepository.findAllByOrderById(PageRequest.of(numberPage - 1, 5)));
+    }
+
+    public List<ReaderDTO> findAllDTOsPerPage(int numberPage) {
+        var allPerPage = findAllPerPage(numberPage);
+        return allPerPage.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
     }
 
     public List<Reader> findAllSortedByYear() {
         return checkIfExpired(readersRepository.findAll(Sort.by("yearOfBirth")));
     }
 
+    public List<ReaderDTO> findAllDTOsSortedByYear() {
+        var allSortedByYear = findAllSortedByYear();
+        return allSortedByYear.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
+    }
+
     public List<Reader> findAllPerPageSortedByYear(int numberPage) {
-        return checkIfExpired(readersRepository.findAll(PageRequest.of(numberPage, 5,
+        return checkIfExpired(readersRepository.findAll(PageRequest.of(numberPage - 1, 5,
                 Sort.by("yearOfBirth"))).getContent());
+    }
+
+    public List<ReaderDTO> findAllDTOsPerPageSortedByYear(int numberPage) {
+        var allPerPageSortedByYear = findAllPerPageSortedByYear(numberPage);
+        return allPerPageSortedByYear.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
     }
 
     private List<Reader> checkIfExpired(List<Reader> readers) {
@@ -62,10 +77,6 @@ public class ReaderService {
 
     public Optional<Reader> findOneByName(String name) {
         return readersRepository.findByName(name).stream().findFirst();
-    }
-
-    public Optional<Reader> findOneByNameAndYearOfBirth(String name, int yearOfBirth) {
-        return readersRepository.findByNameAndYearOfBirth(name, yearOfBirth).stream().findAny();
     }
 
     @Transactional
@@ -120,7 +131,6 @@ public class ReaderService {
         }
         return optionalSavedReader;
     }
-
 
     public int getPeopleCount() {
         return (int) readersRepository.count();
