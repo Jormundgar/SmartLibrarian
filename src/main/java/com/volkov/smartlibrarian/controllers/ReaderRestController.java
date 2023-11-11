@@ -2,8 +2,6 @@ package com.volkov.smartlibrarian.controllers;
 
 import com.volkov.smartlibrarian.controllers.api.ReaderRestApi;
 import com.volkov.smartlibrarian.dto.ReaderDTO;
-import com.volkov.smartlibrarian.dto.SortRequestDTO;
-import com.volkov.smartlibrarian.models.Reader;
 import com.volkov.smartlibrarian.services.ReaderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,8 +55,8 @@ public class ReaderRestController implements ReaderRestApi {
     }
 
     @Override
-    public ResponseEntity<Void> delete(ReaderDTO readerDTO) {
-        var optionalReader = readerService.deleteDTO(readerDTO);
+    public ResponseEntity<Void> delete(Integer id) {
+        var optionalReader = readerService.deleteDTO(id);
         return optionalReader.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.noContent().build();
     }
 }
