@@ -16,6 +16,8 @@
     }
 </style>
 <body>
+
+<!-- -------------------- NAVIGATION TOOLBAR START -------------------- -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid d-flex justify-content-between text-light">
         <span class="fw-bold">Hello, Admin!</span>
@@ -30,16 +32,29 @@
         </div>
     </div>
 </nav>
+<!-- -------------------- NAVIGATION TOOLBAR END -------------------- -->
+
+<!-- -------------------- MAIN DIV START -------------------- -->
 <div class="row">
     <div class="container-fluid ">
         <div class="row">
+
+
+            <!-- -------------------- SIDE MENU BOOKS / READERS START -------------------- -->
             <div class="col-2 text-dark d-flex flex-column container-full-height">
                 <div class="list-group list-group-flush mt-2">
                     <a href="/books" class="list-group-item list-group-item-action" role="button">Books</a>
                     <a href="/readers" class="list-group-item list-group-item-action active" role="button">Readers</a>
                 </div>
             </div>
+            <!-- -------------------- SIDE MENU BOOKS / READERS END -------------------- -->
+
+
+            <!-- -------------------- MAIN PART START -------------------- -->
             <div class="col-10 bg-light d-flex flex-column container-full-height mt-2">
+
+
+                <!-- -------------------- NAVIGATION TAB LIST START -------------------- -->
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
@@ -51,56 +66,268 @@
                         </button>
                     </div>
                 </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
-                            <div class="btn-group" role="group" aria-label="First group">
-                                <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>
-                                <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
-                                      th:method="GET"
-                                      th:action="@{/readers/pages/{pageNumber}(pageNumber=${page})}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" th:value="${byYearValue}">
-                                    <button type="submit" class="btn btn-outline-primary"
-                                            th:value="${page + 1}"
-                                            th:text="${page + 1}"/>
-                                </form>
-                                <form th:method="GET" th:action="@{/readers}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden"
-                                           name="byYear"
-                                           th:value="${byYearValue}">
-                                    <button type="submit"
-                                            class="btn btn-outline-primary">Show all
-                                    </button>
+                <!-- -------------------- NAVIGATION TAB LIST END -------------------- -->
+
+
+                <!--                <div class="tab-content" id="nav-tabContent">-->
+                <!--                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">-->
+
+
+                <!-- -------------------- PAGINATION AND SORT DIV START -------------------- -->
+                <!--                        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">-->
+                <!--                            <div class="btn-group" role="group" aria-label="First group">-->
+                <!--                                <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>-->
+                <!--                                <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"-->
+                <!--                                      th:method="GET"-->
+                <!--                                      th:action="@{/readers/pages/{pageNumber}(pageNumber=${page})}"-->
+                <!--                                      class="btn-group ms-0"-->
+                <!--                                      role="group">-->
+                <!--                                    <input type="hidden" name="byYear" th:value="${byYearValue}">-->
+                <!--                                    <button type="submit" class="btn btn-outline-primary"-->
+                <!--                                            th:value="${page + 1}"-->
+                <!--                                            th:text="${page + 1}"/>-->
+                <!--                                </form>-->
+                <!--                                <form th:method="GET" th:action="@{/readers}"-->
+                <!--                                      class="btn-group ms-0"-->
+                <!--                                      role="group">-->
+                <!--                                    <input type="hidden"-->
+                <!--                                           name="byYear"-->
+                <!--                                           th:value="${byYearValue}">-->
+                <!--                                    <button type="submit"-->
+                <!--                                            class="btn btn-outline-primary">Show all-->
+                <!--                                    </button>-->
+                <!--                                </form>-->
+                <!--                            </div>-->
+                <!--                            <div class="btn-group ms-2" role="group" aria-label="Second group">-->
+                <!--                                <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>-->
+                <!--                                <form th:method="GET"-->
+                <!--                                      th:action="@{/readers}"-->
+                <!--                                      class="btn-group ms-0"-->
+                <!--                                      role="group">-->
+                <!--                                    <input type="hidden" name="byYear" value="false">-->
+                <!--                                    <button type="submit"-->
+                <!--                                            class="btn btn-outline-primary"-->
+                <!--                                            onclick="setByYear(false)">ID-->
+                <!--                                    </button>-->
+                <!--                                </form>-->
+                <!--                                <form th:method="GET"-->
+                <!--                                      th:action="@{/readers}"-->
+                <!--                                      class="btn-group ms-0"-->
+                <!--                                      role="group">-->
+                <!--                                    <input type="hidden" name="byYear" value="true">-->
+                <!--                                    <button type="submit"-->
+                <!--                                            class="btn btn-outline-primary"-->
+                <!--                                            onclick="setByYear(true)">Year of birth-->
+                <!--                                    </button>-->
+                <!--                                </form>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!-- -------------------- PAGINATION AND SORT DIV END -------------------- -->
+
+
+                <!-- TODO Difference if reader has books or not from JS script. No books taken TEXT OR Taken books BUTTON -->
+                <!-- TODO Now only the BUTTON show -->
+
+                <!-- -------------------- BOOK LIST MODAL DIV START -------------------- -->
+                <div class="modal fade" id="bookListModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Book list</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body col-6 mx-auto text-center">
+                                <form id="form-bookList">
+
+                                    <!-- TODO Red colour for EXPIRED books from JS script -->
+
+                                    <!--                                            <div th:if="${reader.getReaderBooks().isEmpty()}">-->
+                                    <!--                                                <td class="text-center align-middle" th:text="'No books taken'"></td>-->
+                                    <!--                                            </div>-->
+                                    <!--                                            <div th:if="${!reader.getReaderBooks().isEmpty()}">-->
+                                    <!--                                                <td class="text-center">-->
+                                    <!--                                                    <button class="btn btn-outline-danger btn-sm btn-no-hover" type="button"-->
+                                    <!--                                                            data-bs-toggle="modal"-->
+                                    <!--                                                            th:data-bs-target="'#showListModal' + ${reader.getId()}">Taken books-->
+                                    <!--                                                    </button>-->
+                                    <!--                                                    <div class="modal fade" th:id="'showListModal' + ${reader.getId()}"-->
+                                    <!--                                                         tabindex="-1"-->
+                                    <!--                                                         aria-hidden="true">-->
+                                    <!--                                                        <div class="modal-dialog">-->
+                                    <!--                                                            <div class="modal-content">-->
+                                    <!--                                                                <div class="modal-header">-->
+                                    <!--                                                                    <h6 class="modal-title">List of borrowed books</h6>-->
+                                    <!--                                                                    <button type="button" class="btn-close"-->
+                                    <!--                                                                            data-bs-dismiss="modal" aria-label="Close"></button>-->
+                                    <!--                                                                </div>-->
+                                    <!--                                                                <div class="modal-body col-10 mx-auto text-center align-baseline">-->
+                                    <!--                                                                    <table class="table table-striped">-->
+                                    <!--                                                                        <thead>-->
+                                    <!--                                                                        <tr>-->
+                                    <!--                                                                            <th>Title</th>-->
+                                    <!--                                                                            <th>Author</th>-->
+                                    <!--                                                                        </tr>-->
+                                    <!--                                                                        </thead>-->
+                                    <!--                                                                        <tbody>-->
+                                    <!--                                                                        <tr th:each="book : ${reader.getReaderBooks()}">-->
+                                    <!--                                                                            <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'"-->
+                                    <!--                                                                                th:text="${book.getName()}">T-->
+                                    <!--                                                                            </td>-->
+                                    <!--                                                                            <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'"-->
+                                    <!--                                                                                th:text="${book.getAuthor()}">A-->
+                                    <!--                                                                            </td>-->
+                                    <!--                                                                        </tr>-->
+                                    <!--                                                                        </tbody>-->
+                                    <!--                                                                    </table>-->
+                                    <!--                                                                </div>-->
+                                    <!--                                                                <div class="modal-footer">-->
+                                    <!--                                                                    <button class="btn btn-danger" type="button"-->
+                                    <!--                                                                            data-bs-dismiss="modal">Close-->
+                                    <!--                                                                    </button>-->
+                                    <!--                                                                </div>-->
+                                    <!--                                                            </div>-->
+                                    <!--                                                        </div>-->
+                                    <!--                                                    </div>-->
+                                    <!--                                                </td>-->
+                                    <!--                                            </div>-->
+
+                                    <h5>SOME BOOKLIST</h5>
                                 </form>
                             </div>
-                            <div class="btn-group ms-2" role="group" aria-label="Second group">
-                                <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
-                                <form th:method="GET"
-                                      th:action="@{/readers}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" value="false">
-                                    <button type="submit"
-                                            class="btn btn-outline-primary"
-                                            onclick="setByYear(false)">ID
-                                    </button>
-                                </form>
-                                <form th:method="GET"
-                                      th:action="@{/readers}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" value="true">
-                                    <button type="submit"
-                                            class="btn btn-outline-primary"
-                                            onclick="setByYear(true)">Year of birth
-                                    </button>
-                                </form>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" id="bookList-close" type="button"
+                                        data-bs-dismiss="modal">No
+                                </button>
+                                <button class="btn btn-danger" id="bookList-submit" type="submit" form="form-delete">
+                                    Yes
+                                </button>
                             </div>
+
                         </div>
+                    </div>
+                </div>
+                <!-- -------------------- BOOK LIST MODAL DIV END -------------------- -->
+
+
+                <!-- -------------------- EDIT MODAL DIV START -------------------- -->
+                <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit reader</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body col-6 mx-auto text-center">
+                                <form id="form-edit" class="needs-validation" novalidate>
+                                    <div hidden="hidden">
+                                        <label class="form-label fw-bold mb-1 mt-3" for="edit-id">ID</label>
+                                        <input class="form-control" id="edit-id" type="text" name="id">
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-bold mb-1 mt-3" for="edit-name">Name Surname</label>
+                                        <input class="form-control" id="edit-name" type="text" name="name" required>
+                                        <div class="invalid-feedback">
+                                            Name and Surname should not be empty
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-bold mb-1 mt-3"
+                                               for="edit-yearOfBirth">Year of birth</label>
+                                        <input class="form-control" id="edit-yearOfBirth" type="text" name="yearOfBirth"
+                                               required>
+                                        <div class="invalid-feedback">
+                                            Year of birth should not be empty
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" id="edit-close" type="button"
+                                        data-bs-dismiss="modal">Close
+                                </button>
+                                <button class="btn btn-danger" id="edit-submit" type="submit" form="form-edit">
+                                    Edit
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- -------------------- EDIT MODAL DIV END -------------------- -->
+
+
+                <!-- -------------------- DELETE MODAL DIV START -------------------- -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete reader</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body col-6 mx-auto text-center">
+                                <form id="form-delete">
+                                    <div hidden="hidden">
+                                        <label class="form-label fw-bold mb-1 mt-3" for="delete-id">ID</label>
+                                        <input class="form-control" id="delete-id" type="text" name="id">
+                                    </div>
+
+                                    <!-- TODO Set the NAME of the reader from JS script -->
+
+                                    <h5>Do you really want to delete the reader \'' + 'NAME' +'\' ?'"</h5>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" id="delete-close" type="button"
+                                        data-bs-dismiss="modal">No
+                                </button>
+                                <button class="btn btn-danger" id="delete-submit" type="submit"
+                                        form="form-delete">
+                                    Yes
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- -------------------- DELETE MODAL DIV END -------------------- -->
+
+
+                <!-- -------------------- NEW READER DIV START -------------------- -->
+                <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                     aria-labelledby="nav-profile-tab">
+                    <h5 class="mt-2">Please provide information for a new reader</h5>
+                    <div class="col-md-6 mx-auto">
+                        <form id="newReaderForm" class="needs-validation" novalidate>
+                            <div class="form-group">
+                                <label for="name">Name Surname</label>
+                                <input type="text" class="form-control" id="name" required>
+                                <div class="invalid-feedback">
+                                    Name and Surname of reader should not be empty
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="yearOfBirth">Year of birth</label>
+                                <input type="number" min="1900" class="form-control" id="yearOfBirth"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Year of birth should be greater than 1900
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success mt-2">Add new reader</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- -------------------- NEW READER DIV END -------------------- -->
+
+
+                <!-- -------------------- TABLE DIV START -------------------- -->
+
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                         aria-labelledby="nav-home-tab">
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -112,174 +339,24 @@
                                 <th class="text-center align-middle">Delete</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr th:each="reader : ${readers}">
-                                <td th:text="${reader.getId()}">Id</td>
-                                <td th:text="${reader.getName()}">Name</td>
-                                <td th:text="${reader.getYearOfBirth()}" class="text-center align-middle">Year</td>
-                                <div th:if="${reader.getReaderBooks().isEmpty()}">
-                                    <td class="text-center align-middle" th:text="'No books taken'"></td>
-                                </div>
-                                <div th:if="${!reader.getReaderBooks().isEmpty()}">
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-danger btn-sm btn-no-hover" type="button"
-                                                data-bs-toggle="modal"
-                                                th:data-bs-target="'#showListModal' + ${reader.getId()}">Taken books
-                                        </button>
-                                        <div class="modal fade" th:id="'showListModal' + ${reader.getId()}"
-                                             tabindex="-1"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h6 class="modal-title">List of borrowed books</h6>
-                                                        <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body col-10 mx-auto text-center align-baseline">
-                                                        <table class="table table-striped">
-                                                            <thead>
-                                                            <tr>
-                                                                <th>Title</th>
-                                                                <th>Author</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr th:each="book : ${reader.getReaderBooks()}">
-                                                                <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'" th:text="${book.getName()}">T</td>
-                                                                <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'" th:text="${book.getAuthor()}">A</td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-danger" type="button"
-                                                                data-bs-dismiss="modal">Close
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </div>
-
-                                <td class="text-center">
-                                    <button class="btn btn-outline-primary btn-sm btn-no-hover" type="button" data-bs-toggle="modal"
-                                            th:data-bs-target="'#editModal' + ${reader.getId()}">Edit
-                                    </button>
-                                    <div class="modal fade" th:id="'editModal' + ${reader.getId()}" tabindex="-1"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <form class="needs-validation" novalidate
-                                                      th:method="PATCH"
-                                                      th:action="@{/readers/{id}(id=${reader.getId()})}"
-                                                      th:object="${reader}">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Edit reader</h5>
-                                                        <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body col-6 mx-auto text-center">
-                                                        <div>
-                                                            <label class="form-label fw-bold mb-1 mt-3"
-                                                                   for="edit-name">Name Surname</label>
-                                                            <input class="form-control" id="edit-name" type="text"
-                                                                   th:name="name" th:value="*{name}" required>
-                                                            <div class="invalid-feedback">
-                                                                Name and Surname should not be empty
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <label class="form-label fw-bold mb-1 mt-3"
-                                                                   for="edit-year">Year of birth</label>
-                                                            <input class="form-control" id="edit-year" type="text"
-                                                                   th:name="yearOfBirth" th:value="*{yearOfBirth}" required>
-                                                            <div class="invalid-feedback">
-                                                                Year of birth should not be empty
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-secondary" type="button"
-                                                                data-bs-dismiss="modal">Close
-                                                        </button>
-                                                        <button class="btn btn-danger" type="submit">
-                                                            Edit
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-outline-danger btn-sm btn-no-hover" type="button" data-bs-toggle="modal"
-                                            th:data-bs-target="'#deleteModal' + ${reader.getId()}">Delete
-                                    </button>
-                                    <div class="modal fade" th:id="'deleteModal' + ${reader.getId()}" tabindex="-1"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <form th:method="DELETE"
-                                                      th:action="@{/readers/{id}(id=${reader.getId()})}">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body col-10 mx-auto text-center">
-                                                        <h5 th:text="'Do you really want to delete the reader \'' + ${reader.getName()} +'\' ?'"></h5>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-secondary" type="button"
-                                                                data-bs-dismiss="modal">No
-                                                        </button>
-                                                        <button class="btn btn-danger" type="submit">
-                                                            Yes
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                            <tbody id="readersTableBody">
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <h5 class="mt-2">Please provide information for a new reader</h5>
-                        <div class="col-md-6 mt-2">
-                            <form class="needs-validation" novalidate
-                                  th:method="POST"
-                                  th:action="@{/readers}"
-                                  th:object="${new_reader}">
-                                <div class="form-group">
-                                    <label for="title">Name Surname</label>
-                                    <input type="text" class="form-control" th:field="*{name}" id="title" required>
-                                    <div class="invalid-feedback">
-                                        Name and Surname of reader should not be empty
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="yearOfBirth">Year of birth</label>
-                                    <input type="number" min="1900" class="form-control" th:field="*{yearOfBirth}"
-                                           id="yearOfBirth" required>
-                                    <div class="invalid-feedback">
-                                        Year of birth should be greater than 1900
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success mt-2">Add new reader</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
+                <!-- -------------------- TABLE DIV END -------------------- -->
+
             </div>
+            <!-- -------------------- MAIN PART END -------------------- -->
         </div>
     </div>
 </div>
+<!-- -------------------- MAIN DIV END -------------------- -->
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/validation.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/readers.js}"></script>
 </body>
 </html>
 
