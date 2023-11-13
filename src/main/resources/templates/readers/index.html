@@ -124,10 +124,6 @@
                 <!--                        </div>-->
                 <!-- -------------------- PAGINATION AND SORT DIV END -------------------- -->
 
-
-                <!-- TODO Difference if reader has books or not from JS script. No books taken TEXT OR Taken books BUTTON -->
-                <!-- TODO Now only the BUTTON show -->
-
                 <!-- -------------------- BOOK LIST MODAL DIV START -------------------- -->
                 <div class="modal fade" id="bookListModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
@@ -137,70 +133,27 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
-                            <div class="modal-body col-6 mx-auto text-center">
+                            <div class="modal-body col-10 mx-auto text-center">
                                 <form id="form-bookList">
-
-                                    <!-- TODO Red colour for EXPIRED books from JS script -->
-
-                                    <!--                                            <div th:if="${reader.getReaderBooks().isEmpty()}">-->
-                                    <!--                                                <td class="text-center align-middle" th:text="'No books taken'"></td>-->
-                                    <!--                                            </div>-->
-                                    <!--                                            <div th:if="${!reader.getReaderBooks().isEmpty()}">-->
-                                    <!--                                                <td class="text-center">-->
-                                    <!--                                                    <button class="btn btn-outline-danger btn-sm btn-no-hover" type="button"-->
-                                    <!--                                                            data-bs-toggle="modal"-->
-                                    <!--                                                            th:data-bs-target="'#showListModal' + ${reader.getId()}">Taken books-->
-                                    <!--                                                    </button>-->
-                                    <!--                                                    <div class="modal fade" th:id="'showListModal' + ${reader.getId()}"-->
-                                    <!--                                                         tabindex="-1"-->
-                                    <!--                                                         aria-hidden="true">-->
-                                    <!--                                                        <div class="modal-dialog">-->
-                                    <!--                                                            <div class="modal-content">-->
-                                    <!--                                                                <div class="modal-header">-->
-                                    <!--                                                                    <h6 class="modal-title">List of borrowed books</h6>-->
-                                    <!--                                                                    <button type="button" class="btn-close"-->
-                                    <!--                                                                            data-bs-dismiss="modal" aria-label="Close"></button>-->
-                                    <!--                                                                </div>-->
-                                    <!--                                                                <div class="modal-body col-10 mx-auto text-center align-baseline">-->
-                                    <!--                                                                    <table class="table table-striped">-->
-                                    <!--                                                                        <thead>-->
-                                    <!--                                                                        <tr>-->
-                                    <!--                                                                            <th>Title</th>-->
-                                    <!--                                                                            <th>Author</th>-->
-                                    <!--                                                                        </tr>-->
-                                    <!--                                                                        </thead>-->
-                                    <!--                                                                        <tbody>-->
-                                    <!--                                                                        <tr th:each="book : ${reader.getReaderBooks()}">-->
-                                    <!--                                                                            <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'"-->
-                                    <!--                                                                                th:text="${book.getName()}">T-->
-                                    <!--                                                                            </td>-->
-                                    <!--                                                                            <td th:class="${book.isExpired()} ? 'text-danger' : 'text-black'"-->
-                                    <!--                                                                                th:text="${book.getAuthor()}">A-->
-                                    <!--                                                                            </td>-->
-                                    <!--                                                                        </tr>-->
-                                    <!--                                                                        </tbody>-->
-                                    <!--                                                                    </table>-->
-                                    <!--                                                                </div>-->
-                                    <!--                                                                <div class="modal-footer">-->
-                                    <!--                                                                    <button class="btn btn-danger" type="button"-->
-                                    <!--                                                                            data-bs-dismiss="modal">Close-->
-                                    <!--                                                                    </button>-->
-                                    <!--                                                                </div>-->
-                                    <!--                                                            </div>-->
-                                    <!--                                                        </div>-->
-                                    <!--                                                    </div>-->
-                                    <!--                                                </td>-->
-                                    <!--                                            </div>-->
-
-                                    <h5>SOME BOOKLIST</h5>
+                                    <div hidden="hidden">
+                                        <label class="form-label fw-bold mb-1 mt-3" for="bookList-id">ID</label>
+                                        <input class="form-control" id="bookList-id" type="text" name="id">
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Author</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="readerBooksTableBody">
+                                        </tbody>
+                                    </table>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-secondary" id="bookList-close" type="button"
-                                        data-bs-dismiss="modal">No
-                                </button>
-                                <button class="btn btn-danger" id="bookList-submit" type="submit" form="form-delete">
-                                    Yes
+                                <button class="btn btn-danger" id="bookList-close" type="button"
+                                        data-bs-dismiss="modal">Close
                                 </button>
                             </div>
 
@@ -267,16 +220,13 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
-                            <div class="modal-body col-6 mx-auto text-center">
+                            <div class="modal-body col-8 mx-auto text-center">
                                 <form id="form-delete">
                                     <div hidden="hidden">
                                         <label class="form-label fw-bold mb-1 mt-3" for="delete-id">ID</label>
                                         <input class="form-control" id="delete-id" type="text" name="id">
                                     </div>
-
-                                    <!-- TODO Set the NAME of the reader from JS script -->
-
-                                    <h5>Do you really want to delete the reader \'' + 'NAME' +'\' ?'"</h5>
+                                    <h5><span id="delete-name" class="form-text"></span></h5>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -297,34 +247,34 @@
 
                 <!-- -------------------- NEW READER DIV START -------------------- -->
                 <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                     aria-labelledby="nav-profile-tab">
-                    <h5 class="mt-2">Please provide information for a new reader</h5>
-                    <div class="col-md-6 mx-auto">
-                        <form id="newReaderForm" class="needs-validation" novalidate>
-                            <div class="form-group">
-                                <label for="name">Name Surname</label>
-                                <input type="text" class="form-control" id="name" required>
-                                <div class="invalid-feedback">
-                                    Name and Surname of reader should not be empty
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                         aria-labelledby="nav-profile-tab">
+                        <h5 class="mt-2">Please provide information for a new reader</h5>
+                        <div class="col-md-6">
+                            <form id="newReaderForm" class="needs-validation" novalidate>
+                                <div class="form-group">
+                                    <label for="name">Name Surname</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                    <div class="invalid-feedback">
+                                        Name and Surname of reader should not be empty
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="yearOfBirth">Year of birth</label>
-                                <input type="number" min="1900" class="form-control" id="yearOfBirth"
-                                       required>
-                                <div class="invalid-feedback">
-                                    Year of birth should be greater than 1900
+                                <div class="form-group">
+                                    <label for="yearOfBirth">Year of birth</label>
+                                    <input type="number" min="1900" class="form-control" id="yearOfBirth"
+                                           required>
+                                    <div class="invalid-feedback">
+                                        Year of birth should be greater than 1900
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-success mt-2">Add new reader</button>
-                        </form>
+                                <button type="submit" class="btn btn-success mt-2">Add new reader</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <!-- -------------------- NEW READER DIV END -------------------- -->
+                    <!-- -------------------- NEW READER DIV END -------------------- -->
 
 
-                <!-- -------------------- TABLE DIV START -------------------- -->
+                    <!-- -------------------- TABLE DIV START -------------------- -->
 
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                          aria-labelledby="nav-home-tab">

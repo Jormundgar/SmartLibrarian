@@ -82,6 +82,11 @@ public class BookService {
         return book.map(bookMapper::bookToBookDTO);
     }
 
+    public List<BookDTO> findByReaderId(Integer id) {
+        var book = checkIfExpiredList(booksRepository.findByReaderId(id));
+        return book.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
+    }
+
     @Transactional
     public void save(Book book) {
         booksRepository.save(book);

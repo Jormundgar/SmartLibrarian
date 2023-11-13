@@ -10,4 +10,5 @@ public interface BooksRepository extends JpaRepository<Book, Integer> {
     List<Book> findAllByOrderById();
     List<Book> findAllByOrderById(PageRequest pageRequest);
     List<Book> findByNameContaining(String contain);
+    List<Book> findByReaderId(Integer id);
 }

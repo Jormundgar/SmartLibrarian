@@ -68,6 +68,27 @@ public interface BookRestApi {
     ResponseEntity<BookDTO> getById(@RequestParam Integer id);
 
     @Operation(
+            summary = "Get a book List by reader ID",
+            description = "Retrieve a book`s list by its reader ID",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Books retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = BookDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Book not found"
+                    )
+            }
+    )
+    @GetMapping("/reader")
+    ResponseEntity<List<BookDTO>> getByReaderId(@RequestParam Integer id);
+
+    @Operation(
             summary = "Create a new book",
             description = "Create a new book record",
             responses = {

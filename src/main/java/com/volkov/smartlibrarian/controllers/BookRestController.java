@@ -42,6 +42,13 @@ public class BookRestController implements BookRestApi {
     }
 
     @Override
+    public ResponseEntity<List<BookDTO>> getByReaderId(Integer id) {
+        var books = bookService.findByReaderId(id);
+        log.info("Total records from getByReaderId() method to return: " + books.size());
+        return books.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(books);
+    }
+
+    @Override
     public ResponseEntity<BookDTO> create(BookDTO bookDTO) {
         var savedDto = bookService.saveDto(bookDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
