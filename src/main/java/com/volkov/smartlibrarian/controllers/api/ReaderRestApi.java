@@ -2,6 +2,7 @@ package com.volkov.smartlibrarian.controllers.api;
 
 import com.volkov.smartlibrarian.dto.ErrorDTO;
 import com.volkov.smartlibrarian.dto.ReaderDTO;
+import com.volkov.smartlibrarian.dto.RecordsNumberDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -66,6 +67,27 @@ public interface ReaderRestApi {
     )
     @GetMapping("/item")
     ResponseEntity<ReaderDTO> getById(@RequestParam Integer id);
+
+    @Operation(
+            summary = "Get number of readers",
+            description = "Get number of records of readers in the database",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Number of records retrieved successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = RecordsNumberDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No records found"
+                    )
+            }
+    )
+    @GetMapping("/number")
+    ResponseEntity<RecordsNumberDTO> getNumberOfRecords();
 
     @Operation(
             summary = "Create a new reader",

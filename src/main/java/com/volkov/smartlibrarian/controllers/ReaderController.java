@@ -29,7 +29,7 @@ public class ReaderController {
             readers = readerService.findAll();
         }
         modelAndView.addObject("readers", readers);
-        modelAndView.addObject("lines", readerService.getPeopleCount());
+        modelAndView.addObject("lines", readerService.getReadersCount());
         modelAndView.addObject("byYearValue", byYear);
         return modelAndView;
     }
@@ -47,7 +47,7 @@ public class ReaderController {
             readers = readerService.findAllPerPage(pageNumber+1);
         }
         modelAndView.addObject("readers", readers);
-        modelAndView.addObject("lines", readerService.getPeopleCount());
+        modelAndView.addObject("lines", readerService.getReadersCount());
         modelAndView.addObject("byYearValue", byYear);
         return modelAndView;
     }

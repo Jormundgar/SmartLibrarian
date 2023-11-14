@@ -1,6 +1,7 @@
 package com.volkov.smartlibrarian.services;
 
 import com.volkov.smartlibrarian.dto.ReaderDTO;
+import com.volkov.smartlibrarian.dto.RecordsNumberDTO;
 import com.volkov.smartlibrarian.mapper.ReaderMapper;
 import com.volkov.smartlibrarian.models.Reader;
 import com.volkov.smartlibrarian.repositories.ReadersRepository;
@@ -130,7 +131,12 @@ public class ReaderService {
         return optionalSavedReader;
     }
 
-    public int getPeopleCount() {
+    public int getReadersCount() {
         return (int) readersRepository.count();
+    }
+
+    public RecordsNumberDTO getReadersCountDto() {
+        var count = readersRepository.count();
+            return new RecordsNumberDTO(count);
     }
 }

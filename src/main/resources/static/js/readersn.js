@@ -2,10 +2,32 @@ const readersTBody = $("#readersTableBody");
 const newReaderForm = $("#newReaderForm");
 const editReaderForm = $("#form-edit");
 const deleteReaderForm = $("#form-delete");
+let lines;
 
 $(document).ready(async function () {
+    await getLines();
     await getReaders();
 });
+
+async function getLines() {
+    lines = await $.ajax({
+        url: "http://localhost:8080/api/readers/number",
+        method: "GET",
+        dataType: 'json'
+    });
+}
+
+function updatePaginationButtons() {
+    let paginationContainer = $(".pagination-container");
+    paginationContainer.empty();
+    let paginationGroup = $("<div class='btn-group' role='group' aria-label='Pagination group'></div>");
+
+    for (let i = 0; i < Math.ceil(lines.numberOfRecords / 5); i++) {
+        const pageButton = $(`<button type="submit" class="btn btn-outline-primary" name="pageButton" data-page-value="${i + 1}">${i + 1}</button>`);
+        paginationGroup.append(pageButton);
+    }
+    paginationContainer.append(paginationGroup);
+}
 
 readersTBody.on('click', async function (event) {
     let id = event.target.id.split('-');
@@ -35,7 +57,6 @@ const bookListModal = new bootstrap.Modal(document.getElementById("bookListModal
 
 function showBookListModal(reader) {
     bookListModal.show();
-    console.log(reader.id);
     getBooks(reader.id).then();
 }
 
@@ -171,6 +192,8 @@ async function getReaders() {
             `);
             readersTBody.append(row);
         });
+    await getLines();
+    updatePaginationButtons();
 }
 
 async function getBooks(id) {

@@ -69,61 +69,6 @@
                 <!-- -------------------- NAVIGATION TAB LIST END -------------------- -->
 
 
-                <!--                <div class="tab-content" id="nav-tabContent">-->
-                <!--                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">-->
-
-
-                <!-- -------------------- PAGINATION AND SORT DIV START -------------------- -->
-                <!--                        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">-->
-                <!--                            <div class="btn-group" role="group" aria-label="First group">-->
-                <!--                                <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>-->
-                <!--                                <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"-->
-                <!--                                      th:method="GET"-->
-                <!--                                      th:action="@{/readers/pages/{pageNumber}(pageNumber=${page})}"-->
-                <!--                                      class="btn-group ms-0"-->
-                <!--                                      role="group">-->
-                <!--                                    <input type="hidden" name="byYear" th:value="${byYearValue}">-->
-                <!--                                    <button type="submit" class="btn btn-outline-primary"-->
-                <!--                                            th:value="${page + 1}"-->
-                <!--                                            th:text="${page + 1}"/>-->
-                <!--                                </form>-->
-                <!--                                <form th:method="GET" th:action="@{/readers}"-->
-                <!--                                      class="btn-group ms-0"-->
-                <!--                                      role="group">-->
-                <!--                                    <input type="hidden"-->
-                <!--                                           name="byYear"-->
-                <!--                                           th:value="${byYearValue}">-->
-                <!--                                    <button type="submit"-->
-                <!--                                            class="btn btn-outline-primary">Show all-->
-                <!--                                    </button>-->
-                <!--                                </form>-->
-                <!--                            </div>-->
-                <!--                            <div class="btn-group ms-2" role="group" aria-label="Second group">-->
-                <!--                                <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>-->
-                <!--                                <form th:method="GET"-->
-                <!--                                      th:action="@{/readers}"-->
-                <!--                                      class="btn-group ms-0"-->
-                <!--                                      role="group">-->
-                <!--                                    <input type="hidden" name="byYear" value="false">-->
-                <!--                                    <button type="submit"-->
-                <!--                                            class="btn btn-outline-primary"-->
-                <!--                                            onclick="setByYear(false)">ID-->
-                <!--                                    </button>-->
-                <!--                                </form>-->
-                <!--                                <form th:method="GET"-->
-                <!--                                      th:action="@{/readers}"-->
-                <!--                                      class="btn-group ms-0"-->
-                <!--                                      role="group">-->
-                <!--                                    <input type="hidden" name="byYear" value="true">-->
-                <!--                                    <button type="submit"-->
-                <!--                                            class="btn btn-outline-primary"-->
-                <!--                                            onclick="setByYear(true)">Year of birth-->
-                <!--                                    </button>-->
-                <!--                                </form>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!-- -------------------- PAGINATION AND SORT DIV END -------------------- -->
-
                 <!-- -------------------- BOOK LIST MODAL DIV START -------------------- -->
                 <div class="modal fade" id="bookListModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
@@ -278,6 +223,60 @@
 
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                          aria-labelledby="nav-home-tab">
+
+                        <!-- -------------------- PAGINATION AND SORT DIV START -------------------- -->
+                        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>
+                                <div class="pagination-container"></div>
+<!--                                <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"-->
+<!--                                      th:method="GET"-->
+<!--                                      th:action="@{/readers/pages/{pageNumber}(pageNumber=${page})}"-->
+<!--                                      class="btn-group ms-0"-->
+<!--                                      role="group">-->
+<!--                                    <input type="hidden" name="byYear" th:value="${byYearValue}">-->
+<!--                                    <button type="submit" class="btn btn-outline-primary"-->
+<!--                                            th:value="${page + 1}"-->
+<!--                                            th:text="${page + 1}"/>-->
+<!--                                </form>-->
+                                <form th:method="GET" th:action="@{/readers}"
+                                      class="btn-group ms-0"
+                                      role="group">
+                                    <input type="hidden"
+                                           name="byYear"
+                                           th:value="${byYearValue}">
+                                    <button type="submit"
+                                            class="btn btn-outline-primary">Show all
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="btn-group ms-2" role="group" aria-label="Second group">
+                                <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
+                                <form th:method="GET"
+                                      th:action="@{/readers}"
+                                      class="btn-group ms-0"
+                                      role="group">
+                                    <input type="hidden" name="byYear" value="false">
+                                    <button type="submit"
+                                            class="btn btn-outline-primary"
+                                            onclick="setByYear(false)">ID
+                                    </button>
+                                </form>
+                                <form th:method="GET"
+                                      th:action="@{/readers}"
+                                      class="btn-group ms-0"
+                                      role="group">
+                                    <input type="hidden" name="byYear" value="true">
+                                    <button type="submit"
+                                            class="btn btn-outline-primary"
+                                            onclick="setByYear(true)">Year of birth
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- -------------------- PAGINATION AND SORT DIV END -------------------- -->
+
+
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -306,7 +305,7 @@
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/validation.js}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script th:src="@{/js/readers.js}"></script>
+<script th:src="@{/js/readersn.js}"></script>
 </body>
 </html>
 
