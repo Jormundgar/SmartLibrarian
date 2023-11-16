@@ -2,6 +2,10 @@ const readersTBody = $("#readersTableBody");
 const newReaderForm = $("#newReaderForm");
 const editReaderForm = $("#form-edit");
 const deleteReaderForm = $("#form-delete");
+const setPageNumber = $("#pageNumber");
+const setSortType = $("#sortingType");
+let byYear = false;
+let page = 0;
 let lines;
 
 $(document).ready(async function () {
@@ -21,13 +25,26 @@ function updatePaginationButtons() {
     let paginationContainer = $(".pagination-container");
     paginationContainer.empty();
     let paginationGroup = $("<div class='btn-group' role='group' aria-label='Pagination group'></div>");
+    let chooseButton = $("<button type='button' class='btn btn-outline-dark disabled'>Choose the page:</button>");
+    paginationGroup.append(chooseButton);
 
     for (let i = 0; i < Math.ceil(lines.numberOfRecords / 5); i++) {
-        const pageButton = $(`<button type="submit" class="btn btn-outline-primary" name="pageButton" data-page-value="${i + 1}">${i + 1}</button>`);
+        const pageButton = $(`<button class="btn btn-outline-primary" name="pageButton" id="page-${i + 1}">${i + 1}</button>`);
         paginationGroup.append(pageButton);
     }
+    let allButton = $("<button class='btn btn-outline-primary' id='page-0'>Show all</button>");
+    paginationGroup.append(allButton);
     paginationContainer.append(paginationGroup);
 }
+
+setPageNumber.on('click', async function(pages) {
+    page = pages.target.id.split('-')[1];
+    await getReaders();
+});
+setSortType.on('click', async function(sorting) {
+    byYear = sorting.target.id.split('-')[1];
+    await getReaders();
+});
 
 readersTBody.on('click', async function (event) {
     let id = event.target.id.split('-');
@@ -159,7 +176,7 @@ async function newReader() {
 async function getReaders() {
 
         let readerJson = await $.ajax({
-            url: "http://localhost:8080/api/readers",
+            url: `http://localhost:8080/api/readers?byYear=${byYear}&pageNumber=${page}`,
             method: "GET",
             dataType: 'json'
         });

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>All users of Library</title>
     <link th:href="@{/styles/css/bootstrap.min.css}" rel="stylesheet">
-    <script src="js/script.js"></script>
 </head>
 <style>
     .container-full-height {
@@ -39,7 +38,6 @@
     <div class="container-fluid ">
         <div class="row">
 
-
             <!-- -------------------- SIDE MENU BOOKS / READERS START -------------------- -->
             <div class="col-2 text-dark d-flex flex-column container-full-height">
                 <div class="list-group list-group-flush mt-2">
@@ -49,10 +47,8 @@
             </div>
             <!-- -------------------- SIDE MENU BOOKS / READERS END -------------------- -->
 
-
             <!-- -------------------- MAIN PART START -------------------- -->
             <div class="col-10 bg-light d-flex flex-column container-full-height mt-2">
-
 
                 <!-- -------------------- NAVIGATION TAB LIST START -------------------- -->
                 <nav>
@@ -67,7 +63,6 @@
                     </div>
                 </nav>
                 <!-- -------------------- NAVIGATION TAB LIST END -------------------- -->
-
 
                 <!-- -------------------- BOOK LIST MODAL DIV START -------------------- -->
                 <div class="modal fade" id="bookListModal" tabindex="-1" aria-hidden="true">
@@ -101,12 +96,10 @@
                                         data-bs-dismiss="modal">Close
                                 </button>
                             </div>
-
                         </div>
                     </div>
                 </div>
                 <!-- -------------------- BOOK LIST MODAL DIV END -------------------- -->
-
 
                 <!-- -------------------- EDIT MODAL DIV START -------------------- -->
                 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
@@ -149,7 +142,6 @@
                                     Edit
                                 </button>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -183,7 +175,6 @@
                                     Yes
                                 </button>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -226,56 +217,15 @@
 
                         <!-- -------------------- PAGINATION AND SORT DIV START -------------------- -->
                         <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
-                            <div class="btn-group" role="group" aria-label="First group">
-                                <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>
-                                <div class="pagination-container"></div>
-<!--                                <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"-->
-<!--                                      th:method="GET"-->
-<!--                                      th:action="@{/readers/pages/{pageNumber}(pageNumber=${page})}"-->
-<!--                                      class="btn-group ms-0"-->
-<!--                                      role="group">-->
-<!--                                    <input type="hidden" name="byYear" th:value="${byYearValue}">-->
-<!--                                    <button type="submit" class="btn btn-outline-primary"-->
-<!--                                            th:value="${page + 1}"-->
-<!--                                            th:text="${page + 1}"/>-->
-<!--                                </form>-->
-                                <form th:method="GET" th:action="@{/readers}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden"
-                                           name="byYear"
-                                           th:value="${byYearValue}">
-                                    <button type="submit"
-                                            class="btn btn-outline-primary">Show all
-                                    </button>
-                                </form>
+                            <div id="pageNumber" class="pagination-container">
                             </div>
-                            <div class="btn-group ms-2" role="group" aria-label="Second group">
+                            <div class="btn-group ms-2" role="group" aria-label="Sorting group" id="sortingType">
                                 <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
-                                <form th:method="GET"
-                                      th:action="@{/readers}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" value="false">
-                                    <button type="submit"
-                                            class="btn btn-outline-primary"
-                                            onclick="setByYear(false)">ID
-                                    </button>
-                                </form>
-                                <form th:method="GET"
-                                      th:action="@{/readers}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" value="true">
-                                    <button type="submit"
-                                            class="btn btn-outline-primary"
-                                            onclick="setByYear(true)">Year of birth
-                                    </button>
-                                </form>
+                                    <button class="btn btn-outline-primary" id="sort-false">ID</button>
+                                    <button class="btn btn-outline-primary" id="sort-true">Year of birth</button>
                             </div>
                         </div>
                         <!-- -------------------- PAGINATION AND SORT DIV END -------------------- -->
-
 
                         <table class="table table-striped">
                             <thead>
@@ -305,7 +255,7 @@
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/validation.js}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script th:src="@{/js/readersn.js}"></script>
+<script th:src="@{/js/readers.js}"></script>
 </body>
 </html>
 

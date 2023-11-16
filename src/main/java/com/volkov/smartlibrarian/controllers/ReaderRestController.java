@@ -32,6 +32,8 @@ public class ReaderRestController implements ReaderRestApi {
                     readerService.findAllDTOsPerPage(pageNumber);
         }
         log.info("Total records from index() method to return: " + readers.size());
+        log.info("pageNumber: " + pageNumber);
+        log.info("byYear: " + byYear);
         return readers.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(readers);
     }
 
