@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>All books in the Library</title>
     <link th:href="@{/styles/css/bootstrap.min.css}" rel="stylesheet">
-    <script src="js/script.js"></script>
+    <script src="/js/updatePaginationButtons.js"></script>
 </head>
 <style>
     .container-full-height {
@@ -12,6 +12,8 @@
     }
 </style>
 <body>
+
+<!-- -------------------- NAVIGATION TOOLBAR START -------------------- -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid d-flex justify-content-between text-light">
         <span class="fw-bold">Hello, Admin!</span>
@@ -38,16 +40,26 @@
         </div>
     </div>
 </nav>
+<!-- -------------------- NAVIGATION TOOLBAR END -------------------- -->
+
+<!-- -------------------- MAIN DIV START -------------------- -->
 <div class="row">
     <div class="container-fluid ">
         <div class="row">
+
+            <!-- -------------------- SIDE MENU BOOKS / READERS START -------------------- -->
             <div class="col-2 text-dark d-flex flex-column container-full-height">
                 <div class="list-group list-group-flush mt-2">
                     <a href="/books" class="list-group-item list-group-item-action active mb-2" role="button">Books</a>
                     <a href="/readers" class="list-group-item list-group-item-action" role="button">Readers</a>
                 </div>
             </div>
+            <!-- -------------------- SIDE MENU BOOKS / READERS END -------------------- -->
+
+            <!-- -------------------- MAIN PART START -------------------- -->
             <div class="col-10 bg-light d-flex flex-column container-full-height mt-2">
+
+                <!-- -------------------- NAVIGATION TAB LIST START -------------------- -->
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
@@ -59,262 +71,186 @@
                         </button>
                     </div>
                 </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
+                <!-- -------------------- NAVIGATION TAB LIST END -------------------- -->
 
-                            <div class="btn-group" role="group" aria-label="First group">
-                                <button type="button" class="btn btn-outline-dark disabled">Choose the page:</button>
-                                <form th:each="page, pageNumber : ${#numbers.sequence(0, (lines - 1) / 5)}"
-                                      th:method="GET"
-                                      th:action="@{/books/pages/{pageNumber}(pageNumber=${page})}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" th:value="${byYearValue}">
-                                    <button type="submit" class="btn btn-outline-primary"
-                                            th:value="${page + 1}"
-                                            th:text="${page + 1}"/>
-                                </form>
-                                <form th:method="GET" th:action="@{/books}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" th:value="${byYearValue}">
-                                    <button type="submit" class="btn btn-outline-primary">Show all</button>
+                <!-- -------------------- ASSIGN MODAL DIV START -------------------- -->
+                <div class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><span id="assign-name" class="form-text"></span></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body col-8 mx-auto">
+                                <form id="form-assign">
+                                    <div hidden="hidden">
+                                        <label class="form-label fw-bold mb-1 mt-3" for="release-id">ID</label>
+                                        <input class="form-control" id="assign-id" type="text" name="id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="mb-1" for="reader">Choose the reader:</label>
+                                        <select class="form-control" id="reader">
+                                        </select>
+                                    </div>
                                 </form>
                             </div>
-
-                            <div class="btn-group ms-2" role="group" aria-label="Second group">
-                                <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
-                                <form th:method="GET"
-                                      th:action="@{/books}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" value="false">
-                                    <button type="submit" class="btn btn-outline-primary" onclick="setByYear(false)">ID
-                                    </button>
-                                </form>
-                                <form th:method="GET"
-                                      th:action="@{/books}"
-                                      class="btn-group ms-0"
-                                      role="group">
-                                    <input type="hidden" name="byYear" value="true">
-                                    <button type="submit" class="btn btn-outline-primary" onclick="setByYear(true)">Year
-                                        of
-                                        publish
-                                    </button>
-                                </form>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" id="assign-close"
+                                        data-bs-dismiss="modal">Close
+                                </button>
+                                <button class="btn btn-danger" type="submit" id="assign-submit" form="form-assign">
+                                    Assign
+                                </button>
                             </div>
                         </div>
-
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th class="text-center align-middle">Year of publish</th>
-                                <th class="text-center align-middle">Circulation</th>
-                                <th class="text-center align-middle">Edit</th>
-                                <th class="text-center align-middle">Delete</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="book : ${books}">
-                                <td th:text="${book.getId()}">Id</td>
-                                <td th:text="${book.getName()}">Title</td>
-                                <td th:text="${book.getAuthor()}">Author</td>
-                                <td th:text="${book.getYearOfPublish()}" class="text-center align-middle">Year of publish</td>
-                                <td class="text-center">
-                                    <div th:if="${book.getReader() == null}">
-                                        <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="modal"
-                                                th:data-bs-target="'#assignModal' + ${book.getId()}">Assign
-                                        </button>
-                                        <div class="modal fade" th:id="'assignModal' + ${book.getId()}" tabindex="-1"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form th:method="PATCH"
-                                                          th:action="@{/books/{id}/assign(id=${book.getId()})}">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title"
-                                                                th:text="'Assigning book ' + ${book.getName()} + ' to:'" />
-                                                            <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body col-6 mx-auto">
-                                                            <div class="form-group">
-                                                                <label class="mb-1" for="reader">Choose the reader:</label>
-                                                                <select class="form-control" th:object="${reader}" th:field="*{id}" id="reader">
-                                                                    <option th:each="reader : ${readers}" th:value="${reader.getId()}" th:text="${reader.getName()}"></option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button class="btn btn-secondary" type="button"
-                                                                    data-bs-dismiss="modal">Close
-                                                            </button>
-                                                            <button class="btn btn-danger" type="submit">
-                                                                Assign
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div th:if="${book.getReader() != null}">
-                                        <button class="btn btn-outline-danger btn-sm" type="button" data-bs-toggle="modal"
-                                                th:data-bs-target="'#releaseModal' + ${book.getId()}">Release
-                                        </button>
-                                        <div class="modal fade" th:id="'releaseModal' + ${book.getId()}" tabindex="-1"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form th:method="PATCH"
-                                                          th:action="@{/books/{id}/release(id=${book.getId()})}">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title"
-                                                                th:text="'Releasing book: ' + ${book.getName()}"/>
-                                                            <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body col-6 mx-auto text-center">
-                                                            <h6 th:text="'Current reader: ' +${book.getReader().getName()}"/>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button class="btn btn-secondary" type="button"
-                                                                    data-bs-dismiss="modal">Close
-                                                            </button>
-                                                            <button class="btn btn-danger" type="submit">
-                                                                Release
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal"
-                                            th:data-bs-target="'#editModal' + ${book.getId()}">Edit
-                                    </button>
-                                    <div class="modal fade" th:id="'editModal' + ${book.getId()}" tabindex="-1"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <form class="needs-validation" novalidate
-                                                      th:method="PATCH"
-                                                      th:action="@{/books/{id}(id=${book.getId()})}"
-                                                      th:object="${book}">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Edit book</h5>
-                                                        <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body col-6 mx-auto text-center">
-                                                        <div>
-                                                            <label class="form-label fw-bold mb-1 mt-3"
-                                                                   for="edit-title">Title</label>
-                                                            <input class="form-control" id="edit-title" type="text"
-                                                                   th:name="name" th:value="*{name}" required>
-                                                            <div class="invalid-feedback">
-                                                                Title should not be empty
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <label class="form-label fw-bold mb-1 mt-3"
-                                                                   for="edit-author">Author</label>
-                                                            <input class="form-control" id="edit-author" type="text"
-                                                                   th:name="author" th:value="*{author}" required>
-                                                            <div class="invalid-feedback">
-                                                                Author should not be empty
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <label class="form-label fw-bold mb-1 mt-3" for="edit-year">Year
-                                                                of publish</label>
-                                                            <input class="form-control" id="edit-year" type="number"
-                                                                   th:name="yearOfPublish" th:value="*{yearOfPublish}"
-                                                                   required>
-                                                            <div class="invalid-feedback">
-                                                                Year of publish should be valid
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-secondary" type="button"
-                                                                data-bs-dismiss="modal">Close
-                                                        </button>
-                                                        <button class="btn btn-danger" type="submit">
-                                                            Edit
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-outline-danger btn-sm" type="button" data-bs-toggle="modal"
-                                            th:data-bs-target="'#deleteModal' + ${book.getId()}">Delete
-                                    </button>
-                                    <div class="modal fade" th:id="'deleteModal' + ${book.getId()}" tabindex="-1"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <form th:method="DELETE"
-                                                      th:action="@{/books/{id}(id=${book.getId()})}">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body col-10 mx-auto text-center">
-                                                        <h5 th:text="'Do you really want to delete the book \'' + ${book.getName()} +'\' ?'"></h5>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-secondary" type="button"
-                                                                data-bs-dismiss="modal">No
-                                                        </button>
-                                                        <button class="btn btn-danger" type="submit">
-                                                            Yes
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                </div>
+                <!-- -------------------- ASSIGN MODAL DIV END -------------------- -->
+
+                <!-- -------------------- RELEASE MODAL DIV START -------------------- -->
+                <div class="modal fade" id="releaseModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><span id="release-name" class="form-text"></span></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body col-8 mx-auto text-center">
+                                <form id="form-release">
+                                    <div hidden="hidden">
+                                        <label class="form-label fw-bold mb-1 mt-3" for="release-id">ID</label>
+                                        <input class="form-control" id="release-id" type="text" name="id">
+                                    </div>
+                                    <h6><span id="release-reader" class="form-text"></span></h6>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" id="release-close" type="button"
+                                        data-bs-dismiss="modal">Close
+                                </button>
+                                <button class="btn btn-danger" id="release-submit" type="submit"
+                                        form="form-release">
+                                    Release
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------------------- RELEASE MODAL DIV END -------------------- -->
+
+                <!-- -------------------- EDIT MODAL DIV START -------------------- -->
+                <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit book</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body col-6 mx-auto text-center">
+                                <form id="form-edit" class="needs-validation" novalidate>
+                                    <div hidden="hidden">
+                                        <label class="form-label fw-bold mb-1 mt-3" for="edit-id">ID</label>
+                                        <input class="form-control" id="edit-id" type="text" name="id">
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-bold mb-1 mt-3" for="edit-title">Title</label>
+                                        <input class="form-control" id="edit-title" type="text" name="name" required>
+                                        <div class="invalid-feedback">
+                                            Title should not be empty
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-bold mb-1 mt-3" for="edit-author">Author</label>
+                                        <input class="form-control" id="edit-author" type="text" name="author" required>
+                                        <div class="invalid-feedback">
+                                            Author should not be empty
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-bold mb-1 mt-3"
+                                               for="edit-yearOfPublish">Year of publish</label>
+                                        <input class="form-control" id="edit-yearOfPublish" type="text" name="yearOfPublish"
+                                               required>
+                                        <div class="invalid-feedback">
+                                            Year of publish should be valid
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" id="edit-close" type="button"
+                                        data-bs-dismiss="modal">Close
+                                </button>
+                                <button class="btn btn-danger" id="edit-submit" type="submit" form="form-edit">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------------------- EDIT MODAL DIV END -------------------- -->
+
+
+                <!-- -------------------- DELETE MODAL DIV START -------------------- -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete book</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body col-8 mx-auto text-center">
+                                <form id="form-delete">
+                                    <div hidden="hidden">
+                                        <label class="form-label fw-bold mb-1 mt-3" for="delete-id">ID</label>
+                                        <input class="form-control" id="delete-id" type="text" name="id">
+                                    </div>
+                                    <h5><span id="delete-name" class="form-text"></span></h5>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" id="delete-close" type="button"
+                                        data-bs-dismiss="modal">No
+                                </button>
+                                <button class="btn btn-danger" id="delete-submit" type="submit"
+                                        form="form-delete">
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------------------- DELETE MODAL DIV END -------------------- -->
+
+
+                <!-- -------------------- NEW BOOK DIV START -------------------- -->
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                         aria-labelledby="nav-profile-tab">
                         <h5 class="mt-2">Please provide information for a new book</h5>
-                        <div class="col-md-6 mt-2">
-                            <form class="needs-validation" novalidate
-                                  th:method="POST"
-                                  th:action="@{/books}"
-                                  th:object="${new_book}">
+                        <div class="col-md-6">
+                            <form id="newBookForm" class="needs-validation" novalidate>
                                 <div class="form-group">
-                                    <label for="title">Title</label>
-                                    <input type="text" class="form-control" th:field="*{name}" id="title" required>
+                                    <label for="name">Title</label>
+                                    <input type="text" class="form-control" id="name" required>
                                     <div class="invalid-feedback">
-                                    Name of book should not be empty
+                                        Title of book should not be empty
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="author">Author</label>
-                                    <input type="text" class="form-control" th:field="*{author}" id="author"
-                                           required>
+                                    <input type="text" class="form-control" id="author" required>
                                     <div class="invalid-feedback">
                                         The book must have the name of author
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="yearOfPublish">Year of publish</label>
-                                    <input type="number" min="1" class="form-control" th:field="*{yearOfPublish}"
-                                           id="yearOfPublish" required>
+                                    <input type="number" min="1" class="form-control" id="yearOfPublish"
+                                           required>
                                     <div class="invalid-feedback">
                                         Year of publish should be greater than 0
                                     </div>
@@ -323,12 +259,55 @@
                             </form>
                         </div>
                     </div>
+                    <!-- -------------------- NEW BOOK DIV END -------------------- -->
+
+
+                    <!-- -------------------- TABLE DIV START -------------------- -->
+
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                         aria-labelledby="nav-home-tab">
+
+                        <!-- -------------------- PAGINATION AND SORT DIV START -------------------- -->
+                        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with button groups">
+                            <div id="pageNumber" class="pagination-container">
+                            </div>
+                            <div class="btn-group ms-2" role="group" aria-label="Sorting group" id="sortingType">
+                                <button type="button" class="btn btn-outline-dark disabled">Sorted by:</button>
+                                <button class="btn btn-outline-primary" id="sort-false">ID</button>
+                                <button class="btn btn-outline-primary" id="sort-true">Year of publish</button>
+                            </div>
+                        </div>
+                        <!-- -------------------- PAGINATION AND SORT DIV END -------------------- -->
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th class="text-center align-middle">Author</th>
+                                <th class="text-center align-middle">Year of Publish</th>
+                                <th class="text-center align-middle">Circulation</th>
+                                <th class="text-center align-middle">Edit</th>
+                                <th class="text-center align-middle">Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody id="booksTableBody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <!-- -------------------- TABLE DIV END -------------------- -->
+
             </div>
+            <!-- -------------------- MAIN PART END -------------------- -->
         </div>
     </div>
 </div>
+<!-- -------------------- MAIN DIV END -------------------- -->
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/validation.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/books.js}"></script>
 </body>
 </html>

@@ -75,30 +75,11 @@ public class ReaderService {
         return reader.map(readerMapper::readerToReaderDTO);
     }
 
-    public Optional<Reader> findOneByName(String name) {
-        return readersRepository.findByName(name).stream().findFirst();
-    }
-
-    @Transactional
-    public void save(Reader reader) {
-        var oneByName = findOneByName(reader.getName());
-        if (oneByName.isPresent()) {
-            throw new IllegalStateException();
-        }
-        readersRepository.save(reader);
-    }
-
     @Transactional
     public ReaderDTO saveDto(ReaderDTO readerDTO) {
         var reader = readerMapper.readerDTOToReader(readerDTO);
         var savedReader = readersRepository.save(reader);
         return readerMapper.readerToReaderDTO(savedReader);
-    }
-
-    @Transactional
-    public void update(Integer id, Reader updatedReader) {
-        updatedReader.setId(id);
-        readersRepository.save(updatedReader);
     }
 
     @Transactional
@@ -129,10 +110,6 @@ public class ReaderService {
             readersRepository.deleteById(id);
         }
         return optionalSavedReader;
-    }
-
-    public int getReadersCount() {
-        return (int) readersRepository.count();
     }
 
     public RecordsNumberDTO getReadersCountDto() {

@@ -2,6 +2,7 @@ package com.volkov.smartlibrarian.controllers;
 
 import com.volkov.smartlibrarian.controllers.api.BookRestApi;
 import com.volkov.smartlibrarian.dto.BookDTO;
+import com.volkov.smartlibrarian.dto.RecordsNumberDTO;
 import com.volkov.smartlibrarian.services.BookService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,15 @@ public class BookRestController implements BookRestApi {
         var books = bookService.findByReaderId(id);
         log.info("Total records from getByReaderId() method to return: " + books.size());
         return books.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(books);
+    }
+
+    @Override
+    public ResponseEntity<RecordsNumberDTO> getNumberOfRecords() {
+        var booksCountDto = bookService.getBooksCountDto();
+        log.info("Total records of books from DB: " + booksCountDto.getNumberOfRecords());
+        return booksCountDto.getNumberOfRecords() == 0
+                ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(booksCountDto);
     }
 
     @Override

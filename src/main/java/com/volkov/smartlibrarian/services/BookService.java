@@ -1,6 +1,7 @@
 package com.volkov.smartlibrarian.services;
 
 import com.volkov.smartlibrarian.dto.BookDTO;
+import com.volkov.smartlibrarian.dto.RecordsNumberDTO;
 import com.volkov.smartlibrarian.mapper.BookMapper;
 import com.volkov.smartlibrarian.models.Book;
 import com.volkov.smartlibrarian.models.Reader;
@@ -178,6 +179,11 @@ public class BookService {
 
     public int getBooksCount() {
         return (int) booksRepository.count();
+    }
+
+    public RecordsNumberDTO getBooksCountDto() {
+        var count = booksRepository.count();
+        return new RecordsNumberDTO(count);
     }
 
     public List<Book> search(String contain) {
