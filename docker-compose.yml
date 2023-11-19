@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+  app:
+    image: 'liorlakhmann/smart-librarian:1.0.1'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: SMARTLIBRARIAN
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlibrarian
   db:
     image: postgres:latest
     container_name: SMARTLIBRARIAN_DB
