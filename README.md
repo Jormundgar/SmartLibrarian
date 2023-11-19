@@ -4,7 +4,10 @@
 >Using: `Java 17`,`Spring Boot`,`REST Api`, `Swagger`, `Spring Data JPA`,`MapStruct`,`PostgreSQL`,`Docker Compose`,`Lombok`,
 > `Bootstrap 5`,`HTML`,`JavaScript`, `jQuery`
 
->TODO: `Spring Security` implementation
+>TODO: 
+> - `Spring Security`
+> - `Spring Cloud`
+> - `Docker File`
 
 ## Project Description
 
