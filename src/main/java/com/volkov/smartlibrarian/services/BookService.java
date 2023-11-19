@@ -4,7 +4,6 @@ import com.volkov.smartlibrarian.dto.BookDTO;
 import com.volkov.smartlibrarian.dto.RecordsNumberDTO;
 import com.volkov.smartlibrarian.mapper.BookMapper;
 import com.volkov.smartlibrarian.models.Book;
-import com.volkov.smartlibrarian.models.Reader;
 import com.volkov.smartlibrarian.repositories.BooksRepository;
 import com.volkov.smartlibrarian.repositories.ReadersRepository;
 import lombok.AllArgsConstructor;
@@ -40,40 +39,28 @@ public class BookService {
         }
     }
 
-    public List<Book> findAll() {
-        return booksRepository.findAllByOrderById();
-    }
-
     public List<BookDTO> findAllDTOs() {
         var books = checkIfExpiredList(booksRepository.findAllByOrderById());
         return bookMapper.bookListToBookDtoList(books);
     }
 
-    public List<Book> findAllPerPage(int numberPage) {
-        return booksRepository.findAllByOrderById(PageRequest.of(numberPage - 1, 5));
-    }
-
     public List<BookDTO> findAllDTOsPerPage(int numberPage) {
-        var allPerPage = checkIfExpiredList(findAllPerPage(numberPage));
+        var allPerPage = checkIfExpiredList(booksRepository.
+                findAllByOrderById(PageRequest.of(numberPage - 1, 5)));
         return allPerPage.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
     }
 
-    public List<Book> findAllSortedByYear() {
-        return booksRepository.findAll(Sort.by("yearOfPublish"));
-    }
-
     public List<BookDTO> findAllDTOsSortedByYear() {
-        var allSortedByYear = checkIfExpiredList(findAllSortedByYear());
+        var allSortedByYear = checkIfExpiredList(booksRepository.findAll(Sort.by("yearOfPublish")));
         return allSortedByYear.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
-    }
-    public List<Book> findAllPerPageSortedByYear(int numberPage) {
-        return booksRepository
-                .findAll(PageRequest.of(numberPage - 1, 5, Sort.by("yearOfPublish")))
-                .getContent();
     }
 
     public List<BookDTO> findAllDTOsPerPageSortedByYear(int numberPage) {
-        var allPerPageSortedByYear = checkIfExpiredList(findAllPerPageSortedByYear(numberPage));
+        var allPerPageSortedByYear = checkIfExpiredList(
+                booksRepository
+                        .findAll(PageRequest.of(numberPage - 1, 5, Sort.by("yearOfPublish")))
+                        .getContent()
+        );
         return allPerPageSortedByYear.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
     }
 
@@ -89,22 +76,10 @@ public class BookService {
     }
 
     @Transactional
-    public void save(Book book) {
-        booksRepository.save(book);
-    }
-
-    @Transactional
     public BookDTO saveDto(BookDTO bookDTO) {
         Book book = bookMapper.bookDTOToBook(bookDTO);
         Book savedBook = booksRepository.save(book);
         return bookMapper.bookToBookDTO(savedBook);
-    }
-    @Transactional
-    public void update(Integer id, Book updatedBook) {
-        updatedBook.setId(id);
-        updatedBook.setReader(booksRepository.findById(id).get().getReader());
-        updatedBook.setDateOfTake(booksRepository.findById(id).get().getDateOfTake());
-        booksRepository.save(updatedBook);
     }
 
     @Transactional
@@ -125,25 +100,12 @@ public class BookService {
     }
 
     @Transactional
-    public void delete(Integer id) {
-        booksRepository.deleteById(id);
-    }
-
-    @Transactional
     public Optional<Book> deleteDTO(Integer id) {
         var optionalSavedBook = booksRepository.findById(id);
         if (optionalSavedBook.isPresent()) {
             booksRepository.deleteById(id);
         }
         return optionalSavedBook;
-    }
-
-    @Transactional
-    public void release(Integer id) {
-        booksRepository.findById(id).ifPresent(book -> {
-            book.setReader(null);
-            book.setDateOfTake(null);
-        });
     }
 
     @Transactional
@@ -154,14 +116,6 @@ public class BookService {
             singleBook.setDateOfTake(null);
         });
         return book.map(bookMapper::bookToBookDTO);
-    }
-
-    @Transactional
-    public void assign(Integer id, Reader reader) {
-        booksRepository.findById(id).ifPresent(book -> {
-            book.setReader(reader);
-            book.setDateOfTake(new Date());
-        });
     }
 
     @Transactional
@@ -177,21 +131,13 @@ public class BookService {
         return book;
     }
 
-    public int getBooksCount() {
-        return (int) booksRepository.count();
-    }
-
     public RecordsNumberDTO getBooksCountDto() {
         var count = booksRepository.count();
         return new RecordsNumberDTO(count);
     }
 
-    public List<Book> search(String contain) {
-        return booksRepository.findByNameContaining(contain);
-    }
-
     public List<BookDTO> searchDTOs(String contain) {
-        var search = search(contain);
+        var search = booksRepository.findByNameContaining(contain);
         return search.stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
     }
 }

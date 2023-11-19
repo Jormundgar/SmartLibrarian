@@ -24,40 +24,25 @@ public class ReaderService {
     private final ReadersRepository readersRepository;
     private final ReaderMapper readerMapper;
 
-    public List<Reader> findAll() {
-        return checkIfExpired(readersRepository.findAllByOrderById());
-    }
-
     public List<ReaderDTO> findAllDTOs() {
-        var allByOrderById = findAll();
+        var allByOrderById = readersRepository.findAllByOrderById();
         return allByOrderById.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
     }
 
-    public List<Reader> findAllPerPage(int numberPage) {
-        return checkIfExpired(readersRepository.findAllByOrderById(PageRequest.of(numberPage - 1, 5)));
-    }
-
     public List<ReaderDTO> findAllDTOsPerPage(int numberPage) {
-        var allPerPage = findAllPerPage(numberPage);
+        var allPerPage = readersRepository.findAllByOrderById(PageRequest.of(numberPage - 1, 5));
         return allPerPage.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
     }
 
-    public List<Reader> findAllSortedByYear() {
-        return checkIfExpired(readersRepository.findAll(Sort.by("yearOfBirth")));
-    }
-
     public List<ReaderDTO> findAllDTOsSortedByYear() {
-        var allSortedByYear = findAllSortedByYear();
+        var allSortedByYear = checkIfExpired(readersRepository.findAll(Sort.by("yearOfBirth")));
         return allSortedByYear.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
     }
 
-    public List<Reader> findAllPerPageSortedByYear(int numberPage) {
-        return checkIfExpired(readersRepository.findAll(PageRequest.of(numberPage - 1, 5,
-                Sort.by("yearOfBirth"))).getContent());
-    }
-
     public List<ReaderDTO> findAllDTOsPerPageSortedByYear(int numberPage) {
-        var allPerPageSortedByYear = findAllPerPageSortedByYear(numberPage);
+        var allPerPageSortedByYear = checkIfExpired(readersRepository.
+                findAll(PageRequest.of(numberPage - 1, 5,
+                Sort.by("yearOfBirth"))).getContent());
         return allPerPageSortedByYear.stream().map(readerMapper::readerToReaderDTO).collect(Collectors.toList());
     }
 
@@ -96,11 +81,6 @@ public class ReaderService {
         updatedReader.setYearOfBirth(newReader.getYearOfBirth());
         readersRepository.save(updatedReader);
         return Optional.of(readerMapper.readerToReaderDTO(updatedReader));
-    }
-
-    @Transactional
-    public void delete(Integer id) {
-        readersRepository.deleteById(id);
     }
 
     @Transactional
