@@ -1,16 +1,10 @@
 
 # SmartLibrarian
 
->Using: `Spring Boot`,`Spring MVC`, `REST Api`, `Swagger`, `Spring Data JPA`, `Hibernate`,`MapStruct`,`Servlet API`,`Hibernate Validator`,`PostgreSQL`,`Docker Compose`,`Lombok`,`Thymeleaf`,`Bootstrap 5`,`HTML`,`CSS`,`JavaScript`
+>Using: `Java 17`,`Spring Boot`,`REST Api`, `Swagger`, `Spring Data JPA`,`MapStruct`,`PostgreSQL`,`Docker Compose`,`Lombok`,
+> `Bootstrap 5`,`HTML`,`JavaScript`, `jQuery`
 
->TODO: add `JavaScript`
-
-### Commits
-- `v.1.0.RELEASE` 
-- `v.1.1` Rebuild project from JDBC Template to Hibernate and Data JPA
-- `v.1.2` Added the option to display lists of library users and books both in full and paginated (5 records per page). Also added sorting by ID or by year (birth year for users and publication year for books).
-- `v.2.0.RELEASE` Added functionality for searching within the book list. The search result also indicates whether the book is available or not, and if it's not available, it displays the reader's name. Added functionality for book return control. When assigning a book to a reader, the database records the borrowing time. If the book is not returned after 10 days, it is displayed in red in the list of borrowed books on the reader's page
-- `v.2.1` Rebuild with Spring Boot
+>TODO: `Spring Security` implementation
 
 ## Project Description
 
