@@ -80,6 +80,8 @@ public class BookRestController implements BookRestApi {
     @Override
     public ResponseEntity<List<BookDTO>> search(String contain) {
         var books = bookService.searchDTOs(contain);
+        log.info("Param " + contain);
+        log.info("Size " + books.size());
         return books.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(books);
     }
 

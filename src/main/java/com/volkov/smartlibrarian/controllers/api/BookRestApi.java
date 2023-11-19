@@ -199,7 +199,7 @@ public interface BookRestApi {
                     )
             }
     )
-    @PostMapping("/search")
+    @GetMapping("/search")
     ResponseEntity<List<BookDTO>> search(@RequestParam String contain);
 
     @Operation(

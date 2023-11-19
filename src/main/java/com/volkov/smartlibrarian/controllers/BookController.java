@@ -93,13 +93,18 @@ public class BookController {
         return modelAndView;
     }
 
-    @PostMapping("/search")
-    public ModelAndView search(@RequestParam("contain") String contain) {
-        var modelAndView = new ModelAndView("books/search");
-        //TODO: Figure out is "database" attribute necessary due to new version of index.html
-        modelAndView.addObject("database", true);
-        modelAndView.addObject("books", bookService.search(contain));
-        return modelAndView;
+//    @GetMapping("/search")
+//    public ModelAndView search(@RequestParam("contain") String contain) {
+//        var modelAndView = new ModelAndView("books/search");
+//        //TODO: Figure out is "database" attribute necessary due to new version of index.html
+//        modelAndView.addObject("database", true);
+//        modelAndView.addObject("books", bookService.search(contain));
+//        return modelAndView;
+//    }
+
+    @GetMapping("/search")
+    public String searchPage() {
+        return "books/search";
     }
 }
 

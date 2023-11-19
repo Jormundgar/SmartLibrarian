@@ -1,4 +1,5 @@
 const booksTBody = $("#booksTableBody");
+const searchBookForm = $("#form-search");
 const releaseBookForm = $("#form-release");
 const assignBookForm = $("#form-assign");
 const newBookForm = $("#newBookForm");
@@ -56,6 +57,14 @@ async function getId(id, type) {
         showReleaseModal(json);
     }
 }
+
+searchBookForm.on('submit', async function (event) {
+    event.preventDefault();
+    if (searchBookForm[0].checkValidity()) {
+        const containValue = $("#searchFromBooks").val();
+        window.location.href = `/books/search?contain=${containValue}`;
+    }
+})
 
 // Assign book
 
