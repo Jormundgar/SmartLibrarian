@@ -1,22 +1,29 @@
 version: '3.8'
 
 services:
-  app:
-    image: 'liorlakhmann/smart-librarian:1.0.1'
+  backend:
+    image: 'liorlakhmann/backend-slp:1.1.1'
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: SMARTLIBRARIAN
+      dockerfile: Backend/Dockerfile
+    container_name: BACKEND_SMARTLIBRARIAN
     ports:
-      - "8080:8080"
+      - "8070:8070"
     depends_on:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlibrarian
+  frontend:
+    image: 'liorlakhmann/frontend-slp:0.0.1'
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    container_name: FRONTEND_SMARTLIBRARIAN
+    ports:
+      - "8080:8080"
   db:
     image: postgres:latest
     container_name: SMARTLIBRARIAN_DB
-
     restart: always
     environment:
       POSTGRES_DB: smartlibrarian
