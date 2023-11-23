@@ -11,8 +11,10 @@
 <packaging>pom</packaging>
 
 <modules>
+    <module>APIGateway</module>
     <module>Backend</module>
     <module>Frontend</module>
+    <module>Security</module>
 </modules>
 
 <properties>

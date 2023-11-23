@@ -10,7 +10,7 @@ services:
     ports:
       - "8070:8070"
     depends_on:
-      - db
+      - db-backend
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlibrarian
   frontend:
@@ -21,7 +21,7 @@ services:
     container_name: FRONTEND_SMARTLIBRARIAN
     ports:
       - "8080:8080"
-  db:
+  db-backend:
     image: postgres:latest
     container_name: SMARTLIBRARIAN_DB
     restart: always
