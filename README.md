@@ -9,7 +9,7 @@
 > - `Spring Cloud`
 
 ## Build Project
-      git clone https://github.com/Jormundgar/SmartLibrarian.git
+      git clone --branch 1.1.1 https://github.com/Jormundgar/SmartLibrarian.git
       cd SmartLibrarian 
       docker-compose up
 #### Entry point:
