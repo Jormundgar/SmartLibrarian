@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+  apigateway:
+    image: 'liorlakhmann/apigateway-slp:0.0.1'
+    build:
+      context: .
+      dockerfile: APIGateway/Dockerfile
+    container_name: API-GATEWAY_SLP
+    ports:
+      - "8050:8050"
   backend:
     image: 'liorlakhmann/backend-slp:1.1.1'
     build:
@@ -13,6 +21,18 @@ services:
       - db-backend
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlibrarian
+  security:
+    image: 'liorlakhmann/security-slp:0.0.1'
+    build:
+      context: .
+      dockerfile: Security/Dockerfile
+    container_name: SECURITY_SMARTLIBRARIAN
+    ports:
+      - "8060:8060"
+    depends_on:
+      - db-security
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlibrariansec
   frontend:
     image: 'liorlakhmann/frontend-slp:0.0.1'
     build:
@@ -33,3 +53,15 @@ services:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  db-security:
+    image: postgres:latest
+    container_name: SLP_SECURITY_DB
+    restart: always
+    environment:
+      POSTGRES_DB: smartlibrariansec
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5442:5432"
+    volumes:
+      - ./initsec.sql:/docker-entrypoint-initdb.d/initsec.sql
