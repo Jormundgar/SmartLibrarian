@@ -45,7 +45,7 @@ public class SecurityConfig {
 
         // Set authorization
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/error", "/styles/css/**", "/js/**").permitAll()
+                .requestMatchers("/auth/**", "/error", "/styles/css/**", "/js/**", "/api-docs/**").permitAll()
                 .requestMatchers("/books/**", "/readers/**").hasAuthority("ADMIN")
                 .anyRequest().hasAnyAuthority("USER", "ADMIN"));
 

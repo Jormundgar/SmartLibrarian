@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 test/
 openApi.json
+openApiSecurity.json
 
 ### IntelliJ IDEA ###
 .idea
