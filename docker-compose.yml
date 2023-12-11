@@ -32,7 +32,7 @@ services:
     depends_on:
       - db-security
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlibrariansec
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5442/smartlibrariansec
   frontend:
     image: 'liorlakhmann/frontend-slp:0.0.1'
     build:

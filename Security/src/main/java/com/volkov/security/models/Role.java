@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "roles")

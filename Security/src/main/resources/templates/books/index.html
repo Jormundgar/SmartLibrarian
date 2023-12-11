@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All books in the Library</title>
+    <link th:href="@{/styles/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<style>
+    .container-full-height {
+        min-height: 100vh;
+    }
+</style>
+<body>
+
+<!-- -------------------- NAVIGATION TOOLBAR START -------------------- -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid d-flex justify-content-between text-light">
+        <span class="fw-bold">Hello, Admin!</span>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <form th:action="@{/logout}" th:method="POST">
+                        <button type="submit" class="btn btn-outline-secondary btn-no-hover ms-3">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- -------------------- NAVIGATION TOOLBAR END -------------------- -->
+
+<!-- -------------------- MAIN DIV START -------------------- -->
+<div class="row">
+    <div class="container-fluid ">
+        <div class="row">
+
+            <!-- -------------------- SIDE MENU BOOKS / READERS START -------------------- -->
+            <div class="col-2 text-dark d-flex flex-column container-full-height">
+                <div class="list-group list-group-flush mt-2">
+                    <a href="/books" class="list-group-item list-group-item-action active" role="button">Books</a>
+                    <a href="/readers" class="list-group-item list-group-item-action" role="button">Readers</a>
+                </div>
+            </div>
+            <!-- -------------------- SIDE MENU BOOKS / READERS END -------------------- -->
+
+            <!-- -------------------- MAIN PART START -------------------- -->
+            <div class="col-10 bg-light d-flex flex-column container-full-height mt-2">
+                <h4>Index page for books</h4>
+            </div>
+            <!-- -------------------- MAIN PART END -------------------- -->
+        </div>
+    </div>
+</div>
+<!-- -------------------- MAIN DIV END -------------------- -->
+
+</body>
+</html>

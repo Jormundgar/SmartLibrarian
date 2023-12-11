@@ -5,14 +5,14 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/smartlibrariansec
+    url: jdbc:postgresql://localhost:5442/smartlibrariansec
     username: postgres
     password: postgres
     hikari:
       leak-detection-threshold: 60000
       maximum-pool-size: 20
 
-# Hibernate Configuration
+  # Hibernate Configuration
   jpa:
     properties:
       hibernate:

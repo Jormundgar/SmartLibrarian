@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.FetchMode.SUBSELECT;
 
 @Entity
