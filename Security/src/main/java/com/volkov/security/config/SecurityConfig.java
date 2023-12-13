@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -45,14 +46,23 @@ public class SecurityConfig {
 
         // Set authorization
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/error", "/styles/css/**", "/js/**", "/api-docs/**").permitAll()
-                .requestMatchers("/books/**", "/readers/**").hasAuthority("ADMIN")
+                .requestMatchers("/auth/**", "/error", "/styles/css/**", "/js/**", "/api-docs/**", "/readers/**").permitAll()
+                .requestMatchers("/books/**").hasAuthority("ADMIN")
                 .anyRequest().hasAnyAuthority("USER", "ADMIN"));
 
         // Set custom login page
         http.formLogin(formLogin -> formLogin
                 .loginPage("/auth/login")
                 .loginProcessingUrl("/process_login")
+                .successHandler((request, response, auth) -> {
+                    if (AuthorityUtils.authorityListToSet(auth.getAuthorities())
+                            .stream()
+                            .anyMatch(a -> a.contains("ADMIN"))) {
+                        response.sendRedirect("/books");
+                    } else {
+                        response.sendRedirect("/readers");
+                    }
+                })
                 .failureUrl("/auth/login?error"));
 
         // Set logout

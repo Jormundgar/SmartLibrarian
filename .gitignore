@@ -5,6 +5,7 @@ target/
 test/
 openApi.json
 openApiSecurity.json
+Tasks.md
 
 ### IntelliJ IDEA ###
 .idea
