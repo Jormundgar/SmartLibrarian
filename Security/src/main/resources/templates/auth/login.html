@@ -5,36 +5,16 @@
     <title>Login page</title>
     <link rel="stylesheet" href="/styles/css/bootstrap.min.css">
 </head>
-<!--<body class="bg-light">-->
-<!--<div class="row justify-content-center mt-5">-->
-<!--    <div class="col-3">-->
-<!--        <form id="loginForm">-->
-<!--            <h5 class="fw-bold">Please sign in</h5>-->
-<!--            <div class="form-group">-->
-<!--                <input type="text" class="form-control" id="username" placeholder="Username">-->
-<!--            </div>-->
-<!--            <div class="form-group mt-1">-->
-<!--                <input type="password" class="form-control" id="password" placeholder="Password">-->
-<!--            </div>-->
-<!--            <div class="form-group mt-2">-->
-<!--                <button type="submit" class="btn btn-primary col-12">Sign in</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<script th:src="@{/js/login.js}"></script>-->
-<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-<!--</body>-->
 <body class="bg-light">
 <div class="row justify-content-center mt-5">
     <div class="col-3">
-        <form name="f" method="post" action="/process_login">
+        <form id="loginForm">
             <h5 class="fw-bold">Please sign in</h5>
             <div class="form-group">
-                <input type="text" class="form-control" id="username" placeholder="Username" name="username">
+                <input type="text" class="form-control" id="username" placeholder="Username">
             </div>
             <div class="form-group mt-1">
-                <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                <input type="password" class="form-control" id="password" placeholder="Password">
             </div>
             <div class="form-group mt-2">
                 <button type="submit" class="btn btn-primary col-12">Sign in</button>
@@ -42,5 +22,25 @@
         </form>
     </div>
 </div>
+<script th:src="@{/js/login.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+<!--<body class="bg-light">-->
+<!--<div class="row justify-content-center mt-5">-->
+<!--    <div class="col-3">-->
+<!--        <form name="f" method="post" action="/process_login">-->
+<!--            <h5 class="fw-bold">Please sign in</h5>-->
+<!--            <div class="form-group">-->
+<!--                <input type="text" class="form-control" id="username" placeholder="Username" name="username">-->
+<!--            </div>-->
+<!--            <div class="form-group mt-1">-->
+<!--                <input type="password" class="form-control" id="password" placeholder="Password" name="password">-->
+<!--            </div>-->
+<!--            <div class="form-group mt-2">-->
+<!--                <button type="submit" class="btn btn-primary col-12">Sign in</button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
 </html>
