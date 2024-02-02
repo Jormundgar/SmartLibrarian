@@ -1,6 +1,5 @@
 package com.volkov.apigateway.filters;
 
-import com.volkov.apigateway.util.AuthUtil;
 import com.volkov.apigateway.util.JWTUtil;
 import com.volkov.apigateway.validator.RouteValidator;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ public class AuthFilter implements GatewayFilter {
 
     private final RouteValidator routeValidator;
     private final JWTUtil jwtUtil;
-    private final AuthUtil authUtil;
 
     @Value("${authentication.enabled}")
     private boolean authEnabled;
