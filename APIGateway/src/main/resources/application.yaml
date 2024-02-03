@@ -1,13 +1,9 @@
 server:
   port: 8050
 
-
 spring:
   application:
     name: API Gateway
-
-authentication:
-  enabled: false
 
 eureka:
   client:
