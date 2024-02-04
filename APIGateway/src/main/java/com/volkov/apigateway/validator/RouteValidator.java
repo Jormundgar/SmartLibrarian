@@ -9,12 +9,12 @@ import java.util.function.Predicate;
 @Component
 public class RouteValidator {
 
-    public static final List<String> unprotectedURLs = List.of("/login");
+    public static final List<String> openApiEndpoints = List.of(
+            "/auth/register"
+    );
 
-    public Predicate<ServerHttpRequest> isSecured = request -> unprotectedURLs
+    public Predicate<ServerHttpRequest> isSecured =
+            request -> openApiEndpoints
             .stream()
-            .noneMatch(uri -> request
-                    .getURI()
-                    .getPath()
-                    .contains(uri));
+            .noneMatch(uri -> request.getURI().getPath().contains(uri));
 }

@@ -1,14 +1,7 @@
 package com.volkov.security.controllers;
 
-import com.volkov.security.dto.AuthDTO;
 //import com.volkov.security.services.AuthService;
-import com.volkov.security.services.UserService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+
 
 //@RestController
 //@AllArgsConstructor
