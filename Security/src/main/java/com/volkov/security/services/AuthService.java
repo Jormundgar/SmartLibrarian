@@ -1,23 +1,21 @@
 package com.volkov.security.services;
 
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.volkov.security.dto.AuthRequest;
+import com.volkov.security.dto.AuthResponse;
+import com.volkov.security.utils.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-//@Service
-//@AllArgsConstructor
-//public class AuthService {
-//
-//    private final AuthenticationManager authenticationManager;
-//
-//    public ResponseEntity<?> getAuth(String username, String password) {
-//        var auth = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(username, password));
-//        SecurityContextHolder.getContext().setAuthentication(auth);
-//        return ResponseEntity.ok().build();
-//    }
-//}
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+
+    private final JwtUtil jwtUtil;
+
+    public AuthResponse register(AuthRequest authRequest) {
+        var accessToken = jwtUtil.generate(authRequest.getUsername(), "ACCESS");
+        var refreshToken = jwtUtil.generate(authRequest.getUsername(), "REFRESH");
+        return new AuthResponse(accessToken, refreshToken);
+    }
+}

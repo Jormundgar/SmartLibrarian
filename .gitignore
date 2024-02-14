@@ -6,6 +6,7 @@ test/
 openApi.json
 openApiSecurity.json
 Tasks.md
+.gitignore
 
 ### IntelliJ IDEA ###
 .idea
