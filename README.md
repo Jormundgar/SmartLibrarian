@@ -1,8 +1,8 @@
 
 # SmartLibrarian
 
->Using: <br>`Java 17`,`Spring Boot`,`REST Api`, `Swagger`,  `Spring Data JPA`, `MapStruct`,`PostgreSQL`,`Docker`,`Lombok`,
-> `Bootstrap 5`,`HTML`,`JavaScript`, `jQuery`
+>Using: <br>`Java 17`, `Spring Boot`, `REST Api`, `Swagger`, `Spring Data JPA`, `MapStruct`, `PostgreSQL`, `Docker`, `Lombok`, 
+> `Bootstrap 5`, `HTML`, `JavaScript`, `jQuery`
 
 
 ## Build Project
