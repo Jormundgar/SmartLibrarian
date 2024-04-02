@@ -4,10 +4,6 @@
 >Using: `Java 17`,`Spring Boot`,`REST Api`, `Swagger`,  `Spring Data JPA`, `MapStruct`,`PostgreSQL`,`Docker`,`Lombok`,
 > `Bootstrap 5`,`HTML`,`JavaScript`, `jQuery`
 
->TODO: 
-> - `Spring Security`
-> - `Spring Cloud`
-
 ## Build Project
       git clone https://github.com/Jormundgar/SmartLibrarian.git
       cd SmartLibrarian 
